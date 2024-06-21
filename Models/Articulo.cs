@@ -10,5 +10,9 @@
         public int Cantidad { get; set; }
         public int codigoImagen { get; set; }
         public int idCategoria { get; set; }
+
+        public Categoria Categoria { get; set; }
+
+        public Imagen Imagen { get; set; } 
     }
 }

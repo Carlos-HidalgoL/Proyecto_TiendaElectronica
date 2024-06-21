@@ -13,6 +13,7 @@ namespace Proyecto_TiendaElectronica.Controllers
             _logger = logger;
         }
 
+
         public IActionResult Index()
         {
             return View();

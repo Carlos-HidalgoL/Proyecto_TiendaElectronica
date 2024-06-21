@@ -8,6 +8,8 @@
 
         public int CantidadArticulo { get; set; }
 
+        public DetalleFactura DetalleFactura { get; set; }
 
+        public Articulo Articulo { get; set; }  
     }
 }

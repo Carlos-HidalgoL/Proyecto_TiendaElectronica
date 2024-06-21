@@ -11,6 +11,8 @@
 
         public int idDetalleFactura { get; set; }
 
+        public DetalleFactura DetalleFactura { get; set; }
+
                                                   
     }                                             
 }                                                 
