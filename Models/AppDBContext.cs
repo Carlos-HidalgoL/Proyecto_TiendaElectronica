@@ -11,12 +11,12 @@ namespace Proyecto_TiendaElectronica.Models
         }
 
         //Entities
-        public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Factura> Facturas { get; set; }
-        public DbSet<Articulo> Articulos { get; set; }
-        public DbSet<Categoria> Categorias { get; set; }
-        public DbSet<DetalleFactura> DetalleFacturas { get; set; }
-        public DbSet<ArticuloFactura> ArticulosFactura { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Factura> Factura { get; set; }
+        public DbSet<Articulo> Articulo { get; set; }
+        public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<DetalleFactura> DetalleFactura { get; set; }
+        public DbSet<ArticuloFactura> ArticuloFactura { get; set; }
         public DbSet<Imagen> Imagen { get; set; }
 
 
@@ -25,7 +25,7 @@ namespace Proyecto_TiendaElectronica.Models
             try
             {
                 optionsBuilder.UseSqlServer("Server=localhost;Database=TiendaElectronica;Trusted_Connection=True;TrustServerCertificate=True;");
-                Console.WriteLine("Hola a todos");
+
             }
             catch (Exception ex)
             {

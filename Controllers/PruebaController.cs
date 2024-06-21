@@ -14,9 +14,10 @@ namespace Proyecto_TiendaElectronica.Controllers
         }
         public IActionResult Index()
         {
-
-            var usuarios = _context.Usuarios.ToList();
-            Console.WriteLine(usuarios);
+            
+            var usuarios = _context.Usuario.ToList();
+            Console.Write(usuarios);
+            
             return View();
         }
 

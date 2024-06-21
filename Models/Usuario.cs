@@ -1,8 +1,11 @@
-﻿namespace Proyecto_TiendaElectronica.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Proyecto_TiendaElectronica.Models
 {
     public class Usuario
     {
-        public string Codigo { get; set; }
+        [Key]
+        public string Cedula { get; set; }
 
         public string Nombre { get; set; }
         

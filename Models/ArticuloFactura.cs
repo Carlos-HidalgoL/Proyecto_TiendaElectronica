@@ -1,7 +1,10 @@
-﻿namespace Proyecto_TiendaElectronica.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Proyecto_TiendaElectronica.Models
 {
     public class ArticuloFactura
     {
+        [Key]
         public int idDetalleFactura { get; set; }
 
         public int idArticulo { get; set; }
