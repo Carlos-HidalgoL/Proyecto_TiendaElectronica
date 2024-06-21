@@ -2,9 +2,6 @@
 bin/
 obj/
 
-# Paquetes de NuGet
-packages/
-*.nupkg
 # Si estás utilizando la restauración automática de NuGet, puedes omitir los paquetes que se restauran en esta carpeta
 !packages/build/
 !packages/repositories.config
