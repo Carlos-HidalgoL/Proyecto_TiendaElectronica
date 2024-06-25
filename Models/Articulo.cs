@@ -6,7 +6,7 @@ namespace Proyecto_TiendaElectronica.Models
     public class Articulo
     {
         [Key]
-        public int IdArticulo { get; set; }
+        public int ArticuloId { get; set; }
         public string Nombre { get; set; }
         public decimal  Precio { get; set; }
         public string Descripcion { get; set; }

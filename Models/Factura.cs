@@ -5,7 +5,7 @@ namespace Proyecto_TiendaElectronica.Models
     public class Factura
     {
         [Key]
-        public int IdFactura { get; set; }
+        public int FacturaId { get; set; }
         public DateTime FechaCrecion { get; set; }
 
         public DateTime UltimaFechaImpresion { get; set; }

@@ -5,7 +5,7 @@ namespace Proyecto_TiendaElectronica.Models
     public class DetalleFactura
     {
         [Key]
-        public int IdDetalleFactura { get; set; }
+        public int DetalleFacturaId { get; set; }
 
         public decimal SubTotal { get; set; }
 
