@@ -50,6 +50,14 @@ a:hover {
         color: var(--rojo);
     }
 
+    .nav-link:focus {
+        color: var(--rojo);
+        box-shadow: none;
+        box-shadow: 0 0 20px var(--rojo);
+    }
+
+
+
 .navbar-toggler {
     color: var(--blancoHueso);
 }
@@ -80,3 +88,17 @@ a:hover {
 .precio {
     color: var(--rojo);
 }
+
+
+.dropDown {
+    background-color: var(--rojo);
+}
+
+.dropDown-Item {
+    color: var(--negro) !important;
+}
+
+    .dropDown-Item:hover {
+        background-color: var(--grisMedio) !important;
+        color: var(--blancoHueso) !important;
+    }
