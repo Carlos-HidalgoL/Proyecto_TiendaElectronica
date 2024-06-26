@@ -1,22 +1,75 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+    --grisClaro: #8B8B8c;
+    --blancoHueso: #F2F2F2;
+    --grisMedio: #404040;
+    --grisOscuro: #262626;
+    --negro: #0D0D0D;
+    --rojo: #E14848;
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: var(--grisOscuro);
+    color: var(--blancoHueso);
+}
+
+
+
+a {
+    color: var(--blancoHueso) !important;
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--rojo) !important;
+}
+
+.logo {
+    color: #f2f2f2;
+}
+
+    .logo:hover {
+        color: #E14848;
+    }
+
+.header {
+    background-color: #262626;
+}
+
+.nav-link {
+    color: #f2f2f2;
+}
+
+    .nav-link:hover {
+        color: #E14848;
+    }
+
+.navbar-toggler {
+    color: #f2f2f2;
+}
+
+    .navbar-toggler:focus {
+        text-decoration: none;
+        outline: 0;
+        box-shadow: 0 0 0 .12rem;
+    }
+
+.btnVer {
+    height: 44px;
+    width: 170px;
+    align-content: center;
+}
+
+
+.btnAñadir {
+    width: 100%;
+    height: 10px;
+}
+
+.card {
+    background-color: #404040;
+    color: #f2f2f2;
+}
+
+.precio {
+    color:   #E14848;
 }
