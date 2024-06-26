@@ -24,27 +24,27 @@ a:hover {
 }
 
 .logo {
-    color: #f2f2f2;
+    color: var(--blancoHueso)
 }
 
     .logo:hover {
-        color: #E14848;
+        color: var(--rojo)
     }
 
 .header {
-    background-color: #262626;
+    background-color: var(--grisOscuro);
 }
 
 .nav-link {
-    color: #f2f2f2;
+    color: var(--blancoHueso);
 }
 
     .nav-link:hover {
-        color: #E14848;
+        color: var(--rojo);
     }
 
 .navbar-toggler {
-    color: #f2f2f2;
+    color: var(--blancoHueso);
 }
 
     .navbar-toggler:focus {
@@ -66,10 +66,10 @@ a:hover {
 }
 
 .card {
-    background-color: #404040;
-    color: #f2f2f2;
+    background-color: var(--grisMedio);
+    color: var(--blancoHueso);
 }
 
 .precio {
-    color:   #E14848;
+    color: var(--rojo);
 }
