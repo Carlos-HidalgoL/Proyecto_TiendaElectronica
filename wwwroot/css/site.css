@@ -90,20 +90,6 @@ a:hover {
 }
 
 
-.dropDown {
-    background-color: var(--rojo);
-}
-
-.dropDown-Item {
-    color: var(--negro) !important;
-}
-
-    .dropDown-Item:hover {
-        background-color: var(--grisMedio) !important;
-        color: var(--blancoHueso) !important;
-    }
-
-
 .categorias {
     border: 1px solid;
 }
@@ -122,11 +108,22 @@ a:hover {
         border-radius: 5px;
     }
 
+    .dropdown:hover .btn {
+        box-shadow: 0 0 20px var(--rojo);
+        color: var(--rojo);
+    }
+
+    .dropdown .btn:focus {
+        box-shadow: 0 0 20px var(--rojo);
+        color: var(--rojo);
+    }
+
+
 /* Estilos para el menú desplegable */
 .dropdown-menu {
     display: none;
     position: absolute;
-    background-color: var(--blancoHueso);
+    background-color: var(--negro);
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     text-align: left;
@@ -135,16 +132,45 @@ a:hover {
     width: 120px;
 }
 
-.sub_categoria {
-    color: var(--grisOscuro) !important;
-}
+
 
 .dropdown-menu li {
     padding: 10px;
 }
+
+    .dropdown-menu li:hover {
+        background-color: var(--grisMedio);
+        
+    }
+
 
 
 /* Mostrar el menú desplegable al pasar el mouse */
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+
+.sidebar {
+    height: auto;
+    background-color: var(--grisMedio);
+    border-radius: 10px;
+}
+
+
+
+
+
+
+
+/*Admin menu - Vista administrativa*/
+.admin-menu {
+    background-color: var(--negro);
+}
+    .admin-menu li {
+        
+    }
+
+    .admin-menu li:hover {
+        background-color: var(--grisOscuro);
+        border-radius: 10px;
+    }
