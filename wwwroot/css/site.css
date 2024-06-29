@@ -97,7 +97,7 @@ a:hover {
 }
 
     .dropDown-Item:hover {
-        background-color: var(--grisOscuro) !important;
+        background-color: var(--grisMedio) !important;
         color: var(--blancoHueso) !important;
     }
 
@@ -120,11 +120,22 @@ a:hover {
         border-radius: 5px;
     }
 
+    .dropdown:hover .btn {
+        box-shadow: 0 0 20px var(--rojo);
+        color: var(--rojo);
+    }
+
+    .dropdown .btn:focus {
+        box-shadow: 0 0 20px var(--rojo);
+        color: var(--rojo);
+    }
+
+
 /* Estilos para el menú desplegable */
 .dropdown-menu {
     display: none;
     position: absolute;
-    background-color: var(--blancoHueso);
+    background-color: var(--negro);
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     text-align: left;
@@ -134,25 +145,21 @@ a:hover {
 }
 
 .sub_categoria {
-    color: var(--grisMedio) !important;
+    color: var(--grisOscuro) !important;
 }
 
 .dropdown-menu li {
     padding: 10px;
 }
 
+    .dropdown-menu li:hover {
+        background-color: var(--grisMedio);
+        
+    }
+
+
 
 /* Mostrar el menú desplegable al pasar el mouse */
 .dropdown:hover .dropdown-menu {
     display: block;
-}
-
-.banner-section {
-    background-color: var(--negro);
-}
-
-.bg-image {
-    background-image: url('img/AudifonoHeader.png');
-    background-size: cover;
-    background-position: center;
 }
