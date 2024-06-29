@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Proyecto_TiendaElectronica.Models;
 using System.Diagnostics;
 
@@ -8,15 +9,29 @@ namespace Proyecto_TiendaElectronica.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly AppDBContext _context;
+
+        public HomeController(ILogger<HomeController> logger, AppDBContext context)
         {
+            _context = context;
             _logger = logger;
         }
 
 
+       
         public IActionResult Index()
         {
-            return View();
+            
+            var articulos = _context.Articulo.ToList();
+            var imagenes = _context.Imagen.ToList();
+
+            foreach (var articulo in articulos)
+            {
+                articulo.Imagen = imagenes.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
+            }
+
+
+            return View(articulos);
         }
 
         public IActionResult Privacy()

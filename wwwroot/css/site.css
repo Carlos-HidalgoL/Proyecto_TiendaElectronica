@@ -7,10 +7,9 @@
 }
 
 body {
-    background-color: var(--grisOscuro);
+    background-color: var(--negro);
     color: var(--blancoHueso);
 }
-
 
 
 a {
@@ -31,11 +30,11 @@ a:hover {
     }
 
 .header {
-    background-color: var(--grisOscuro);
+    background-color: var(--negro);
 }
 
 .migajas {
-    background-color: var(--grisMedio);
+    background-color: var(--grisOscuro);
 }
 
 .migajas span {
@@ -75,13 +74,12 @@ a:hover {
 }
 
 
-.btnAñadir {
-    width: 100%;
-    height: 10px;
+.btnAnadir {
+    background-color: var(--negro);
 }
 
 .card {
-    background-color: var(--grisMedio);
+    background-color: var(--grisOscuro);
     color: var(--blancoHueso);
 }
 
@@ -99,7 +97,7 @@ a:hover {
 }
 
     .dropDown-Item:hover {
-        background-color: var(--grisMedio) !important;
+        background-color: var(--grisOscuro) !important;
         color: var(--blancoHueso) !important;
     }
 
@@ -136,7 +134,7 @@ a:hover {
 }
 
 .sub_categoria {
-    color: var(--grisOscuro) !important;
+    color: var(--grisMedio) !important;
 }
 
 .dropdown-menu li {
@@ -147,4 +145,14 @@ a:hover {
 /* Mostrar el menú desplegable al pasar el mouse */
 .dropdown:hover .dropdown-menu {
     display: block;
+}
+
+.banner-section {
+    background-color: var(--negro);
+}
+
+.bg-image {
+    background-image: url('img/AudifonoHeader.png');
+    background-size: cover;
+    background-position: center;
 }

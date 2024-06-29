@@ -13,8 +13,14 @@ namespace Proyecto_TiendaElectronica.Models
         public string Marca { get; set; }
         public int Cantidad { get; set; }
 
+        [ForeignKey("Imagen")]
         public int codigoImagen { get; set; }
+
+        [ForeignKey("Categoria")]
         public int idCategoria { get; set; }
+
+
+        public Imagen Imagen { get; set; }
 
         
     }
