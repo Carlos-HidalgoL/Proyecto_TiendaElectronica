@@ -1,14 +1,30 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Proyecto_TiendaElectronica.Models;
 
 namespace Proyecto_TiendaElectronica.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly AppDBContext _context;
+
+        public AdminController(AppDBContext context) { 
+            _context = context;
+        }
+
         // GET: AdminController
         public ActionResult Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Articulos() { 
+            
+            var articulos = await _context.Articulo.ToListAsync();
+
+            return View(articulos);
+
         }
 
         // GET: AdminController/Details/5
@@ -78,6 +94,18 @@ namespace Proyecto_TiendaElectronica.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerArticulos() { 
+            var articulos = await _context.Articulo.ToListAsync();
+            var categorias = await _context.Categoria.ToListAsync();
+            var imagenes = await _context.Imagen.ToListAsync();
+
+
+
+            return Json(articulos);
+
         }
     }
 }

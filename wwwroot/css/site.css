@@ -140,7 +140,7 @@ a:hover {
 
     .dropdown-menu li:hover {
         background-color: var(--grisMedio);
-        
+        border-radius: 10px;
     }
 
 
