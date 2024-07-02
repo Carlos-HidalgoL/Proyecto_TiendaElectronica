@@ -1,0 +1,44 @@
+﻿@model List<Usuario>;
+
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<a href="@Url.Action("CrearUsuario")" class="btn btn-primary mb-4">
+    Agregar Usuario
+</a>
+
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td class="text-center">@usuario.UsuarioId</td>
+                <td>@usuario.Nombre</td>
+                <td>
+                    @(usuario.Estado ? "Activo" : "Inactivo")
+                </td>
+                <td>
+                    <a href="#" class="btn btn-primary">Ver</a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-success">Actualizar</a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger">Eliminar</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

@@ -35,6 +35,46 @@ namespace Proyecto_TiendaElectronica.Controllers
 
         }
 
+        public async Task<IActionResult> Usuarios() {
+            try {
+                var usuarios = await _context.Usuario.ToListAsync();
+
+                return View(usuarios);
+
+            }catch (Exception) {
+                return NotFound();
+            }
+        }
+
+
+        [HttpGet]
+        public IActionResult CrearUsuario() { 
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearUsuario(Usuario usuario) {
+
+            if (ModelState.IsValid) {
+                try
+                {
+                    _context.Usuario.Add(usuario);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Usuarios));
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
+                
+
+        }
+
+
         // GET: AdminController/Details/5
         public ActionResult Details(int id)
         {

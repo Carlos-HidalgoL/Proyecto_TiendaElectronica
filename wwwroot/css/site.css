@@ -17,9 +17,7 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    color: var(--rojo) !important;
-}
+
 
 .logo {
     color: var(--blancoHueso)
@@ -153,9 +151,14 @@ a:hover {
 }
 
     .dropdown-menu li:hover {
-        background-color: var(--grisMedio);
+        background-color: var(--rojo);
         border-radius: 10px;
     }
+
+    .dropdown-menu li:hover a {
+        color: var(--negro) !important;
+    }
+
 
 
 
@@ -181,7 +184,13 @@ table th {
     background-color: var(--grisOscuro);
 }
 
+    .admin-menu li:hover {
+        background-color: var(--rojo); 
+        border-radius: 10px;
+    }
 
-.btn-ver {
-    background-color: var(--)
-}
+    .admin-menu li:hover a  {
+        color: var(--negro) !important;
+    }
+
+
