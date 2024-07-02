@@ -22,6 +22,7 @@ namespace Proyecto_TiendaElectronica.Models
 
         public Imagen Imagen { get; set; }
 
+        public Categoria Categoria { get; set; }
         
     }
 }

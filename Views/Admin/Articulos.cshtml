@@ -1,7 +1,40 @@
-﻿@{
+﻿@model List<Articulo>;
+
+@{
     Layout = "_LayoutAdmin";
 }
 
-<div id="tabla">
-    
-</div>
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Categoría</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var articulo in Model)
+        {
+            <tr>
+                <td class="text-center">@articulo.ArticuloId</td>
+                <td>@articulo.Nombre</td>
+                <td>@articulo.Marca</td>
+                <td>@articulo.Categoria.Nombre</td>
+                <td>
+                    <a href="#" class="btn btn-primary">Ver</a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-success">Actualizar</a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger">Eliminar</a>
+                </td>
+
+            </tr>    
+        }
+    </tbody>
+</table>

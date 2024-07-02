@@ -163,3 +163,25 @@ a:hover {
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+
+
+/*Esto es lo nuevo*/
+/*Tablas en Admin*/
+
+table th {
+    background-color: var(--grisMedio);
+}
+
+
+
+/*Sidebar menu*/
+
+.admin-menu {
+    border-radius: 10px;
+    background-color: var(--grisOscuro);
+}
+
+
+.btn-ver {
+    background-color: var(--)
+}

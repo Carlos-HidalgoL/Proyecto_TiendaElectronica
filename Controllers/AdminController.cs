@@ -19,9 +19,17 @@ namespace Proyecto_TiendaElectronica.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Articulos() { 
-            
+        public async Task<IActionResult> Articulos() {
+
             var articulos = await _context.Articulo.ToListAsync();
+            var imagenes = await _context.Imagen.ToListAsync();
+            var categorias = await _context.Categoria.ToListAsync();
+
+            foreach (var articulo in articulos)
+            {
+                articulo.Imagen = imagenes.FirstOrDefault(a => a.ImagenId == articulo.codigoImagen);
+                articulo.Categoria = categorias.FirstOrDefault(a => a.CategoriaId == articulo.idCategoria);
+            }
 
             return View(articulos);
 
@@ -98,11 +106,16 @@ namespace Proyecto_TiendaElectronica.Controllers
 
         [HttpGet]
         public async Task<IActionResult> ObtenerArticulos() { 
+
             var articulos = await _context.Articulo.ToListAsync();
-            var categorias = await _context.Categoria.ToListAsync();
             var imagenes = await _context.Imagen.ToListAsync();
+            var categorias = await _context.Categoria.ToListAsync();
 
-
+            foreach (var articulo in articulos) {
+                articulo.Imagen = imagenes.FirstOrDefault( a => a.ImagenId == articulo.codigoImagen );
+                articulo.Categoria = categorias.FirstOrDefault(a => a.CategoriaId == articulo.idCategoria);
+            }
+            
 
             return Json(articulos);
 
