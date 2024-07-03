@@ -194,7 +194,7 @@ table th {
     }
 
 
-/*--Formulario---*/
+/*--Formulario----*/
 
 .get-in-touch {
     max-width: 800px;
@@ -232,19 +232,17 @@ table th {
     font-size: 18px;
     line-height: 26px;
     font-weight: 400;
-    background-color: var(--negro)
+    background-color: var(--negro);
+    color: #fff;
+    margin-bottom:-20px;
 }
 
     .contact-form .input-text:focus {
         outline: none;
-        background-color: var(--negro)
+        background-color: var(--negro);
     }
 
-        .contact-form .input-text:focus + .label,
-        .contact-form .input-text.not-empty + .label {
-            -webkit-transform: translateY(-24px);
-            transform: translateY(-24px);
-        }
+
 
 .contact-form .label {
     position: absolute;
@@ -258,6 +256,7 @@ table th {
     transition: -webkit-transform .2s ease-in-out;
     transition: transform .2s ease-in-out;
     transition: transform .2s ease-in-out, -webkit-transform .2s ease-in-out;
+
 }
 
 .contact-form .submit-btn {
@@ -272,6 +271,28 @@ table th {
     border: none;
     width: 200px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
-  
+.input-file {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.label-file {
+    background-color: var(--grisOscuro);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.img-preview {
+    display: block;
+    margin-top: 10px;
+    max-width: 100px;
+    max-height: 100px;
+}
+
