@@ -1,16 +1,62 @@
-﻿@{
+﻿@model Proyecto_TiendaElectronica.Models.Usuario;
+
+@{
     Layout = "_LayoutAdmin";
 }
 
+<h2>Crear Usuario</h2>
+
+<div class="visually-hidden" id="error">
+    @ViewBag.Error
+</div>
+
+
 <form asp-action="CrearUsuario" method="post">
-    <input type="number" name="UsuarioId" value="" placeholder="UsuarioId" />
-   <input type="text" name="Nombre" value="" placeholder="Nombre" />
-    <input type="email" name="Correo" value="" placeholder="Correo" />
-    <input type="text" name="Contrasena" value="" placeholder="Contrasena" />
-    <select name="Estado">
-        <option value="true">Activo</option>
-    </select>
-    <input type="number" name="Telefono" value="" placeholder="Telefono" />
-   <button type="submit" class="btn btn-success">Enviar</button>
+    <div class="col">
+        <div class="row mt-3">
+            <label asp-for="UsuarioId"></label>
+            <input type="number" asp-for="UsuarioId" placeholder="UsuarioId" />
+            <span asp-validation-for="UsuarioId" style="color:red;"></span>
+        </div>
+        <div class="row mt-3">
+            <label asp-for="Nombre"></label>
+            <input type="text" asp-for="Nombre" placeholder="Nombre" />
+            <span asp-validation-for="Nombre" style="color:red;"></span>
+        </div> 
+        <div class="row mt-3">
+            <label asp-for="Correo"></label>
+            <input type="text" asp-for="Correo" placeholder="Correo" />
+            <span asp-validation-for="Correo" style="color:red;"></span>
+        </div>
+        <div class="row mt-3">
+            <label asp-for="Contrasena"></label>
+            <input type="text" asp-for="Contrasena" placeholder="Contrasena" />
+            <span asp-validation-for="Contrasena" style="color:red;"></span>
+        </div>
+        <div class="row mt-3">
+            <label asp-for="Estado"></label>
+            <select asp-for="Estado">
+                <option value="">Seleccionar el estado</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+            </select>
+            <span asp-validation-for="Estado" style="color:red;"></span>
+        </div>
+        <div class="row mt-3">
+            <label asp-for="Telefono"></label>
+            <input type="text" asp-for="Telefono" placeholder="Telefono" />
+            <span asp-validation-for="Telefono" style="color:red;"></span>
+        </div>
+        <div class="row mt-3">
+            <button type="submit" class="btn btn-success">Enviar</button>
+        </div>
+        
+    </div>
+    
 
 </form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

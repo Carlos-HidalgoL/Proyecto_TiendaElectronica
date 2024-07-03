@@ -21,15 +21,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 
         public async Task<IActionResult> Articulos() {
 
-            var articulos = await _context.Articulo.ToListAsync();
-            var imagenes = await _context.Imagen.ToListAsync();
-            var categorias = await _context.Categoria.ToListAsync();
-
-            foreach (var articulo in articulos)
-            {
-                articulo.Imagen = imagenes.FirstOrDefault(a => a.ImagenId == articulo.codigoImagen);
-                articulo.Categoria = categorias.FirstOrDefault(a => a.CategoriaId == articulo.idCategoria);
-            }
+            var articulos = await _context.Articulo.Include("Categoria").Include("Imagen").ToListAsync();
+            
 
             return View(articulos);
 
@@ -49,10 +42,14 @@ namespace Proyecto_TiendaElectronica.Controllers
 
         [HttpGet]
         public IActionResult CrearUsuario() { 
-            return View();
+
+            var usuario = new Usuario();
+
+            return View(usuario);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearUsuario(Usuario usuario) {
 
             if (ModelState.IsValid) {
@@ -61,16 +58,20 @@ namespace Proyecto_TiendaElectronica.Controllers
                     _context.Usuario.Add(usuario);
                     await _context.SaveChangesAsync();
 
+
                     return RedirectToAction(nameof(Usuarios));
+                }
+                catch (DbUpdateException) {
+                    ViewBag.Error = "El usuario con la cédula "+ usuario.UsuarioId + " ya existe.";
+                    return View(usuario);
                 }
                 catch (Exception)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return View(usuario);
                 }
             }
 
-            return RedirectToAction(nameof(Index));
-                
+            return View(usuario);
 
         }
 

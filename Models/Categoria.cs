@@ -8,5 +8,6 @@ namespace Proyecto_TiendaElectronica.Models
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
 
+        public List<Articulo>  Articulos { get; set; }
     }
 }

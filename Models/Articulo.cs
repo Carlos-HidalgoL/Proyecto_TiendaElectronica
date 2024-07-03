@@ -19,7 +19,6 @@ namespace Proyecto_TiendaElectronica.Models
         [ForeignKey("Categoria")]
         public int idCategoria { get; set; }
 
-
         public Imagen Imagen { get; set; }
 
         public Categoria Categoria { get; set; }
