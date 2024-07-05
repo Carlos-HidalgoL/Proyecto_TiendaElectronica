@@ -8,7 +8,7 @@ namespace Proyecto_TiendaElectronica.Models
         [Key]
         public int ArticuloId { get; set; }
         public string Nombre { get; set; }
-        public decimal  Precio { get; set; }
+        public decimal Precio { get; set; }
         public string Descripcion { get; set; }
         public string Marca { get; set; }
         public int Cantidad { get; set; }
@@ -19,10 +19,14 @@ namespace Proyecto_TiendaElectronica.Models
         [ForeignKey("Categoria")]
         public int idCategoria { get; set; }
 
-
         public Imagen Imagen { get; set; }
-
         public Categoria Categoria { get; set; }
-        
+
+        [NotMapped]
+        public IFormFile Imagen1 { get; set; }
+        [NotMapped]
+        public IFormFile Imagen2 { get; set; }
+        [NotMapped]
+        public IFormFile Imagen3 { get; set; }
     }
 }
