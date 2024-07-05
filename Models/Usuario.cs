@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Proyecto_TiendaElectronica.Models
 {
@@ -17,9 +18,14 @@ namespace Proyecto_TiendaElectronica.Models
         [EmailAddress(ErrorMessage = "El correo electrónico no es válido")]
         public string Correo { get; set; }
 
-        [Required(ErrorMessage = "La contraseña es obligatorio")]
-        [StringLength(24, MinimumLength = 8, ErrorMessage = "La contraseña debe contener al menos 8 caracteres.")]
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [StringLength(24, MinimumLength = 8, ErrorMessage = "La contraseña debe contener al menos 8 caracteres")]
         public string Contrasena { get; set; }
+
+        [NotMapped]
+        [Required(ErrorMessage = "Debe de confirmar la contraseña")]
+        [Compare(nameof(Contrasena), ErrorMessage = "Las contraseñas no coinciden")]
+        public string ConfirmarContrasena { get; set; }
 
         [Required(ErrorMessage = "El estado es obligatorio")]
         public bool Estado { get; set; }
