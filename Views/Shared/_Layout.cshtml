@@ -25,15 +25,27 @@
                         </li>
                         <li class="nav-item">
                             
-                            <a href="@Url.Action("SobreNosotros")" class="nav-link">Sobre Nosotros</a>
+                            <a href="@Url.Action("SobreNosotros", "Home")"  class="nav-link">Sobre Nosotros</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Cuenta"><i class="fas fa-user" aria-hidden="true"></i></a>
+                        <li>
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle dropdown">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="" href="#">Iniciar Sesión</a></li>
+                                    <li><a class="" href="@Url.Action("Index", "Admin")">Administración</a></li>
+                                    <li><a class="" href="#">Salir</a></li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="nav-item">
-                            <a src="@Url.Action("Carrito")"  class="nav-link" asp-area="" asp-controller="Home" asp-action="Carrito"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                            <div>
+                                <a src="@Url.Action("Carrito")"  class="nav-link" asp-area="" asp-controller="Home" asp-action="Carrito"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+
+                            </div>
                         </li>
                     </ul>
                 </div>
