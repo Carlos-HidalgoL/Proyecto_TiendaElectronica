@@ -39,3 +39,23 @@ function agregarAlCarrito(id, nombre, precio, imagen) {
 
     location.reload();
 }
+
+function agregarProductoAlCarrito(id, nombre, precio, imagen) {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+
+    if (carrito[id]) {
+        carrito[id].cantidad += 1;
+    } else {
+        carrito[id] = {
+            id: id,
+            nombre: nombre,
+            precio: precio,
+            imagen: imagen,
+            cantidad: 1
+        };
+    }
+
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    alert('Producto añadido al carrito');
+}
