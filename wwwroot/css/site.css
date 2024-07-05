@@ -241,6 +241,19 @@ table th {
     margin-bottom:-20px;
 }
 
+.contact-form .select-text {
+    display: block;
+    width: 100%;
+    height: 36px;
+    border-width: 0 0 2px 0;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 400;
+    background-color: var(--negro);
+    color: #fff;
+    margin-bottom: -20px;
+}
+
     .contact-form .input-text:focus {
         outline: none;
         background-color: var(--negro);
@@ -250,8 +263,7 @@ table th {
 
 .contact-form .label {
     position: absolute;
-    left: 20px;
-    bottom: 11px;
+    bottom: 40px;
     font-size: 18px;
     line-height: 26px;
     font-weight: 400;

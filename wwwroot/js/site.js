@@ -15,7 +15,7 @@ const eliminar = (id) => {
 
     Swal.fire({
         title: "Esta seguro?",
-        html: `Se eliminara el usuario con el id ${id}.
+        html: `Se eliminará el usuario con la cédula ${id}.
         <br>¡No se podrán deshacer los cambios!`,
         icon: "warning",
         showCancelButton: true,

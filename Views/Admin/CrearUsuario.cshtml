@@ -67,6 +67,20 @@
         <div class="col-lg-6">
 
             <div class="form-field">
+                <select asp-for="Rol" class="select-text js-input ">
+                    <option value="Administrador">Administrador</option>
+                    <option value="Usuario">Usuario</option>
+                </select>
+                <label class="label" asp-for="Rol"></label>
+            </div>
+            <div class="text-center text-break">
+                <span class="error-form" asp-validation-for="Rol"></span>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="form-field">
                 <input asp-for="Telefono" class="input-text js-input" type="number">
                 <label class="label" asp-for="Telefono"></label>
             </div>
@@ -74,6 +88,7 @@
                 <span class="error-form" asp-validation-for="Telefono"></span>
             </div>
         </div>
+
         <div class="col-lg-6">
 
             <div class="form-field">
@@ -89,13 +104,13 @@
         </div>
 
         <div class="form-field col-lg-12">
-            <input class="submit-btn" type="submit" value="Submit">
+            <input class="submit-btn" type="submit" value="Enviar">
         </div>
     </form>
 </section>
 
 
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+@section scripts {
+    <partial name="_validationscriptspartial" />
 }

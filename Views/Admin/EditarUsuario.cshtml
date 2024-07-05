@@ -7,18 +7,9 @@
 
 <section class="get-in-touch">
     <h1 class="title">Editar Usuario</h1>
-    <form asp-action="CrearUsuario" class="contact-form row">
-        <div class="col-lg-6">
+    <form asp-action="EditarUsuario" class="contact-form row">
 
-            <div class="form-field">
-                <input asp-for="UsuarioId" class="input-text js-input" type="number">
-                <label class="label" asp-for="UsuarioId">Cédula</label>
-            </div>
-            <div class="text-center text-break">
-                <span class="error-form" asp-validation-for="UsuarioId"></span>
-
-            </div>
-        </div>
+        <input asp-for="UsuarioId" class="input-text js-input" type="hidden">
         <div class="col-lg-6">
 
             <div class="form-field">
@@ -57,6 +48,19 @@
             </div>
             <div class="text-center text-break">
                 <span class="error-form" asp-validation-for="ConfirmarContrasena"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+
+            <div class="form-field">
+                <select asp-for="Rol" class="select-text js-input ">
+                    <option value="Administrador">Administrador</option>
+                    <option value="Usuario">Usuario</option>
+                </select>
+                <label class="label" asp-for="Rol"></label>
+            </div>
+            <div class="text-center text-break">
+                <span class="error-form" asp-validation-for="Rol"></span>
             </div>
         </div>
         <div class="col-lg-6">
