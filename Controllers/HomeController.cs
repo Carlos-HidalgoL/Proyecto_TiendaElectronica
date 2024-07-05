@@ -33,6 +33,21 @@ namespace Proyecto_TiendaElectronica.Controllers
 
             return View(articulos);
         }
+		public IActionResult Tienda()
+		{
+
+			var articulos = _context.Articulo.ToList();
+			var imagenes = _context.Imagen.ToList();
+
+			foreach (var articulo in articulos)
+			{
+				articulo.Imagen = imagenes.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
+			}
+
+
+			return View(articulos);
+		}
+
 		public IActionResult Producto(int id)
 		{
 			var articulo = _context.Articulo.FirstOrDefault(a => a.ArticuloId == id);
