@@ -3,114 +3,129 @@
 
 
 <section class="section banner banner-section ">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <img class="banner-image img-fluid" src="img/AudifonoHeader.png" alt="banner">
-            </div>
-            <div class="col-md-6">
-                <div class="banner-inner">
-                    <h1 class="display-4">Bienvenido a Navatech</h1>
-                    <p class="lead">
-                        Enjoy award-winning stereo beats with wireless listening freedom and sleek,
-                        streamlined with premium padded and delivering first-rate playback.
-                    </p>
-                    <a href="#" class="btn btn-outline-light btnVer border-1 rounded-0">Ver Productos</a>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md-6">
+				<img class="banner-image img-fluid" src="img/AudifonoHeader.png" alt="banner">
+			</div>
+			<div class="col-md-6">
+				<div class="banner-inner">
+					<h1 class="display-4">Bienvenido a Navatech</h1>
+					<p class="lead">
+						Enjoy award-winning stereo beats with wireless listening freedom and sleek,
+						streamlined with premium padded and delivering first-rate playback.
+					</p>
+					<a href="#" class="btn btn-outline-light btnVer border-1 rounded-0">Ver Productos</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 
 <div class="my-5">
-    <div class="container">
-        <div class="text-white">
-            <h4>Categorias</h4>
-            <div class="categorias-slider swiper">
-                <div class="d-flex ">
-                    <div class="category-product-top">
-                        <a href="" class="category-card flex-card" tabindex="0">
-                            <img src="" alt="prueba">
-                        </a>
-                    </div>
-                    <div class="category-product-top">
-                        <a href="" class="category-card flex-card" tabindex="0">
-                            <img src="" alt="prueba">
-                        </a>
-                    </div>
-                    <div class="category-product-top">
-                        <a href="" class="category-card flex-card" tabindex="0">
-                            <img src="" alt="prueba">
-                        </a>
-                    </div>
-                </div>
-            </div>
+	<h2 class="text-center mb-4">Marcas destacadas</h2>
+	<div class="logos my-5">
+		<div class="logos-slide">
+			<img src="/img/logitech-2-1.svg" />
+			<img src="/img/razer-1.svg" />
+			<img src="/img/asrock.svg" />
+			<img src="/img/micro-star-international-logo.svg" />
+			<img src="/img/corsair.svg" />
+			<img src="/img/redragon.svg" />
+			<img src="/img/asus-rog-1-1.svg" />
+		</div>
+	</div>
 
-        </div>
-    </div>
+	<script>
+		var copy = document.querySelector(".logos-slide").cloneNode(true);
+		document.querySelector(".logos").appendChild(copy);
+	</script>
 </div>
 
 
 
 <div class="my-5">
-    <div class="container">
-        <div class="row">
-            <div class="outer">
-                <div class="dot"></div>
-                <div class="card">
-                    <div class="ray"></div>
-                    <div class="text">750k</div>
-                    <div>Views</div>
-                    <div class="line topl"></div>
-                    <div class="line leftl"></div>
-                    <div class="line bottoml"></div>
-                    <div class="line rightl"></div>
-                </div>
-            </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-6 col-md-6">
+				<div class="card border-0 bg-dark text-white">
+					<img src="img/banner1.jpg" class="card-img card-img-transparent" alt="Banner Image" height="320px">
+					<div class="card-img-overlay d-flex flex-column justify-content-center">
+						<h5 class="card-title text-center">Nuevo Producto</h5>
+						<h3 class="card-text text-center">Novedades</h3>
+						<div class="mt-4 text-center">
+							<a href="#" class="btn btn-outline-light btnVer border-1 rounded-0">Ver Productos</a>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <div class="col-6 col-md-6">
-                <div class="card">
-                    <div class="my-5 p-4 align-items-center text-center">
-                        <h5>Nuevo Producto</h5>
-                        <h3>Novedadas</h3>
-                        <div class="mt-4">
-                            <a href="#" class="btn btn-outline-light btnVer border-1 rounded-0">Ver Productos</a>
-                        </div>
-                    </div>
+			<div class="col-6 col-md-6">
+				<div class="card border-0 bg-dark text-white">
+					<img src="img/banner2.jpg" class="card-img card-img-transparent" alt="Banner Image" height="320px">
+					<div class="card-img-overlay d-flex flex-column justify-content-center">
+						<h5 class="card-title text-center">Nuevo Producto</h5>
+						<h3 class="card-text text-center">Novedades</h3>
+						<div class="mt-4 text-center">
+							<a href="#" class="btn btn-outline-light btnVer border-1 rounded-0">Ver Productos</a>
+						</div>
+					</div>
+				</div>
+			</div>
 
-                </div>
-            </div>
-        </div>
-    </div>
+
+			<style>
+
+				.card-img-transparent {
+					opacity: 0.5;
+				}
+
+				.card-img-overlay {
+					transition: 0.3s;
+				}
+
+					.card-img-overlay:hover {
+						background-color: rgba(0, 0, 0, 0.5);
+					}
+
+						.card-img-overlay:hover .card-img {
+							opacity: 0.8;
+						}
+			</style>
+
+
+		</div>
+	</div>
 </div>
 
 
+
 <div class="my-5">
-        <div class="container">
-            <h4 class="text-white mb-4">Productos</h4>
-            <div class="row">
-            @foreach (var articulo in Model)
-            {
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card rounded-0">
-                        <div class="card mx-3 mt-3 rounded-0">
-                            <a href="#">
-                                <img src="data:image;base64,@Convert.ToBase64String(@articulo.Imagen.Imagen1)" alt="@articulo.Nombre" class="img-fluid w-100" style="height: 260px;">
-                            </a>
-                        </div>
-                        <a href="#" class="btn btnAnadir border-0 rounded-0 text-white mx-3">+ Añadir al carrito</a>
-                        <div class="m-0 my-4 mx-3 text-white">
-                            <h6>
-                                @articulo.Nombre
-                            </h6>
-                            <p class="fs-5 precio">
-                                ₡@articulo.Precio
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            }
-            </div>
-        </div>
+	<div class="container">
+		<h4 class="text-white mb-4">Productos</h4>
+		<div class="row">
+			@foreach (var articulo in Model)
+			{
+				<div class="col-md-3 col-sm-6">
+					<div class="product-grid">
+						<div class="product-image">
+							<a href="#" class="image">
+								<img class="pic-1" src="data:image;base64,@Convert.ToBase64String(@articulo.Imagen.Imagen1)" alt="@articulo.Nombre" class="img-fluid w-100" style="height: 260px;">
+								<img class="pic-2" src="data:image;base64,@Convert.ToBase64String(@articulo.Imagen.Imagen2)" alt="@articulo.Nombre" class="img-fluid w-100" style="height: 260px;">
+							</a>
+							<ul class="product-links">
+								<li><a href="#"><i class="fa fa-eye"></i></a></li>
+								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+							</ul>
+						</div>
+						<div class="product-content">
+							<h3 class="title"><a href="#">@articulo.Nombre</a></h3>
+							<div class="precio"> ₡@articulo.Precio</div>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
 </div>
