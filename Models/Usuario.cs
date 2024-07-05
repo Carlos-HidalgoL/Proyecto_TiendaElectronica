@@ -27,6 +27,9 @@ namespace Proyecto_TiendaElectronica.Models
         [Compare(nameof(Contrasena), ErrorMessage = "Las contraseñas no coinciden")]
         public string ConfirmarContrasena { get; set; }
 
+        [Required(ErrorMessage = "El rol es obligatorio")]
+        public string Rol { get; set; }
+
         [Required(ErrorMessage = "El estado es obligatorio")]
         public bool Estado { get; set; }
 
