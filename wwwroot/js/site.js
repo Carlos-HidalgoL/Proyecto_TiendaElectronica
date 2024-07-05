@@ -9,3 +9,49 @@
     });
 
 })
+
+
+const eliminar = (id) => {
+
+    Swal.fire({
+        title: "Esta seguro?",
+        html: `Se eliminara el usuario con el id ${id}.
+        <br>¡No se podrán deshacer los cambios!`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, eliminar!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: `/Admin/EliminarUsuario?id=${id}`,
+                type: "GET"
+            }).done( (response) => {
+                if (response.success) {
+                    Swal.fire({
+                        title: "¡Hecho!",
+                        text: response.message,
+                        icon: "success"
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: response.message,
+                        icon: "error"
+                    });
+                }
+            }).fail(() => {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Ha ocurrido un error en el proceso",
+                    icon: "danger"
+                });
+            });
+        }
+    });
+    
+}

@@ -11,7 +11,7 @@
 <table id="table_id" class="display">
     <thead>
         <tr>
-            <th>#</th>
+            <th>Cédula</th>
             <th>Nombre</th>
             <th>Estado</th>
             <th></th>
@@ -29,13 +29,13 @@
                     @(usuario.Estado ? "Activo" : "Inactivo")
                 </td>
                 <td>
-                    <a href="#" class="btn btn-primary">Ver</a>
+                    <a href="@Url.Action("VerUsuario", new{id = usuario.UsuarioId})" class="btn btn-primary">Ver</a>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-success">Actualizar</a>
+                    <a href="@Url.Action("EditarUsuario", new{id = usuario.UsuarioId})" class="btn btn-success">Actualizar</a>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-danger">Eliminar</a>
+                    <button class="btn btn-danger" onclick="eliminar(@usuario.UsuarioId)">Eliminar</button>
                 </td>
 
             </tr>

@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
 </head>
 <body>
+
+
     <header class="header mb-4">
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom mx-5 ">
             <div class="container">
                 <a class="navbar-brand logo fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Navatech</a>
@@ -153,17 +156,19 @@
             
         
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @* <script type="module" src="~/js/ObtenerDatos.js" asp-append-version="true"></script> *@
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-            crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="~/js/error.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+
 </body>
-</html>
 
 
