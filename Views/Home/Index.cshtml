@@ -110,13 +110,13 @@
 				<div class="col-md-3 col-sm-6">
 					<div class="product-grid">
 						<div class="product-image">
-							<a href="#" class="image">
+							<a href="@Url.Action("Producto",new{id = @articulo.ArticuloId})" class="image">
 								<img class="pic-1" src="data:image;base64,@Convert.ToBase64String(@articulo.Imagen.Imagen1)" alt="@articulo.Nombre" class="img-fluid w-100" style="height: 260px;">
 								<img class="pic-2" src="data:image;base64,@Convert.ToBase64String(@articulo.Imagen.Imagen2)" alt="@articulo.Nombre" class="img-fluid w-100" style="height: 260px;">
 							</a>
 							<ul class="product-links">
-								<li><a href="#"><i class="fa fa-eye"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+								<li><a href="@Url.Action("Producto", "Home" , new { Id = articulo.ArticuloId } )"><i class="fa fa-eye"></i></a></li>
+								<li><a href="#" onclick="agregarProductoAlCarrito('@articulo.ArticuloId', '@articulo.Nombre', '@articulo.Precio', '@Convert.ToBase64String(articulo.Imagen.Imagen1)')"><i class="fa fa-shopping-cart"></i></a></li>
 							</ul>
 						</div>
 						<div class="product-content">
