@@ -464,3 +464,7 @@ table th {
         margin: 0 0 30px;
     }
 }
+
+.error-form {
+    color: var(--rojo);
+}
