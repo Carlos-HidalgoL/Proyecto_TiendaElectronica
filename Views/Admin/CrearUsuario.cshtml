@@ -8,107 +8,113 @@
     @ViewBag.Error
 </div>
 
+<h2 class="mb-3">Crear Usuario</h2>
 
-
-<section class="get-in-touch">
-    <h1 class="title">Nuevo Usuario</h1>
-    <form asp-action="CrearUsuario" class="contact-form row">
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input asp-for="UsuarioId" class="input-text js-input" type="number">
-                <label class="label" asp-for="UsuarioId">Cédula</label>
+<div class="admin-element">
+    <form asp-action="CrearUsuario" method="post">
+        
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="UsuarioId">Cédula</label>
+                    <i class="fa-solid fa-id-card icon"></i>
+                    <input placeholder="123456789"  type="text" class="input_field" asp-for="UsuarioId">
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="UsuarioId"></span>
+                </div>
             </div>
-            <div class="text-center text-break">
-                <span class="error-form" asp-validation-for="UsuarioId"></span>
-
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Nombre">Nombre de Usuario</label>
+                    <i class="fa-solid fa-user icon"></i>
+                    <input placeholder="Usuario" type="text" class="input_field" asp-for="Nombre">
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Nombre"></span>
+                </div>
             </div>
         </div>
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input asp-for="Nombre" class="input-text js-input" type="text">
-                <label class="label" asp-for="Nombre"></label>
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Correo"></label>
+                    <i class="fa-solid fa-envelope icon"></i>
+                    <input placeholder="123456789" type="text" class="input_field" asp-for="Correo">
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Correo"></span>
+                </div>
             </div>
-            <div class="text-center text-break">
-                <span class="error-form" asp-validation-for="Nombre"></span>
-            </div>
-        </div>
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input asp-for="Correo" class="input-text js-input" type="email">
-                <label class="label" asp-for="Correo"></label>
-            </div>
-            <div class="text-center text-break">
-                <span class="error-form" asp-validation-for="Correo"></span>
-            </div>
-        </div>
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input asp-for="Contrasena" class="input-text js-input" type="text">
-                <label class="label" asp-for="Contrasena">Contraseña</label>
-            </div>
-            <div class="text-center text-break">
-                <span class="error-form" asp-validation-for="Contrasena"></span>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Telefono">Teléfono</label>
+                    <i class="fa-solid fa-phone icon"></i>
+                    <input placeholder="Usuario" type="text" class="input_field" asp-for="Telefono">
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Telefono"></span>
+                </div>
             </div>
         </div>
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input asp-for="ConfirmarContrasena" class="input-text js-input" type="text">
-                <label class="label" asp-for="ConfirmarContrasena">Confirmar Contraseña</label>
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Contrasena">Contraseña</label>
+                    <i class="fa-solid fa-lock icon"></i>
+                    <input placeholder="contraseña1234" type="text" class="input_field" asp-for="Contrasena">
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Contrasena"></span>
+                </div>
             </div>
-            <div class="text-center text-break">
-                <span class="error-form" asp-validation-for="ConfirmarContrasena"></span>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="ConfirmarContrasena">Confirmar Contraseña</label>
+                    <i class="fa-solid fa-lock icon"></i>
+                    <input placeholder="contraseña1234" type="text" class="input_field" asp-for="ConfirmarContrasena">
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="ConfirmarContrasena"></span>
+                </div>
             </div>
         </div>
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <select asp-for="Rol" class="select-text js-input ">
-                    <option value="Administrador">Administrador</option>
-                    <option value="Usuario">Usuario</option>
+        <div class="mb-3">
+            <div class="input_container">
+                <label class="input_label" asp-for="Rol"></label>
+                <i class="fa-solid fa-users icon"></i>
+                <select asp-for="Rol" class="input_field">
+                    <option class="select_item">Seleccionar el Rol</option>
+                    <option class="select_item" value="Administrador">Administrador</option>
+                    <option class="select_item" value="Usuario">Usuario</option>
                 </select>
-                <label class="label" asp-for="Rol"></label>
             </div>
             <div class="text-center text-break">
                 <span class="error-form" asp-validation-for="Rol"></span>
             </div>
         </div>
-
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input asp-for="Telefono" class="input-text js-input" type="number">
-                <label class="label" asp-for="Telefono"></label>
-            </div>
-            <div class="text-center text-break">
-                <span class="error-form" asp-validation-for="Telefono"></span>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <select asp-for="Estado" class="select-text js-input ">
-                    <option value="@true">Activo</option>
-                    <option value="@false">Inactivo</option>
+        <div class="mb-3">
+            <div class="input_container">
+                <label class="input_label" asp-for="Estado"></label>
+                <i class="fa-solid fa-user-gear icon"></i>
+                <select asp-for="Estado" class="input_field">
+                    <option class="select_item">Seleccionar el Estado</option>
+                    <option class="select_item" value="true">Activo</option>
+                    <option class="select_item" value="false">Inactivo</option>
                 </select>
-                <label class="label" asp-for="Estado"></label>
             </div>
             <div class="text-center text-break">
                 <span class="error-form" asp-validation-for="Estado"></span>
             </div>
         </div>
 
-        <div class="form-field col-lg-12">
-            <input class="submit-btn" type="submit" value="Enviar">
-        </div>
-    </form>
-</section>
+        <button type="submit" class="button-send">
+            Enviar
+        </button>
 
+        
+    </form>
+</div>
 
 
 @section scripts {

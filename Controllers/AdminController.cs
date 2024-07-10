@@ -16,13 +16,14 @@ namespace Proyecto_TiendaElectronica.Controllers
         // GET: AdminController
         public ActionResult Index()
         {
+            ViewBag.Pagina = "Index";
             return View();
         }
 
         public async Task<IActionResult> Articulos() {
 
             var articulos = await _context.Articulo.Include("Categoria").Include("Imagen").ToListAsync();
-            
+            ViewBag.Pagina = "Articulos";
 
             return View(articulos);
 
@@ -34,14 +35,14 @@ namespace Proyecto_TiendaElectronica.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Usuarios() {
-            try {
-                var usuarios = await _context.Usuario.ToListAsync();
 
-                return View(usuarios);
+            var usuarios = await _context.Usuario.ToListAsync();
 
-            }catch (Exception) {
-                return NotFound();
-            }
+            ViewBag.Pagina = "Usuarios";
+
+            return View(usuarios);
+
+            
         }
 
 
