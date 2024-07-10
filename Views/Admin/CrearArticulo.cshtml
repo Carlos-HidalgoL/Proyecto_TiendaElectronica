@@ -7,104 +7,133 @@
     <section class="get-in-touch">
         <h1 class="title">Nuevo Articulo</h1>
         <form asp-action="CrearArticulo" enctype="multipart/form-data" class="contact-form row">
-            <div class="form-field col-lg-6">
-                <input id="Nombre" class="input-text js-input" type="text" required>
-                <label class="label" for="Nombre">Nombre</label>
+            <div class="col-lg-6">
+                <div class="form-field">
+                    <input asp-for="Nombre" class="input-text js-input" type="text">
+                    <label class="label" asp-for="Nombre">Nombre</label>
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Nombre"></span>
+                </div>
             </div>
-            <div class="form-field col-lg-6">
-                <input id="Precio" class="input-text js-input" type="number" required>
-                <label class="label" for="Precio">Precio</label>
+            <div class="col-lg-6">
+                <div class="form-field">
+                    <input asp-for="Precio" class="input-text js-input" type="number">
+                    <label class="label" asp-for="Precio">Precio</label>
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Precio"></span>
+                </div>
             </div>
-            <div class="form-field col-lg-6">
-                <input id="Cantidad" class="input-text js-input" type="number" required>
-                <label class="label" for="Cantidad">Cantidad</label>
+            <div class="col-lg-6">
+                <div class="form-field">
+                    <input asp-for="Cantidad" class="input-text js-input" type="number">
+                    <label class="label" asp-for="Cantidad">Cantidad</label>
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Cantidad"></span>
+                </div>
             </div>
-            <div class="form-field col-lg-6">
-                <input id="Marca" class="input-text js-input" type="text" required>
-                <label class="label" for="Marca">Marca</label>
+            <div class="col-lg-6">
+                <div class="form-field">
+                    <input asp-for="Marca" class="input-text js-input" type="text">
+                    <label class="label" asp-for="Marca">Marca</label>
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Marca"></span>
+                </div>
             </div>
-            <div class="form-field col-lg-6">
-                <input id="Descripcion" class="input-text js-input" type="text" required>
-                <label class="label" for="Descripcion">Descripcion</label>
+            <div class="col-lg-6">
+                <div class="form-field">
+                    <input asp-for="Descripcion" class="input-text js-input" type="text">
+                    <label class="label" asp-for="Descripcion">Descripcion</label>
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Descripcion"></span>
+                </div>
             </div>
-
-            <div class="form-field col-lg-6">
-                <label class="label" for="CategoriaId">Categoría</label>
-                <select id="CategoriaId" name="CategoriaId" class="input-text js-input" required>
-                    <option value=""></option>
-                    @foreach (var categoria in ViewBag.Categorias)
-                    {
-                        <option value="@categoria.Value">@categoria.Text</option>
-                    }
-                </select>
+            <div class="col-lg-6">
+                <div class="form-field">
+                    <label class="label" asp-for="idCategoria">Categoría</label>
+                    <select asp-for="idCategoria" class="input-text js-input">
+                        <option value=""></option>
+                        @if (ViewBag.Categorias != null)
+                        {
+                            @foreach (var categoria in ViewBag.Categorias)
+                            {
+                                <option value="@categoria.Value">@categoria.Text</option>
+                            }
+                        }
+                        else
+                        {
+                            <option value="">No hay categorías disponibles</option>
+                        }
+                    </select>
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="idCategoria"></span>
+                </div>
             </div>
             <div class="form-field col-lg-4">
-                <label class="label-file" for="imagen1">Seleccionar Imagen 1</label>
-                <input type="file" id="imagen1" name="imagen1" accept="image/*" class="input-file js-input" required>
-                <img id="preview1" class="img-preview"  />
+                <label class="label-file" for="Imagen1">Seleccionar Imagen 1</label>
+                <input asp-for="Imagen1" type="file" accept="image/*" class="input-file js-input">
+                <img id="preview1" class="img-preview" />
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Imagen1"></span>
+                </div>
             </div>
             <div class="form-field col-lg-4">
-                <label class="label-file" for="imagen2">Seleccionar Imagen 2</label>
-                <input type="file" id="imagen2" name="imagen2" accept="image/*" class="input-file js-input" required>
-                <img id="preview2" class="img-preview"  />
+                <label class="label-file" for="Imagen2">Seleccionar Imagen 2</label>
+                <input asp-for="Imagen2" type="file" accept="image/*" class="input-file js-input">
+                <img id="preview2" class="img-preview" />
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Imagen2"></span>
+                </div>
             </div>
             <div class="form-field col-lg-4">
-                <label class="label-file" for="imagen3">Seleccionar Imagen 3</label>
-                <input type="file" id="imagen3" name="imagen3" accept="image/*" class="input-file js-input" required>
-                <img id="preview3" class="img-preview"  />
+                <label class="label-file" for="Imagen3">Seleccionar Imagen 3</label>
+                <input asp-for="Imagen3" type="file" accept="image/*" class="input-file js-input">
+                <img id="preview3" class="img-preview" />
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Imagen3"></span>
+                </div>
             </div>
             <div class="form-field col-lg-12">
-                <input class="submit-btn" type="submit" value="Submit">
+                <input class="submit-btn" type="submit" value="Enviar">
             </div>
         </form>
     </section>
 </div>
 
-
-<!-- Para la vista previa de las imagenes -->
-
 <script>
-    // Añadir un evento de cambio al input de archivo con id 'imagen1'
-    document.getElementById('imagen1').addEventListener('change', function (event) {
-        // Llamar a la función displayImagePreview pasando el evento y el id de la vista previa
+    document.getElementById('Imagen1').addEventListener('change', function (event) {
         displayImagePreview(event, 'preview1');
     });
 
-    // Añadir un evento de cambio al input de archivo con id 'imagen2'
-    document.getElementById('imagen2').addEventListener('change', function (event) {
-        // Llamar a la función displayImagePreview pasando el evento y el id de la vista previa
+    document.getElementById('Imagen2').addEventListener('change', function (event) {
         displayImagePreview(event, 'preview2');
     });
 
-    // Añadir un evento de cambio al input de archivo con id 'imagen3'
-    document.getElementById('imagen3').addEventListener('change', function (event) {
-        // Llamar a la función displayImagePreview pasando el evento y el id de la vista previa
+    document.getElementById('Imagen3').addEventListener('change', function (event) {
         displayImagePreview(event, 'preview3');
     });
 
-    // Función para mostrar la vista previa de la imagen seleccionada
     function displayImagePreview(event, previewId) {
-        // Obtener el input de archivo que disparó el evento
         const input = event.target;
-        // Obtener el primer archivo seleccionado en el input de archivo
         const file = input.files[0];
-        // Obtener el elemento de imagen donde se mostrará la vista previa usando el id proporcionado
         const preview = document.getElementById(previewId);
 
-        // Verificar si hay un archivo seleccionado
         if (file) {
-            // Crear una nueva instancia de FileReader para leer el contenido del archivo de manera asíncrona
             const reader = new FileReader();
-            // Definir una función que se ejecutará cuando el archivo se haya leído completamente
             reader.onload = function (e) {
-                // Asignar el resultado de la lectura (URL de la imagen) al atributo src del elemento de vista previa
                 preview.src = e.target.result;
-                // Asegurarse de que el elemento de vista previa sea visible
                 preview.style.display = 'block';
             }
-            // Iniciar la lectura del contenido del archivo. El resultado será una URL de datos con la imagen en base64
             reader.readAsDataURL(file);
         }
     }
-
 </script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

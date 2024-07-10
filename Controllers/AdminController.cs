@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_TiendaElectronica.Models;
 
@@ -31,9 +32,100 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 
 
-        //Controllers de Usuario
+        public ActionResult CrearArticulo()
+        {
+
+            var categorias = _context.Categoria.ToList();
+
+            ViewBag.Categorias = new SelectList(categorias, "CategoriaId", "Nombre");
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearArticulo(Articulo articulo)
+        {
+
+            Imagen imagen = new Imagen
+            {
+                Imagen1 = await FormFileToByteArrayAsync(articulo.Imagen1),
+                Imagen2 = await FormFileToByteArrayAsync(articulo.Imagen2),
+                Imagen3 = await FormFileToByteArrayAsync(articulo.Imagen3)
+            };
+
+            _context.Imagen.Add(imagen);
+            await _context.SaveChangesAsync();
+
+
+            Articulo articuloNuevo = new Articulo()
+            {
+                Nombre = articulo.Nombre,
+                Precio = articulo.Precio,
+                Descripcion = articulo.Descripcion,
+                Marca = articulo.Marca,
+                Cantidad = articulo.Cantidad,
+                codigoImagen = imagen.ImagenId,
+                idCategoria = articulo.idCategoria
+            };
+
+            _context.Articulo.Add(articuloNuevo);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+
+
+            return View(articulo);
+        }
+
+        private async Task<byte[]> FormFileToByteArrayAsync(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return null;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
 
         [HttpGet]
+        public async Task<IActionResult> VerArticulo(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+
+                if (int.TryParse(id, out int articuloId))
+                {
+                    var articulo = await _context.Articulo.FindAsync(articuloId);
+
+                    if (articulo == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return View(articulo);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception)
+            {
+                return RedirectToAction(nameof(Articulos));
+            }
+
+        }
+
+            //Controllers de Usuario
+
+            [HttpGet]
         public async Task<IActionResult> Usuarios() {
 
             var usuarios = await _context.Usuario.ToListAsync();
