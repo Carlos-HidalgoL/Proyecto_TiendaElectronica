@@ -4,54 +4,64 @@
     Layout = "_LayoutAdmin";
 }
 
-<section class="get-in-touch">
-    <h1 class="title">Información del Usuario</h1>
-    <div class="contact-form row">
-        <div class="col-lg-6">
-            <div class="form-field">
-                <input asp-for="UsuarioId" class="input-text js-input" type="number" readonly>
-                <label class="label" asp-for="UsuarioId">Cédula</label>
+<h2 class="mb-3">Información del Usuario</h2>
+
+<div class="admin-element">
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="UsuarioId">Cédula</label>
+                    <i class="fa-solid fa-id-card icon"></i>
+                    <input  type="text" class="input_field" asp-for="UsuarioId" readonly>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Nombre">Nombre de Usuario</label>
+                    <i class="fa-solid fa-user icon"></i>
+                <input type="text" class="input_field" asp-for="Nombre" readonly>
+                </div>
             </div>
         </div>
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input asp-for="Nombre" class="input-text js-input" type="text" readonly>
-                <label class="label" asp-for="Nombre"></label>
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Correo"></label>
+                    <i class="fa-solid fa-envelope icon"></i>
+                    <input type="text" class="input_field" asp-for="Correo" readonly>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Telefono">Teléfono</label>
+                    <i class="fa-solid fa-phone icon"></i>
+                <input type="text" class="input_field" asp-for="Telefono" readonly>
+                </div>
             </div>
         </div>
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input asp-for="Correo" class="input-text js-input" type="email" readonly>
-                <label class="label" asp-for="Correo"></label>
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Contrasena">Contraseña</label>
+                    <i class="fa-solid fa-lock icon"></i>
+                <input type="text" class="input_field" asp-for="Contrasena" readonly>
+                </div>
             </div>
-
-        </div>
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input asp-for="Contrasena" class="input-text js-input" type="text" readonly>
-                <label class="label" asp-for="Contrasena">Contraseña</label>
-            </div>
-
-        </div>
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input asp-for="Telefono" class="input-text js-input" type="number" readonly>
-                <label class="label" asp-for="Telefono"></label>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Rol"></label>
+                    <i class="fa-solid fa-users icon"></i>
+                    <input type="text" class="input_field" asp-for="Rol" readonly>
+                </div>
             </div>
         </div>
-        <div class="col-lg-6">
-
-            <div class="form-field">
-                <input value=" @(Model.Estado ? "Activo": "Inactivo") " class="input-text js-input" type="text" readonly>
-                <label class="label" asp-for="Estado"></label>
+        
+        <div class="mb-3">
+            <div class="input_container">
+                <label class="input_label" asp-for="Estado"></label>
+                <i class="fa-solid fa-user-gear icon"></i>
+                <input type="text" class="input_field" value="@(Model.Estado ? "Activo" : "Inactivo")"   readonly>
             </div>
         </div>
-        <div class="form-field col-lg-12">
-            <a class="submit-btn text-center" href="@Url.Action("EditarUsuario", new{id = Model.UsuarioId})">Editar</a>
-            
-        </div>
-</section>
+
+</div>

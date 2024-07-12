@@ -6,158 +6,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Proyecto_TiendaElectronica</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminStyle.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Proyecto_TiendaElectronica.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
 </head>
 <body>
-
-
-    <header class="header mb-4">
-
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom mx-5 ">
-            <div class="container">
-                <a class="navbar-brand logo fw-bold" href="@Url.Action("Index", "Home")" >Navatech</a>
-                <div class="navbar-collapse collapse d-flex justify-content-end">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle dropdown" >
-                            <i class="fas fa-user" aria-hidden="true"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="" href="#">Iniciar Sesión</a></li>
-                            <li><a class="" href="#">Salir</a></li>
-                        </ul>
-                    </div>
-                    
-                </div>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Navatech Administración</h3>
             </div>
+
+            <ul class="list-unstyled components">
+                <li class="
+                    @(ViewBag.Pagina == "Index" ? "active" : "" )
+                ">
+                    <a href="/">
+                        <div class="d-flex">
+                            <div style="margin-right: 18px">
+                                <i class="fa-solid fa-house"></i>
+                            </div>
+                            <div class="mx-2">
+                                Inicio
+                            </div>
+
+                        </div>
+                    </a>
+                </li>
+                <li class="
+                    @(ViewBag.Pagina == "Usuarios" ? "active" : "" )
+                ">
+                    <a href="@Url.Action("Usuarios")">
+                        <div class="d-flex">
+                            <div style="margin-right: 18px">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="mx-2">
+                                Usuarios
+                            </div>
+
+                        </div>
+                    </a>
+                </li>
+                <li class="
+                    @(ViewBag.Pagina == "Articulos" ? "active" : "" )
+                ">
+                    <a href="@Url.Action("Articulos")">
+                        <div class="d-flex">
+                            <div style="margin-right: 10px">
+                                <i class="fa-solid fa-laptop"></i>
+                            </div>
+                            <div class="mx-2">
+                                Artículos
+                            </div>
+
+                        </div>
+                    </a>
+                </li>
+                <li class="
+                    @(ViewBag.Pagina == "Facturas" ? "active" : "" )
+                ">
+                    <a href="/">
+                        <div class="d-flex">
+                            <div style="margin-right: 18px">
+                                <i class="fa-solid fa-file-invoice"></i>
+                            </div>
+                            <div class="mx-2">
+                                Facturas
+                            </div>
+
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            
         </nav>
-    </header>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4 sidebar admin-menu">
-                <div class="d-flex flex-column flex-shrink-0 text-bg-dark container">
-                    <div class="mt-4 p-2 ">
-                        <h2 class="text-break">Administración</h2>
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn bars">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+                        <h1>Navatech</h1>
                     </div>
-                    <hr/>
-                    <div class="mt-3 mb-3">
-                        <ul class="list-unstyled">
-
-                            <li class="fs-5 p-2">
-                                <a class="d-flex" href="/">
-                                    <div class="col-md-2 text-center">
-                                        <i class="fas fa-home"></i>
-                                    </div>
-                                    <div class="col-md-10">
-                                        Inicio
-                                    </div>
-
-                                </a>
-                            </li>
-                            <li class="fs-5 mt-3 p-2">
-                                <a class="d-flex" href="@Url.Action("Usuarios")">
-                                    <div class="col-md-2 text-center">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div class="col-md-10">
-                                        Usuarios
-                                    </div>
-
-                                </a>
-                            </li>
-                            <li class="fs-5 mt-3 p-2">
-                                <a class="d-flex" href="@Url.Action("Articulos")">
-                                    <div class="col-md-2 text-center">
-                                        <i class="fas fa-laptop"></i>
-                                    </div>
-                                    <div class="col-md-10">
-                                        Artículos
-                                    </div>
-
-                                </a>
-                            </li>
-                            <li class="fs-5 mt-3 p-2">
-                                <a class="d-flex" href="#">
-                                    <div class="col-md-2 text-center">
-                                        <i class="fas fa-file-invoice"></i>
-                                    </div>
-                                    <div class="col-md-10">
-                                        Facturas
-                                    </div>
-
-                                </a>
-                            </li>
-                            
-                            
-                        </ul>
-                    </div>
-                        
                 </div>
-            </div>
-            <div class="col-sm-8">
-                <main role="main" class="pb-3 container">
+            </nav>
+
+            <div class="">
+                <main role="main" class="">
                     @RenderBody()
                 </main>
             </div>
+
         </div>
-       
     </div>
 
-    <footer class="my-4 mx-5 p-3" >
 
 
 
-        @* Aqui va la línea separadora *@
-        <div class="border-bottom container-fluid"></div>
 
+    
 
-        @* Parte de abajo del footer *@
+    
 
-        <div class="container mt-3">
-            <div class="row">
-                <p class="d-flex justify-content-center">NavaTech-Administrativo</p>
-                <ul class="nav justify-content-center list-unstyled">
+   
 
+    
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Articulos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Usuarios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Facturacion</a>
-                    </li>
-
-                </ul>
-            </div>
-            <div class="row mt-3">
-                <p class="d-flex justify-content-center">Soporte: soporte@navatech.com | Tel: (506) 2444-5987</p>
-            </div>
-            <div class="row mt-3">
-                <ul class="nav justify-content-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Política de Privacidad</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Términos de Uso</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="row mt-3">
-                <p class="d-flex justify-content-center">© 2024 NavaTech. Todos los derechos reservados.</p>
-            </div>
-        </div>
-            
-            
-        
-    </footer>
-
-
+    <script src="https://kit.fontawesome.com/2425b0cf01.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.1/jquery.validate.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
@@ -166,6 +131,15 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/error.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
 
 
 </body>

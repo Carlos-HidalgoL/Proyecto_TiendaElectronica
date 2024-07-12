@@ -4,41 +4,52 @@
     Layout = "_LayoutAdmin";
 }
 
-<a href="@Url.Action("CrearUsuario")" class="btn btn-primary mb-4">
-    Agregar Usuario
-</a>
+<h2 class="mb-3">Usuarios</h2>
 
-<table id="table_id" class="display">
-    <thead>
-        <tr>
-            <th>Cédula</th>
-            <th>Nombre</th>
-            <th>Estado</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var usuario in Model)
-        {
+<div class="admin-element">
+
+    <a href="@Url.Action("CrearUsuario")" class="btn btn-primary mb-4">
+        Agregar Usuario
+    </a>
+
+    <table id="table_id" class="table table-dark table-striped">
+        <thead>
             <tr>
-                <td class="text-center">@usuario.UsuarioId</td>
-                <td>@usuario.Nombre</td>
-                <td>
-                    @(usuario.Estado ? "Activo" : "Inactivo")
-                </td>
-                <td>
-                    <a href="@Url.Action("VerUsuario", new{id = usuario.UsuarioId})" class="btn btn-primary">Ver</a>
-                </td>
-                <td>
-                    <a href="@Url.Action("EditarUsuario", new{id = usuario.UsuarioId})" class="btn btn-success">Actualizar</a>
-                </td>
-                <td>
-                    <button class="btn btn-danger" onclick="eliminar(@usuario.UsuarioId)">Eliminar</button>
-                </td>
-
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                <tr>
+                    <td class="text-center">@usuario.UsuarioId</td>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Rol</td>
+                    <td>
+                        @(usuario.Estado ? "Activo" : "Inactivo")
+                    </td>
+                    <td>
+                        <a href="@Url.Action("VerUsuario", new{id = usuario.UsuarioId})" class="btn btn-primary">Ver</a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("EditarUsuario", new{id = usuario.UsuarioId})" class="btn btn-success">Actualizar</a>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" onclick="eliminar(@usuario.UsuarioId)">Eliminar</button>
+                    </td>
+
+                </tr>
+
+            }
+
+        
+        </tbody>
+    </table>
+
+</div>
