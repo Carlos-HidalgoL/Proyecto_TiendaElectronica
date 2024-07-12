@@ -38,18 +38,17 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <h2>Imágenes</h2>
-            <div class="form-field">
-                <label class="label">Imagen 1</label>
-                <img src="@(Model.Imagen?.Imagen1 != null ? $"data:image;base64,{Convert.ToBase64String(Model.Imagen.Imagen1)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail" />
-            </div>
-            <div class="form-field">
-                <label class="label">Imagen 2</label>
-                <img src="@(Model.Imagen?.Imagen2 != null ? $"data:image;base64,{Convert.ToBase64String(Model.Imagen.Imagen2)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail" />
-            </div>
-            <div class="form-field">
-                <label class="label">Imagen 3</label>
-                <img src="@(Model.Imagen?.Imagen3 != null ? $"data:image;base64,{Convert.ToBase64String(Model.Imagen.Imagen3)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail" />
+            <h3>Imágenes</h3>
+            <div class="form-field row">
+                <div class="col-lg-4">
+                    <img src="@(ViewBag.Imagen1 != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(ViewBag.Imagen1)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail img-uniform" />
+                </div>
+                <div class="col-lg-4">
+                    <img src="@(ViewBag.Imagen2 != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(ViewBag.Imagen2)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail img-uniform" />
+                </div>
+                <div class="col-lg-4">
+                    <img src="@(ViewBag.Imagen3 != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(ViewBag.Imagen3)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail img-uniform" />
+                </div>
             </div>
         </div>
     </div>
