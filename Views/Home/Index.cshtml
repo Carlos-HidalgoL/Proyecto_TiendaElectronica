@@ -115,8 +115,9 @@
 								<img class="pic-2" src="data:image;base64,@Convert.ToBase64String(@articulo.Imagen.Imagen2)" alt="@articulo.Nombre" class="img-fluid w-100" style="height: 260px;">
 							</a>
 							<ul class="product-links">
-								<li><a href="@Url.Action("Producto", "Home" , new { Id = articulo.ArticuloId } )"><i class="fa fa-eye"></i></a></li>
-								<li><a href="#" onclick="agregarProductoAlCarrito('@articulo.ArticuloId', '@articulo.Nombre', '@articulo.Precio', '@Convert.ToBase64String(articulo.Imagen.Imagen1)')"><i class="fa fa-shopping-cart"></i></a></li>
+								<li><a href="@Url.Action("Producto",new{id = @articulo.ArticuloId})"><i class="fa fa-eye"></i></a></li>
+								<li><a onclick="agregarProductoAlCarrito('@articulo.ArticuloId', '@articulo.Nombre', '@articulo.Precio', '@Convert.ToBase64String(articulo.Imagen.Imagen1)',@articulo.Cantidad)"><i class="fa fa-shopping-cart"></i></a></li>
+
 							</ul>
 						</div>
 						<div class="product-content">
@@ -129,3 +130,5 @@
 		</div>
 	</div>
 </div>
+<script src="~/js/Producto.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
