@@ -15,7 +15,7 @@
                 <div class="input_container">
                     <label class="input_label" asp-for="UsuarioId">Cédula</label>
                     <i class="fa-solid fa-id-card icon"></i>
-                    <input placeholder="123456789" type="text" class="input_field" asp-for="UsuarioId">
+                    <input placeholder="123456789" type="text" class="input_field" asp-for="UsuarioId" readonly>
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="UsuarioId"></span>
@@ -54,28 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="input_container">
-                    <label class="input_label" asp-for="Contrasena">Contraseña</label>
-                    <i class="fa-solid fa-lock icon"></i>
-                    <input placeholder="contraseña1234" type="text" class="input_field" asp-for="Contrasena">
-                </div>
-                <div class="text-center text-break">
-                    <span class="error-form" asp-validation-for="Contrasena"></span>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="input_container">
-                    <label class="input_label" asp-for="ConfirmarContrasena">Confirmar Contraseña</label>
-                    <i class="fa-solid fa-lock icon"></i>
-                    <input placeholder="contraseña1234" type="text" class="input_field" asp-for="ConfirmarContrasena">
-                </div>
-                <div class="text-center text-break">
-                    <span class="error-form" asp-validation-for="ConfirmarContrasena"></span>
-                </div>
-            </div>
-        </div>
+        
         <div class="mb-3">
             <div class="input_container">
                 <label class="input_label" asp-for="Rol"></label>

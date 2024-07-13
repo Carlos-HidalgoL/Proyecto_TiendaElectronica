@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_TiendaElectronica.Models;
+using Proyecto_TiendaElectronica.wwwroot.funtions;
 
 namespace Proyecto_TiendaElectronica.Controllers
 {
@@ -155,6 +156,8 @@ namespace Proyecto_TiendaElectronica.Controllers
             if (ModelState.IsValid) {
                 try
                 {
+                    usuario.Contrasena = Hash.HashPassword(usuario.Contrasena);
+
                     _context.Usuario.Add(usuario);
                     await _context.SaveChangesAsync();
 
