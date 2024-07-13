@@ -11,8 +11,8 @@
 })
 
 
-const eliminar = (id) => {
-
+const eliminar = (id, URL) => {
+    
     Swal.fire({
         title: "Esta seguro?",
         html: `Se eliminará el usuario con la cédula ${id}.
@@ -26,7 +26,7 @@ const eliminar = (id) => {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: `/Admin/EliminarUsuario?id=${id}`,
+                url: URL+`?id=${id}`,
                 type: "GET"
             }).done( (response) => {
                 if (response.success) {

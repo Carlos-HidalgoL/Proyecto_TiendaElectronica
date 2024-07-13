@@ -41,7 +41,7 @@
                         <a href="@Url.Action("EditarUsuario", new{id = usuario.UsuarioId})" class="btn btn-success">Actualizar</a>
                     </td>
                     <td>
-                        <button class="btn btn-danger" onclick="eliminar(@usuario.UsuarioId)">Eliminar</button>
+                        <button class="btn btn-danger" onclick="eliminar(@usuario.UsuarioId, '/Admin/EliminarUsuario')">Eliminar</button>
                     </td>
 
                 </tr>
