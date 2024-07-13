@@ -1,42 +1,48 @@
 ﻿@model List<Articulo>;
 
 @{
-    Layout = "_LayoutAdmin";
+	Layout = "_LayoutAdmin";
 }
-<a href="@Url.Action("CrearArticulo")" class="btn btn-primary mb-4">
-    Agregar Articulo
-</a>
-<table id="table_id" class="display">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Marca</th>
-            <th>Categoría</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var articulo in Model)
-        {
-            <tr>
-                <td class="text-center">@articulo.ArticuloId</td>
-                <td>@articulo.Nombre</td>
-                <td>@articulo.Marca</td>
-                <td>@articulo.Categoria.Nombre</td>
-                <td>
-                    <a href="@Url.Action("VerArticulo", new{id = articulo.ArticuloId})" class="btn btn-primary">Ver</a>
-                </td>
-                <td>
-                    <a href="@Url.Action("EditarArticulo", new {id =articulo.ArticuloId})" class="btn btn-success">Actualizar</a>
-                </td>
-                <td>
-                    <a href="#" class="btn btn-danger">Eliminar</a>
-                </td>
 
-            </tr>    
-        }
-    </tbody>
-</table>
+<h2 class="mb-3">Usuarios</h2>
+
+<div class="admin-element">
+	<a href="@Url.Action("CrearArticulo")" class="btn btn-primary mb-4">
+		Agregar Articulo
+	</a>
+	<table id="table_id" class="table table-dark table-striped">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Nombre</th>
+				<th>Marca</th>
+				<th>Categoría</th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var articulo in Model)
+			{
+				<tr>
+					<td class="text-center">@articulo.ArticuloId</td>
+					<td>@articulo.Nombre</td>
+					<td>@articulo.Marca</td>
+					<td>@articulo.Categoria.Nombre</td>
+					<td>
+						<a href="@Url.Action("VerArticulo", new{id = articulo.ArticuloId})" class="btn btn-primary">Ver</a>
+					</td>
+					<td>
+						<a href="@Url.Action("EditarArticulo", new {id =articulo.ArticuloId})" class="btn btn-success">Actualizar</a>
+					</td>
+					<td>
+						<button class="btn btn-danger" onclick="eliminar(@articulo.ArticuloId)">Eliminar</button>
+					</td>
+
+				</tr>
+			}
+		</tbody>
+	</table>
+
+</div>

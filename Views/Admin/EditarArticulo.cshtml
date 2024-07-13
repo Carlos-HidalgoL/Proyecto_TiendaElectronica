@@ -4,63 +4,68 @@
     Layout = "_LayoutAdmin";
 }
 
-<div class="container">
-    <section class="get-in-touch">
+<div class="admin-element">
         <h1 class="title">Editar Artículo</h1>
         <form asp-action="EditarArticulo" method="post" enctype="multipart/form-data" class="contact-form row">
             <input asp-for="ArticuloId" type="hidden" />
             <input asp-for="codigoImagen" type="hidden" />
-            
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <input asp-for="Nombre" class="input-text js-input" type="text">
-                    <label class="label" asp-for="Nombre">Nombre</label>
+
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Nombre">Nombre</label>
+                    <i class="fa-solid fa-user icon"></i>
+                    <input asp-for="Nombre" class="input_field" type="text">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Nombre"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <input asp-for="Precio" class="input-text js-input" type="number">
-                    <label class="label" asp-for="Precio">Precio</label>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Precio">Precio</label>
+                    <i class="fa-solid fa-money-bill icon"></i>
+                    <input asp-for="Precio" class="input_field" type="number">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Precio"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <input asp-for="Cantidad" class="input-text js-input" type="number">
-                    <label class="label" asp-for="Cantidad">Cantidad</label>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Cantidad">Cantidad</label>
+                    <i class="fa-solid fa-arrow-up-wide-short icon"></i>
+                    <input asp-for="Cantidad" class="input_field" type="number">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Cantidad"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <input asp-for="Marca" class="input-text js-input" type="text">
-                    <label class="label" asp-for="Marca">Marca</label>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Marca">Marca</label>
+                    <i class="fa-solid fa-building icon"></i>
+                    <input asp-for="Marca" class="input_field" type="text">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Marca"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <input asp-for="Descripcion" class="input-text js-input" type="text">
-                    <label class="label" asp-for="Descripcion">Descripción</label>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Descripcion">Descripción</label>
+                    <i class="fa-solid fa-pen icon"></i>
+                    <input asp-for="Descripcion" class="input_field" type="text">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Descripcion"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <label class="label" asp-for="idCategoria">Categoría</label>
-                    <select asp-for="idCategoria" class="input-text js-input">
-                        <option value=""></option>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="idCategoria">Categoría</label>
+                    <i class="fa-solid fa-list icon"></i>
+                    <select asp-for="idCategoria" class="input_field">
+                        <option value="">Seleccione la categoría</option>
                         @foreach (var categoria in ViewBag.Categorias)
                         {
                             if (categoria.Value == Model.idCategoria.ToString())
@@ -78,17 +83,20 @@
                     <span class="error-form" asp-validation-for="idCategoria"></span>
                 </div>
             </div>
-            <div class="form-field col-lg-12">
-                <input class="submit-btn" type="submit" value="Guardar">
-            </div>
+
+            <button type="submit" class="button-send mt-5">
+                Enviar
+            </button>
         </form>
-    </section>
-    <a href="@Url.Action("ModificaImagen", new { codigoImagen = Model.codigoImagen, ArticuloID = Model.ArticuloId })" class="btn btn-primary mb-4">
-        Modificar Imágenes
-    </a>
+        <div class="text-end">
+        <p class="input_label fs-6">Modificar imagenes del Articulo</p>
+		    <a href="@Url.Action("ModificaImagen", new { codigoImagen = Model.codigoImagen, ArticuloID = Model.ArticuloId })" class="button-send mt-5 p-2 ">
+			    Modificar Imágenes
+		    </a>
+
+        </div>
 
 </div>
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
