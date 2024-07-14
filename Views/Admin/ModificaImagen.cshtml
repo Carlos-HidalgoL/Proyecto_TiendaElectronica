@@ -1,57 +1,44 @@
 ﻿@model Proyecto_TiendaElectronica.Models.Imagen
 
 @{
-    Layout = "_LayoutAdmin";
+	Layout = "_LayoutAdmin";
 }
 
 <div class="admin-element">
-    <h1 class="title">Editar Imagenes</h1>
-    <form asp-action="ModificaImagen" method="post" enctype="multipart/form-data" class="contact-form row">
-        <input asp-for="ImagenId" type="hidden" />
+	<h1 class="title">Editar Imagenes</h1>
+	<form asp-action="ModificaImagen" method="post" enctype="multipart/form-data" class="contact-form row">
 
-        <div class="form-field col-lg-4">
-            <label class="label-file" for="Imagen1">Modificar Imagen 1</label>
-            <input type="file" id="Imagen1" name="Imagen1" accept="image/jpeg, image/png" class="input-file js-input" onchange="previewImage(this, '#previewImagen1')" />
-            <div class="image-preview-container">
-                <img id="previewImagen1" src="data:image/jpeg;base64,@(Model.Imagen1 != null ? Convert.ToBase64String(Model.Imagen1) : "")" class="img-thumbnail img-uniform" />
-            </div>
-        </div>
+		<input asp-for="ImagenId" type="hidden" />
+		<div class="row mb-3 mt-3">
+			<div class="form-field col-lg-4 ">
+				<label class="label-file" for="Imagen1">Modificar Imagen 1</label>
+				<input type="file" id="Imagen1" name="Imagen1" accept="image/jpeg, image/png" class="input-file js-input" onchange="previewImage(this, '#previewImagen1')" />
+				<div class="image-preview-container">
+					<img id="previewImagen1" src="data:image/jpeg;base64,@(Model.Imagen1 != null ? Convert.ToBase64String(Model.Imagen1) : "")" class="img-thumbnail img-uniform" />
+				</div>
+			</div>
 
-        <div class="form-field col-lg-4">
-            <label class="label-file" for="Imagen2">Modificar Imagen 2</label>
-            <input type="file" id="Imagen2" name="Imagen2" accept="image/jpeg, image/png" class="input-file js-input" onchange="previewImage(this, '#previewImagen2')" />
-            <div class="image-preview-container">
-                <img id="previewImagen2" src="data:image/jpeg;base64,@(Model.Imagen2 != null ? Convert.ToBase64String(Model.Imagen2) : "")" class="img-thumbnail img-uniform" />
-            </div>
-        </div>
+			<div class="form-field col-lg-4">
+				<label class="label-file" for="Imagen2">Modificar Imagen 2</label>
+				<input type="file" id="Imagen2" name="Imagen2" accept="image/jpeg, image/png" class="input-file js-input" onchange="previewImage(this, '#previewImagen2')" />
+				<div class="image-preview-container">
+					<img id="previewImagen2" src="data:image/jpeg;base64,@(Model.Imagen2 != null ? Convert.ToBase64String(Model.Imagen2) : "")" class="img-thumbnail img-uniform" />
+				</div>
+			</div>
 
-        <div class="form-field col-lg-4">
-            <label class="label-file" for="Imagen3">Modificar Imagen 3</label>
-            <input type="file" id="Imagen3" name="Imagen3" accept="image/jpeg, image/png" class="input-file js-input" onchange="previewImage(this, '#previewImagen3')" />
-            <div class="image-preview-container">
-                <img id="previewImagen3" src="data:image/jpeg;base64,@(Model.Imagen3 != null ? Convert.ToBase64String(Model.Imagen3) : "")" class="img-thumbnail img-uniform" />
-            </div>
-        </div>
+			<div class="form-field col-lg-4">
+				<label class="label-file" for="Imagen3">Modificar Imagen 3</label>
+				<input type="file" id="Imagen3" name="Imagen3" accept="image/jpeg, image/png" class="input-file js-input" onchange="previewImage(this, '#previewImagen3')" />
+				<div class="image-preview-container">
+					<img id="previewImagen3" src="data:image/jpeg;base64,@(Model.Imagen3 != null ? Convert.ToBase64String(Model.Imagen3) : "")" class="img-thumbnail img-uniform" />
+				</div>
+			</div>
+		</div>
 
-        <div class="form-field col-lg-12 d-flex justify-content-between mt-4">
-            <input class="button-send" type="submit" value="Guardar">
-            <a href="@Url.Action("EditarArticulo", new { id = ViewBag.ArticuloId })" class="btn btn-secondary">Cancelar</a>
-        </div>
-    </form>
+		<div class="form-field col-lg-12 d-flex justify-content-between mt-4">
+			<input class="button-send" type="submit" value="Guardar">
+			<a href="@Url.Action("EditarArticulo", new { id = ViewBag.ArticuloId })" class="btn btn-secondary ">Cancelar</a>
+		</div>
+	</form>
 </div>
 
-@section Scripts {
-    <script>
-        function previewImage(input, previewClass) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $(previewClass).attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    </script>
-}

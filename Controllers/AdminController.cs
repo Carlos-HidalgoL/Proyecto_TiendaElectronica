@@ -31,102 +31,229 @@ namespace Proyecto_TiendaElectronica.Controllers
 
         }
 
+		//Controller Articulo
+		public ActionResult CrearArticulo()
+		{
+
+			var categorias = _context.Categoria.ToList();
+
+			ViewBag.Categorias = new SelectList(categorias, "CategoriaId", "Nombre");
+
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CrearArticulo(Articulo articulo)
+		{
+
+			Imagen imagen = new Imagen
+			{
+				Imagen1 = await FormFileToByteArrayAsync(articulo.Imagen1),
+				Imagen2 = await FormFileToByteArrayAsync(articulo.Imagen2),
+				Imagen3 = await FormFileToByteArrayAsync(articulo.Imagen3)
+			};
+
+			_context.Imagen.Add(imagen);
+			await _context.SaveChangesAsync();
 
 
-        public ActionResult CrearArticulo()
-        {
+			Articulo articuloNuevo = new Articulo()
+			{
+				Nombre = articulo.Nombre,
+				Precio = articulo.Precio,
+				Descripcion = articulo.Descripcion,
+				Marca = articulo.Marca,
+				Cantidad = articulo.Cantidad,
+				codigoImagen = imagen.ImagenId,
+				idCategoria = articulo.idCategoria
+			};
 
-            var categorias = _context.Categoria.ToList();
+			_context.Articulo.Add(articuloNuevo);
+			await _context.SaveChangesAsync();
 
-            ViewBag.Categorias = new SelectList(categorias, "CategoriaId", "Nombre");
-
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CrearArticulo(Articulo articulo)
-        {
-
-            Imagen imagen = new Imagen
-            {
-                Imagen1 = await FormFileToByteArrayAsync(articulo.Imagen1),
-                Imagen2 = await FormFileToByteArrayAsync(articulo.Imagen2),
-                Imagen3 = await FormFileToByteArrayAsync(articulo.Imagen3)
-            };
-
-            _context.Imagen.Add(imagen);
-            await _context.SaveChangesAsync();
+			return RedirectToAction("Index");
 
 
-            Articulo articuloNuevo = new Articulo()
-            {
-                Nombre = articulo.Nombre,
-                Precio = articulo.Precio,
-                Descripcion = articulo.Descripcion,
-                Marca = articulo.Marca,
-                Cantidad = articulo.Cantidad,
-                codigoImagen = imagen.ImagenId,
-                idCategoria = articulo.idCategoria
-            };
+			return View(articulo);
+		}
 
-            _context.Articulo.Add(articuloNuevo);
-            await _context.SaveChangesAsync();
+		private async Task<byte[]> FormFileToByteArrayAsync(IFormFile file)
+		{
+			if (file == null || file.Length == 0)
+				return null;
 
-            return RedirectToAction("Index");
+			using (var memoryStream = new MemoryStream())
+			{
+				await file.CopyToAsync(memoryStream);
+				return memoryStream.ToArray();
+			}
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> VerArticulo(int id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+			try
+			{
+				var articulo = await _context.Articulo.FindAsync(id);
+				if (articulo == null)
+				{
+					return NotFound();
+				}
+
+				var imagen = await _context.Imagen.FindAsync(articulo.codigoImagen);
+				var categoria = await _context.Categoria.FindAsync(articulo.idCategoria);
+
+				ViewBag.Imagen1 = imagen.Imagen1;
+				ViewBag.Imagen2 = imagen.Imagen2;
+				ViewBag.Imagen3 = imagen.Imagen3;
+
+				ViewBag.Categoria = categoria.Nombre.ToString();
 
 
-            return View(articulo);
-        }
+				return View(articulo);
+			}
+			catch (Exception)
+			{
+				return RedirectToAction(nameof(Articulos));
+			}
+		}
 
-        private async Task<byte[]> FormFileToByteArrayAsync(IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-                return null;
+		[HttpGet]
+		public async Task<IActionResult> EditarArticulo(int id)
+		{
+			var articulo = await _context.Articulo.FindAsync(id);
+			if (articulo == null)
+			{
+				return NotFound();
+			}
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
-                return memoryStream.ToArray();
-            }
-        }
 
-        [HttpGet]
-        public async Task<IActionResult> VerArticulo(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            try
-            {
+			var categorias = _context.Categoria.ToList();
+			ViewBag.Categorias = new SelectList(categorias, "CategoriaId", "Nombre");
 
-                if (int.TryParse(id, out int articuloId))
-                {
-                    var articulo = await _context.Articulo.FindAsync(articuloId);
+			return View(articulo);
+		}
 
-                    if (articulo == null)
-                    {
-                        return NotFound();
-                    }
+		[HttpPost]
+		public async Task<IActionResult> EditarArticulo(Articulo articulo)
+		{
+			Articulo articuloDB = new Articulo
+			{
+				ArticuloId = articulo.ArticuloId,
+				Nombre = articulo.Nombre,
+				Descripcion = articulo.Descripcion,
+				Marca = articulo.Marca,
+				Precio = articulo.Precio,
+				Cantidad = articulo.Cantidad,
+				idCategoria = articulo.idCategoria,
+				codigoImagen = articulo.codigoImagen,
+			};
 
-                    return View(articulo);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception)
-            {
-                return RedirectToAction(nameof(Articulos));
-            }
 
-        }
 
-            //Controllers de Usuario
+			try
+			{
+				_context.Articulo.Update(articuloDB);
+				await _context.SaveChangesAsync();
 
-            [HttpGet]
+
+				return RedirectToAction(nameof(Articulos));
+			}
+
+			catch (Exception)
+			{
+				return View(articuloDB);
+			}
+
+		}
+		[HttpGet]
+		public async Task<IActionResult> ModificaImagen(int codigoImagen, int ArticuloID)
+		{
+			var Imagen = await _context.Imagen.FindAsync(codigoImagen);
+
+			if (Imagen == null)
+			{
+				return NotFound();
+			}
+			ViewBag.ArticuloId = ArticuloID;
+			return View(Imagen);
+		}
+		[HttpPost]
+		public async Task<IActionResult> ModificaImagen(Imagen imagen, IFormFile Imagen1, IFormFile Imagen2, IFormFile Imagen3)
+		{
+
+			var Imagen = await _context.Imagen.FindAsync(imagen.ImagenId);
+			if (Imagen1 != null)
+			{
+				using (var memoryStream = new MemoryStream())
+				{
+					await Imagen1.CopyToAsync(memoryStream);
+					Imagen.Imagen1 = memoryStream.ToArray();
+				}
+			}
+
+			if (Imagen2 != null)
+			{
+				using (var memoryStream = new MemoryStream())
+				{
+					await Imagen2.CopyToAsync(memoryStream);
+					Imagen.Imagen2 = memoryStream.ToArray();
+				}
+			}
+
+			if (Imagen3 != null)
+			{
+				using (var memoryStream = new MemoryStream())
+				{
+					await Imagen3.CopyToAsync(memoryStream);
+					Imagen.Imagen3 = memoryStream.ToArray();
+				}
+			}
+
+			_context.Update(Imagen);
+			await _context.SaveChangesAsync();
+			return RedirectToAction("Articulos");
+
+		}
+
+		public async Task<IActionResult> EliminarArticulo(int id)
+		{
+			if (id == null)
+			{
+				return Json(new { success = false, message = "ID de Articulo no proporcionado." });
+			}
+
+			try
+			{
+				var articulo = await _context.Articulo.FindAsync(id);
+
+				if (articulo == null)
+				{
+					return Json(new { success = false, message = "articulo no encontrado." });
+				}
+				_context.Articulo.Remove(articulo);
+
+				_context.SaveChanges();
+
+				return Json(new { success = true, message = "Articulo eliminado con éxito." });
+			}
+			catch (Exception)
+			{
+				return Json(new { success = false, message = "Ocurrió un error al eliminar el articulo." });
+			}
+
+
+
+		}
+
+		//Controllers de Usuario
+
+		[HttpGet]
         public async Task<IActionResult> Usuarios() {
 
             var usuarios = await _context.Usuario.ToListAsync();

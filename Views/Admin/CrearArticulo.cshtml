@@ -15,7 +15,7 @@
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="input_container">
                     <label class="input_label" asp-for="Nombre">Nombre</label>
-                    <i class="fa-solid fa-user icon"></i>
+                    <i class="fa-solid fa-laptop icon"></i>
                     <input asp-for="Nombre" class="input_field" type="text">
                 </div>
                 <div class="text-center text-break">
@@ -131,34 +131,7 @@
     </form>
 </div>
 
-<script>
-    document.getElementById('Imagen1').addEventListener('change', function (event) {
-        displayImagePreview(event, 'preview1');
-    });
 
-    document.getElementById('Imagen2').addEventListener('change', function (event) {
-        displayImagePreview(event, 'preview2');
-    });
-
-    document.getElementById('Imagen3').addEventListener('change', function (event) {
-        displayImagePreview(event, 'preview3');
-    });
-
-    function displayImagePreview(event, previewId) {
-        const input = event.target;
-        const file = input.files[0];
-        const preview = document.getElementById(previewId);
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

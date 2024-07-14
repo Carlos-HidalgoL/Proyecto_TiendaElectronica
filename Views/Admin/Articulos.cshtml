@@ -4,7 +4,7 @@
 	Layout = "_LayoutAdmin";
 }
 
-<h2 class="mb-3">Usuarios</h2>
+<h2 class="mb-3">Articulos</h2>
 
 <div class="admin-element">
 	<a href="@Url.Action("CrearArticulo")" class="btn btn-primary mb-4">
@@ -37,7 +37,7 @@
 						<a href="@Url.Action("EditarArticulo", new {id =articulo.ArticuloId})" class="btn btn-success">Actualizar</a>
 					</td>
 					<td>
-						<button class="btn btn-danger" onclick="eliminar(@articulo.ArticuloId)">Eliminar</button>
+						<button class="btn btn-danger" onclick="eliminar(@articulo.ArticuloId, '/Admin/EliminarArticulo')">Eliminar</button>
 					</td>
 
 				</tr>
