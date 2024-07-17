@@ -1,10 +1,18 @@
 using Microsoft.EntityFrameworkCore;
+using Proyecto_TiendaElectronica.ModelBinder;
 using Proyecto_TiendaElectronica.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add services to the container.
+builder.Services.AddControllersWithViews(
+    options => {
+        options.ModelBinderProviders.Insert(0, new CustomModelBinderProvider());
+    }
+);
 
 var connectionString = builder.Configuration.GetConnectionString("Server=localhost;Database=TiendaElectronica;Trusted_Connection=True;TrustServerCertificate=True;");
 

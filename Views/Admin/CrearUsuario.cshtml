@@ -18,7 +18,7 @@
                 <div class="input_container">
                     <label class="input_label" asp-for="UsuarioId">Cédula</label>
                     <i class="fa-solid fa-id-card icon"></i>
-                    <input placeholder="123456789"  type="text" class="input_field" asp-for="UsuarioId">
+                    <input placeholder="123456789"  type="number" class="input_field" asp-for="UsuarioId">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="UsuarioId"></span>
@@ -98,7 +98,6 @@
                 <label class="input_label" asp-for="Estado"></label>
                 <i class="fa-solid fa-user-gear icon"></i>
                 <select asp-for="Estado" class="input_field">
-                    <option class="select_item">Seleccionar el Estado</option>
                     <option class="select_item" value="true">Activo</option>
                     <option class="select_item" value="false">Inactivo</option>
                 </select>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_TiendaElectronica.Models;
 using Proyecto_TiendaElectronica.wwwroot.funtions;
+using Proyecto_TiendaElectronica.ModelBinder;
 
 namespace Proyecto_TiendaElectronica.Controllers
 {
@@ -235,14 +236,21 @@ namespace Proyecto_TiendaElectronica.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditarUsuario(Usuario usuario)
+        public async Task<IActionResult> EditarUsuario([ModelBinder(BinderType = typeof(ModelBinder.UsuarioModelBinder))]Usuario usuario)
         {
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Usuario.Update(usuario);
+
+                    var obtenido = await _context.Usuario.FirstOrDefaultAsync(u => u.UsuarioId == usuario.UsuarioId);
+
+                    obtenido.Nombre = usuario.Nombre;
+                    obtenido.Telefono = usuario.Telefono;
+                    obtenido.Estado = usuario.Estado;
+                    obtenido.Rol = usuario.Rol;
+                    obtenido.Correo = usuario.Correo;
                     await _context.SaveChangesAsync();
 
 
