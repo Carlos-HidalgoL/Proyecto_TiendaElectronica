@@ -10,11 +10,11 @@ namespace Proyecto_TiendaElectronica.Models
 
         public DateTime UltimaFechaImpresion { get; set; }
 
+        public decimal SubTotal { get; set; }
+
+        public decimal MontoTotal { get; set; }
+
         public string IdUsuario { get; set; }
-
-        public int idDetalleFactura { get; set; }
-
-        public DetalleFactura DetalleFactura { get; set; }
 
         public Usuario Usuario { get; set; }   
 

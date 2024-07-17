@@ -4,39 +4,27 @@ function changeMainImage(imageSrc) {
     mainImage.src = 'data:image;base64,' + imageSrc;
 }
 
-function agregarAlCarrito(id, nombre, precio, imagen) {
+function agregarAlCarrito(id, nombre, precio, imagen, stock) {
+    
     const cantidad = parseInt(document.getElementById("cantidad").value);
-    const stock = parseInt(document.getElementById("stock").innerText);
+    const stockDisponible = parseInt(document.getElementById("stock").innerText);
 
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-    // Verificar si el artículo ya está en el carrito
     let articuloExistente = carrito.find(item => item.id === id);
     let cantidadEnCarrito = articuloExistente ? articuloExistente.cantidad : 0;
-    let cantidadDisponible = stock - cantidadEnCarrito;
+    let cantidadDisponible = stockDisponible - cantidadEnCarrito;
 
     if (cantidad > cantidadDisponible) {
-        if (cantidadDisponible > 0) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Cantidad excedida',
-                text: `Solo puedes agregar ${cantidadDisponible} más al carrito.`,
-                confirmButtonText: 'Entendido',
-                customClass: {
-                    confirmButton: 'my-custom-button-purple' 
-                }
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Stock insuficiente',
-                text: 'Ya no puedes agregar más de este artículo al carrito.',
-                confirmButtonText: 'Entendido',
-                customClass: {
-                    confirmButton: 'my-custom-button' 
-                }
-            });
-        }
+        Swal.fire({
+            icon: 'warning',
+            title: 'Cantidad excedida',
+            text: `Solo puedes agregar ${cantidadDisponible} más al carrito.`,
+            confirmButtonText: 'Entendido',
+            customClass: {
+                confirmButton: 'my-custom-button-purple'
+            }
+        });
         return;
     }
 
@@ -45,7 +33,8 @@ function agregarAlCarrito(id, nombre, precio, imagen) {
         nombre: nombre,
         precio: precio,
         cantidad: cantidad,
-        imagen: imagen
+        imagen: imagen,
+        stock: stockDisponible  
     };
 
     if (articuloExistente) {
@@ -62,7 +51,7 @@ function agregarAlCarrito(id, nombre, precio, imagen) {
         text: 'El artículo ha sido agregado al carrito.',
         confirmButtonText: 'OK',
         customClass: {
-            confirmButton: 'my-custom-button-purple' 
+            confirmButton: 'my-custom-button-purple'
         }
     }).then(() => {
         location.reload();
@@ -70,7 +59,6 @@ function agregarAlCarrito(id, nombre, precio, imagen) {
 
     console.log('Carrito actualizado:', carrito);
 }
-
 
 function agregarProductoAlCarrito(id, nombre, precio, imagen, stock) {
     stock = parseInt(stock); 
