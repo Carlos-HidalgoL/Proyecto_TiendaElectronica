@@ -70,3 +70,36 @@ function actualizarCantidad(id, nuevaCantidad) {
 
     mostrarCarrito();
 }
+
+
+function guardarCarrito() {
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    let carritoSinImagen = carrito.map(articulo => {
+        // Crear un nuevo objeto con solo las propiedades necesarias
+        return {
+            id: articulo.id,
+            nombre: articulo.nombre,
+            precio: articulo.precio,
+            cantidad: articulo.cantidad
+            // Puedes agregar más propiedades según sea necesario
+        };
+    });
+
+    console.log('Iniciando proceso de guardar carrito...');
+
+    console.log(JSON.stringify(carritoSinImagen));
+
+    $.ajax({
+        url: '/Home/GuardarCarrito',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(carrito),
+        success: function (response) {
+            console.log('Carrito guardado correctamente.');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error('Error al guardar el carrito:', textStatus, errorThrown);
+        }
+    });
+}

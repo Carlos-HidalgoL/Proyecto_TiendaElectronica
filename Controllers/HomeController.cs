@@ -74,9 +74,75 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 
+        [HttpPost]
+        public IActionResult GuardarCarrito([FromBody] List<Articulo> carrito)
+        {
+            if (carrito == null || carrito.Count == 0)
+            {
+                return BadRequest("El carrito está vacío.");
+            }
 
-       
-        public IActionResult Privacy()
+            try
+            {
+                // Crear una nueva instancia de Factura
+                var nuevaFactura = new Factura
+                {
+                    FechaCrecion = DateTime.Now,
+                    UltimaFechaImpresion = DateTime.Now,
+                    SubTotal = calcularSubTotal(carrito),
+                    MontoTotal = calcularMontoTotal(carrito),
+                    IdUsuario = "1" // Aquí deberías tener la lógica para obtener el Id del usuario actual
+                };
+
+                // Guardar la nueva factura en la base de datos
+                _context.Factura.Add(nuevaFactura);
+                _context.SaveChanges();
+
+                // Guardar cada artículo de la factura en la tabla ArticuloFactura
+                foreach (var articulo in carrito)
+                {
+                    var articuloFactura = new ArticuloFactura
+                    {
+                        idFactura = nuevaFactura.FacturaId,
+                        idArticulo = articulo.ArticuloId,
+                        CantidadArticulo = articulo.Cantidad
+                    };
+
+                    _context.ArticuloFactura.Add(articuloFactura);
+                }
+
+                _context.SaveChanges();
+
+                return Ok("Factura creada correctamente.");
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción y devolver un error
+                return StatusCode(500, $"Error al guardar la factura: {ex.Message}");
+            }
+        }
+
+        private decimal calcularSubTotal(List<Articulo> carrito)
+        {
+            decimal subtotal = 0;
+            foreach (var articulo in carrito)
+            {
+                subtotal += articulo.Precio * articulo.Cantidad;
+            }
+            return subtotal;
+        }
+
+        private decimal calcularMontoTotal(List<Articulo> carrito)
+        {
+            decimal subtotal = calcularSubTotal(carrito);
+            decimal iva = subtotal * 0.13m;
+            return subtotal + iva;
+        }
+    
+
+
+
+    public IActionResult Privacy()
         {
             return View();
         }

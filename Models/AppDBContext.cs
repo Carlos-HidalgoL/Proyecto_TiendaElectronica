@@ -15,7 +15,6 @@ namespace Proyecto_TiendaElectronica.Models
         public DbSet<Factura> Factura { get; set; }
         public DbSet<Articulo> Articulo { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
-        public DbSet<DetalleFactura> DetalleFactura { get; set; }
         public DbSet<ArticuloFactura> ArticuloFactura { get; set; }
         public DbSet<Imagen> Imagen { get; set; }
 
