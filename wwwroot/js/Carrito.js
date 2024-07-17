@@ -8,16 +8,14 @@ function mostrarCarrito() {
     const carritoBody = document.getElementById('carrito-body');
     carritoBody.innerHTML = '';
 
-     let subtotal = 0;
+    let subtotal = 0;
 
     carrito.forEach(function (item) {
-   
         let precio = parseInt(item.precio);
-
         let total = precio * item.cantidad;
         subtotal += total;
-        let newRow = document.createElement('tr');
 
+        let newRow = document.createElement('tr');
         newRow.innerHTML = `
             <td>
                 <div class="d-flex align-items-center">
@@ -29,14 +27,13 @@ function mostrarCarrito() {
             </td>
             <td class="align-middle text-white">${item.precio}</td>
             <td class="align-middle">
-                <input type="number" class="form-control text-center" min="1" value="${item.cantidad}" onchange="actualizarCantidad(${item.id}, this.value)">
+                <input type="number" class="form-control text-center" min="1" max="${item.stock}" value="${item.cantidad}" onchange="actualizarCantidad(${item.id}, this.value)">
             </td>
             <td class="align-middle text-white">${total}</td>
             <td class="align-middle">
                 <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${item.id})">Eliminar</button>
             </td>
         `;
-
         carritoBody.appendChild(newRow);
     });
 
