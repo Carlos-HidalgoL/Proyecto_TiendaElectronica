@@ -72,7 +72,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 			_context.Articulo.Add(articuloNuevo);
 			await _context.SaveChangesAsync();
 
-			return RedirectToAction("Index");
+			return RedirectToAction("Articulos");
 
 
 			return View(articulo);
