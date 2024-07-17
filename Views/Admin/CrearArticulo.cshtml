@@ -3,60 +3,75 @@
 }
 @model Proyecto_TiendaElectronica.Models.Articulo
 
-<div class="container">
-    <section class="get-in-touch">
-        <h1 class="title">Nuevo Articulo</h1>
-        <form asp-action="CrearArticulo" enctype="multipart/form-data" class="contact-form row">
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <input asp-for="Nombre" class="input-text js-input" type="text">
-                    <label class="label" asp-for="Nombre">Nombre</label>
+<div class="visually-hidden" id="error">
+    @ViewBag.Error
+</div>
+
+<h2 class="mb-3">Crear Articulo</h2>
+
+<div class="admin-element">
+    <form asp-action="CrearArticulo" method="post" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Nombre">Nombre</label>
+                    <i class="fa-solid fa-laptop icon"></i>
+                    <input asp-for="Nombre" class="input_field" type="text">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Nombre"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <input asp-for="Precio" class="input-text js-input" type="number">
-                    <label class="label" asp-for="Precio">Precio</label>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Precio">Precio</label>
+                    <i class="fa-solid fa-money-bill icon"></i>
+                    <input asp-for="Precio" class="input_field" type="number">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Precio"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <input asp-for="Cantidad" class="input-text js-input" type="number">
-                    <label class="label" asp-for="Cantidad">Cantidad</label>
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Cantidad">Cantidad</label>
+                    <i class="fa-solid fa-arrow-up-wide-short icon"></i>
+                    <input asp-for="Cantidad" class="input_field" type="number">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Cantidad"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <input asp-for="Marca" class="input-text js-input" type="text">
-                    <label class="label" asp-for="Marca">Marca</label>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Marca">Marca</label>
+                    <i class="fa-solid fa-building icon"></i>
+                    <input asp-for="Marca" class="input_field" type="text">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Marca"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <input asp-for="Descripcion" class="input-text js-input" type="text">
-                    <label class="label" asp-for="Descripcion">Descripcion</label>
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Descripcion">Descripcion</label>
+                    <i class="fa-solid fa-pen icon"></i>
+                    <input asp-for="Descripcion" class="input_field" type="text">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Descripcion"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <label class="label" asp-for="idCategoria">Categoría</label>
-                    <select asp-for="idCategoria" class="input-text js-input">
-                        <option value=""></option>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="idCategoria">Categoría</label>
+                    <i class="fa-solid fa-list icon"></i>
+                    <select asp-for="idCategoria" class="input_field">
+                        <option value="">Seleccione la categoria</option>
                         @if (ViewBag.Categorias != null)
                         {
                             @foreach (var categoria in ViewBag.Categorias)
@@ -74,65 +89,49 @@
                     <span class="error-form" asp-validation-for="idCategoria"></span>
                 </div>
             </div>
+        </div>
+
+        <div class="row mb-3 mt-5">
             <div class="form-field col-lg-4">
-                <label class="label-file" for="Imagen1">Seleccionar Imagen 1</label>
-                <input asp-for="Imagen1" type="file" accept="image/*" class="input-file js-input">
-                <img id="preview1" class="img-preview" />
+                <div class="input_container">
+                    <label class="label-file" for="Imagen1">Seleccionar Imagen 1</label>
+                    <input asp-for="Imagen1" type="file" accept="image/*" class="input-file js-input">
+                    <img id="preview1" class="img-preview" />
+                </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Imagen1"></span>
                 </div>
             </div>
             <div class="form-field col-lg-4">
-                <label class="label-file" for="Imagen2">Seleccionar Imagen 2</label>
-                <input asp-for="Imagen2" type="file" accept="image/*" class="input-file js-input">
-                <img id="preview2" class="img-preview" />
+                <div class="input_container">
+                    <label class="label-file" for="Imagen2">Seleccionar Imagen 2</label>
+                    <input asp-for="Imagen2" type="file" accept="image/*" class="input-file js-input">
+                    <img id="preview2" class="img-preview" />
+                </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Imagen2"></span>
                 </div>
             </div>
             <div class="form-field col-lg-4">
-                <label class="label-file" for="Imagen3">Seleccionar Imagen 3</label>
-                <input asp-for="Imagen3" type="file" accept="image/*" class="input-file js-input">
-                <img id="preview3" class="img-preview" />
+                <div class="input_container">
+                    <label class="label-file" for="Imagen3">Seleccionar Imagen 3</label>
+                    <input asp-for="Imagen3" type="file" accept="image/*" class="input-file js-input">
+                    <img id="preview3" class="img-preview" />
+                </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Imagen3"></span>
                 </div>
             </div>
-            <div class="form-field col-lg-12">
-                <input class="submit-btn" type="submit" value="Enviar">
-            </div>
-        </form>
-    </section>
+        </div>
+
+        <div class="input_container col-lg-12">
+            <input class="button-send" type="submit" value="Enviar">
+        </div>
+
+    </form>
 </div>
 
-<script>
-    document.getElementById('Imagen1').addEventListener('change', function (event) {
-        displayImagePreview(event, 'preview1');
-    });
 
-    document.getElementById('Imagen2').addEventListener('change', function (event) {
-        displayImagePreview(event, 'preview2');
-    });
-
-    document.getElementById('Imagen3').addEventListener('change', function (event) {
-        displayImagePreview(event, 'preview3');
-    });
-
-    function displayImagePreview(event, previewId) {
-        const input = event.target;
-        const file = input.files[0];
-        const preview = document.getElementById(previewId);
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

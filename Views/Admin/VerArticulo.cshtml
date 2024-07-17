@@ -4,52 +4,75 @@
     Layout = "_LayoutAdmin";
 }
 
-<section class="get-in-touch">
-    <h1 class="title">Información del Articulo</h1>
-    <div class="contact-form row">
-        <div class="col-lg-6">
-            <div class="form-field">
-                <input asp-for="Nombre" class="input-text js-input" type="text" readonly>
-                <label class="label" asp-for="Nombre">Nombre</label>
+<h2 class="mb-3">Información del Articulo</h2>
+
+<div class="admin-element">
+    <div class="row mb-3">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="input_container">
+                <label class="input_label" asp-for="Nombre">Nombre</label>
+                <i class="fa-solid fa-laptop icon"></i>
+                <input asp-for="Nombre" class="input_field" type="text" readonly>
+
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="form-field">
-                <input asp-for="Descripcion" class="input-text js-input" type="text" readonly>
-                <label class="label" asp-for="Descripcion">Descripcion</label>
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="input_container">
+				<label class="input_label" asp-for="Descripcion">Descripcion</label>
+                <i class="fa-solid fa-pen icon"></i>
+                <input asp-for="Descripcion" class="input_field" type="text" readonly>
+                
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="form-field">
-                <input asp-for="Precio" class="input-text js-input" type="number" readonly>
-                <label class="label" asp-for="Precio">Precio</label>
+    </div>
+    <div class="row mb-3">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="input_container">
+				<label class="input_label" asp-for="Precio">Precio</label>
+                <i class="fa-solid fa-money-bill icon"></i>
+                <input asp-for="Precio" class="input_field" type="number" readonly>
+
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="form-field">
-                <input asp-for="Marca" class="input-text js-input" type="text" readonly>
-                <label class="label" asp-for="Marca">Marca</label>
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="input_container">
+				<label class="input_label" asp-for="Marca">Marca</label>
+                <i class="fa-solid fa-building icon"></i>
+                <input asp-for="Marca" class="input_field" type="text" readonly>
+
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="form-field">
-                <input asp-for="Cantidad" class="input-text js-input" type="number" readonly>
-                <label class="label" asp-for="Cantidad">Cantidad</label>
+    </div>
+    <div class="row mb-3">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="input_container">
+				<label class="input_label" asp-for="Cantidad">Cantidad</label>
+                <i class="fa-solid fa-arrow-up-wide-short icon"></i>
+                <input asp-for="Cantidad" class="input_field" type="number" readonly>
             </div>
         </div>
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="input_container">
+                <label class="input_label" asp-for="Categoria">Categoría</label>
+                <i class="fa-solid fa-list icon icon"></i>
+                <input asp-for="Categoria" class="input_field" type="text" value="@ViewBag.Categoria" readonly>
+            </div>
+        </div>
+
+
+    </div>
         <div class="col-lg-12">
-            <h2>Imágenes</h2>
-            <div class="form-field">
-                <label class="label">Imagen 1</label>
-                <img src="@(Model.Imagen?.Imagen1 != null ? $"data:image;base64,{Convert.ToBase64String(Model.Imagen.Imagen1)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail" />
-            </div>
-            <div class="form-field">
-                <label class="label">Imagen 2</label>
-                <img src="@(Model.Imagen?.Imagen2 != null ? $"data:image;base64,{Convert.ToBase64String(Model.Imagen.Imagen2)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail" />
-            </div>
-            <div class="form-field">
-                <label class="label">Imagen 3</label>
-                <img src="@(Model.Imagen?.Imagen3 != null ? $"data:image;base64,{Convert.ToBase64String(Model.Imagen.Imagen3)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail" />
+            <h3>Imágenes</h3>
+            <div class="form-field row">
+                <div class="col-lg-4">
+                    <img src="@(ViewBag.Imagen1 != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(ViewBag.Imagen1)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail img-uniform" />
+                </div>
+                <div class="col-lg-4">
+                    <img src="@(ViewBag.Imagen2 != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(ViewBag.Imagen2)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail img-uniform" />
+                </div>
+                <div class="col-lg-4">
+                    <img src="@(ViewBag.Imagen3 != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(ViewBag.Imagen3)}" : Url.Content("~/images/no-image.png"))" class="img-thumbnail img-uniform" />
+                </div>
             </div>
         </div>
     </div>
