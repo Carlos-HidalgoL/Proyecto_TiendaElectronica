@@ -6,7 +6,7 @@ namespace Proyecto_TiendaElectronica.Models
     {
         [Key]
         public int FacturaId { get; set; }
-        public DateTime FechaCrecion { get; set; }
+        public DateTime FechaCreacion { get; set; }
 
         public DateTime UltimaFechaImpresion { get; set; }
 
@@ -14,7 +14,7 @@ namespace Proyecto_TiendaElectronica.Models
 
         public decimal MontoTotal { get; set; }
 
-        public string IdUsuario { get; set; }
+        public string UsuarioId { get; set; }
 
         public Usuario Usuario { get; set; }   
 

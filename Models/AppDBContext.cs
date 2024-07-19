@@ -31,5 +31,6 @@ namespace Proyecto_TiendaElectronica.Models
                 Console.WriteLine("Cayo en el error: " + ex.ToString());
             }
         }
+
     }
 }

@@ -19,18 +19,11 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 
        
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             
-            var articulos = _context.Articulo.ToList();
-            var imagenes = _context.Imagen.ToList();
-
-            foreach (var articulo in articulos)
-            {
-                articulo.Imagen = imagenes.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
-            }
-
-
+            var articulos = await _context.Articulo.Include("Imagen").Include("Categoria").ToListAsync();
+            
             return View(articulos);
         }
 		public IActionResult Tienda()
@@ -48,18 +41,17 @@ namespace Proyecto_TiendaElectronica.Controllers
 			return View(articulos);
 		}
 
-		public IActionResult Producto(int id)
-		{
-			var articulo = _context.Articulo.FirstOrDefault(a => a.ArticuloId == id);
-			if (articulo == null)
-			{
-				return NotFound();
-			}
+		public async Task<IActionResult> Producto(int id)
+		{   
+            
 
-			var imagen = _context.Imagen.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
-			articulo.Imagen = imagen;
+			var articulo = await _context.Articulo.Include("Imagen").Include("Categoria").FirstOrDefaultAsync( art => art.ArticuloId == id );
 
-			return View(articulo);
+            var articulosSimilares = await _context.Articulo.Include("Categoria").Include("Imagen").Where( art => art.idCategoria == articulo.idCategoria && art.ArticuloId != articulo.ArticuloId).ToListAsync();
+			
+            ViewBag.Articulos = articulosSimilares;
+
+            return View(articulo);
 		}
 
 
@@ -75,7 +67,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
         [HttpPost]
-        public IActionResult GuardarCarrito([FromBody] List<Articulo> carrito)
+        public async Task<IActionResult> GuardarCarrito([FromBody] List<Articulo> carrito)
         {
             if (carrito == null || carrito.Count == 0)
             {
@@ -84,21 +76,21 @@ namespace Proyecto_TiendaElectronica.Controllers
 
             try
             {
-                // Crear una nueva instancia de Factura
+                var usuario = await _context.Usuario.FirstOrDefaultAsync( u => u.UsuarioId == "123456789");
                 var nuevaFactura = new Factura
                 {
-                    FechaCrecion = DateTime.Now,
-                    UltimaFechaImpresion = DateTime.Now,
+                    FechaCreacion = DateTime.Now,
                     SubTotal = calcularSubTotal(carrito),
                     MontoTotal = calcularMontoTotal(carrito),
-                    IdUsuario = "1" // Aquí deberías tener la lógica para obtener el Id del usuario actual
+                    UsuarioId = "123456789"
                 };
 
-                // Guardar la nueva factura en la base de datos
-                _context.Factura.Add(nuevaFactura);
-                _context.SaveChanges();
+                nuevaFactura.Usuario = usuario;
 
-                // Guardar cada artículo de la factura en la tabla ArticuloFactura
+                _context.Factura.Add(nuevaFactura);
+                //Se guarda aquí y no al final por que se necesita el id que se genera
+                await _context.SaveChangesAsync();
+
                 foreach (var articulo in carrito)
                 {
                     var articuloFactura = new ArticuloFactura
@@ -111,13 +103,12 @@ namespace Proyecto_TiendaElectronica.Controllers
                     _context.ArticuloFactura.Add(articuloFactura);
                 }
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
-                return Ok("Factura creada correctamente.");
+                return Ok("Ok");
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un error
                 return StatusCode(500, $"Error al guardar la factura: {ex.Message}");
             }
         }
