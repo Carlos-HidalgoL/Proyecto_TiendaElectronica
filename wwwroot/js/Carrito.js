@@ -1,8 +1,8 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿$(document).ready(() => {
     mostrarCarrito();
 });
 
-function mostrarCarrito() {
+const mostrarCarrito = () => {
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
     const carritoBody = document.getElementById('carrito-body');
@@ -43,7 +43,7 @@ function mostrarCarrito() {
     document.getElementById('total').textContent = `₡${(subtotal + iva).toFixed(2)}`;
 }
 
-function eliminarProducto(id) {
+const eliminarProducto = (id) => {
     console.log('Eliminando producto con id:', id);
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     let nuevoCarrito = carrito.filter(item => item.id !== String(id));
@@ -51,10 +51,10 @@ function eliminarProducto(id) {
     localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
 
     mostrarCarrito();
-}
+};
 
 
-function actualizarCantidad(id, nuevaCantidad) {
+const actualizarCantidad = (id, nuevaCantidad) => {
     console.log('Actualizando cantidad del producto con id:', id, 'nueva cantidad:', nuevaCantidad);
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     carrito.forEach(item => {
@@ -69,34 +69,45 @@ function actualizarCantidad(id, nuevaCantidad) {
 }
 
 
-function guardarCarrito() {
-    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+const guardarCarrito = () => {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-    let carritoSinImagen = carrito.map(articulo => {
-        // Crear un nuevo objeto con solo las propiedades necesarias
+    const carritoSinImagen = carrito.map(articulo => {
         return {
-            id: articulo.id,
-            nombre: articulo.nombre,
-            precio: articulo.precio,
-            cantidad: articulo.cantidad
-            // Puedes agregar más propiedades según sea necesario
+            ArticuloId: parseInt(articulo.id),
+            Nombre: articulo.nombre,
+            Precio: parseFloat(articulo.precio),
+            Cantidad: articulo.cantidad
         };
     });
 
     console.log('Iniciando proceso de guardar carrito...');
 
-    console.log(JSON.stringify(carritoSinImagen));
+    console.log(carritoSinImagen);
 
     $.ajax({
         url: '/Home/GuardarCarrito',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(carrito),
+        data: JSON.stringify(carritoSinImagen),
         success: function (response) {
-            console.log('Carrito guardado correctamente.');
+            Swal.fire({
+                title: "¡Exitó!",
+                text: "Su compra se ha realizado",
+                icon: "success",
+                confirmButtonColor: "#3085d6"
+            }).then((result) => {
+                localStorage.clear();
+                mostrarCarrito();
+            })
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.error('Error al guardar el carrito:', textStatus, errorThrown);
+            Swal.fire({
+                title: "¡Error!",
+                text: "Ha ocurrido un error al realizar la transacción",
+                icon: "error",
+                confirmButtonColor: "#3085d6"
+            });
         }
     });
 }
