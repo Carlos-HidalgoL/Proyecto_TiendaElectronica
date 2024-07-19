@@ -135,6 +135,40 @@ a {
 
 
 
+/* Estilos para el menú desplegable */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: var(--negro);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    text-align: left;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+}
+
+.sub_categoria {
+    color: var(--grisOscuro) !important;
+    color: var(--blancoHueso) !important;
+}
+
+.dropdown-menu li {
+    padding: 10px;
+}
+
+    .dropdown-menu li:hover {
+        background-color: var(--rojo);
+        border-radius: 10px;
+    }
+
+        .dropdown-menu li:hover a {
+            color: var(--negro) !important;
+        }
+/* Mostrar el menú desplegable al pasar el mouse */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
 
 
 
