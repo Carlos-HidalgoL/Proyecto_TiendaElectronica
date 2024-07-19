@@ -19,18 +19,11 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 
        
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             
-            var articulos = _context.Articulo.ToList();
-            var imagenes = _context.Imagen.ToList();
-
-            foreach (var articulo in articulos)
-            {
-                articulo.Imagen = imagenes.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
-            }
-
-
+            var articulos = await _context.Articulo.Include("Imagen").Include("Categoria").ToListAsync();
+            
             return View(articulos);
         }
 		public IActionResult Tienda()
@@ -48,18 +41,17 @@ namespace Proyecto_TiendaElectronica.Controllers
 			return View(articulos);
 		}
 
-		public IActionResult Producto(int id)
-		{
-			var articulo = _context.Articulo.FirstOrDefault(a => a.ArticuloId == id);
-			if (articulo == null)
-			{
-				return NotFound();
-			}
+		public async Task<IActionResult> Producto(int id)
+		{   
+            
 
-			var imagen = _context.Imagen.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
-			articulo.Imagen = imagen;
+			var articulo = await _context.Articulo.Include("Imagen").Include("Categoria").FirstOrDefaultAsync( art => art.ArticuloId == id );
 
-			return View(articulo);
+            var articulosSimilares = await _context.Articulo.Include("Categoria").Include("Imagen").Where( art => art.idCategoria == articulo.idCategoria && art.ArticuloId != articulo.ArticuloId).ToListAsync();
+			
+            ViewBag.Articulos = articulosSimilares;
+
+            return View(articulo);
 		}
 
 

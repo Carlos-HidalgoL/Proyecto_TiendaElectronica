@@ -25,7 +25,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
         public async Task<IActionResult> Articulos() {
 
-            var articulos = await _context.Articulo.Include("Categoria").Include("Imagen").ToListAsync();
+            var articulos = await _context.Articulo.Include("Categoria").Include("Imagen").Take(10).ToListAsync();
             ViewBag.Pagina = "Articulos";
 
             return View(articulos);
