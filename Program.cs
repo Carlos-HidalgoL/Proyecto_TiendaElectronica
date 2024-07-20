@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_TiendaElectronica.ModelBinder;
 using Proyecto_TiendaElectronica.Models;
+using Proyecto_TiendaElectronica.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,10 @@ builder.Services.AddControllersWithViews(
 var connectionString = builder.Configuration.GetConnectionString("Server=localhost;Database=TiendaElectronica;Trusted_Connection=True;TrustServerCertificate=True;");
 
 builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddIdentity<Usuario, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<AppDBContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 

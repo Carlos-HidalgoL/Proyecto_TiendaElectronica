@@ -44,7 +44,6 @@ namespace Proyecto_TiendaElectronica.Controllers
 		public async Task<IActionResult> Producto(int id)
 		{   
             
-
 			var articulo = await _context.Articulo.Include("Imagen").Include("Categoria").FirstOrDefaultAsync( art => art.ArticuloId == id );
 
             var articulosSimilares = await _context.Articulo.Include("Categoria").Include("Imagen").Where( art => art.idCategoria == articulo.idCategoria && art.ArticuloId != articulo.ArticuloId).ToListAsync();
@@ -76,7 +75,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
             try
             {
-                var usuario = await _context.Usuario.FirstOrDefaultAsync( u => u.UsuarioId == "123456789");
+                var usuario = await _context.Usuario.FirstOrDefaultAsync( u => u.Id == "123456789");
                 var nuevaFactura = new Factura
                 {
                     FechaCreacion = DateTime.Now,
@@ -85,7 +84,7 @@ namespace Proyecto_TiendaElectronica.Controllers
                     UsuarioId = "123456789"
                 };
 
-                nuevaFactura.Usuario = usuario;
+                //nuevaFactura.Usuario = usuario;
 
                 _context.Factura.Add(nuevaFactura);
                 //Se guarda aquí y no al final por que se necesita el id que se genera

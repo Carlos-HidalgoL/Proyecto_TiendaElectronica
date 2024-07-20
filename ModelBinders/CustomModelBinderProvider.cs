@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Proyecto_TiendaElectronica.ModelBinders;
 using Proyecto_TiendaElectronica.Models;
+using Proyecto_TiendaElectronica.ViewModels;
 using System;
 
 namespace Proyecto_TiendaElectronica.ModelBinder

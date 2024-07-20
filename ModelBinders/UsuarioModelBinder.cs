@@ -27,7 +27,7 @@ namespace Proyecto_TiendaElectronica.ModelBinder
             var confirmarContrasena = "12345678";
 
             //usuario.Add(Contrasena);
-            var result = new Models.Usuario
+            var result = new ViewModels.RegisterViewModel
             {
                 UsuarioId = usuarioId,
                 Nombre = nombre,

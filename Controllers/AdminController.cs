@@ -1,36 +1,41 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_TiendaElectronica.Models;
-using Proyecto_TiendaElectronica.wwwroot.funtions;
 using Proyecto_TiendaElectronica.ModelBinder;
+using Microsoft.AspNetCore.Identity;
+using Proyecto_TiendaElectronica.ViewModels;
 
 namespace Proyecto_TiendaElectronica.Controllers
 {
     public class AdminController : Controller
     {
         private readonly AppDBContext _context;
+        private readonly UserManager<Usuario> _userManager;
+        private readonly SignInManager<Usuario> _signInManager;
 
-        public AdminController(AppDBContext context) { 
+        public AdminController(AppDBContext context, UserManager<Usuario> userManager, SignInManager<Usuario> signInManager) { 
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        // GET: AdminController
-        public ActionResult Index()
-        {
-            ViewBag.Pagina = "Index";
-            return View();
-        }
+		// GET: AdminController
+		public ActionResult Index()
+		{
+			ViewBag.Pagina = "Index";
+			return View();
+		}
 
-        public async Task<IActionResult> Articulos() {
+		public async Task<IActionResult> Articulos()
+		{
 
-            var articulos = await _context.Articulo.Include("Categoria").Include("Imagen").Take(10).ToListAsync();
-            ViewBag.Pagina = "Articulos";
+			var articulos = await _context.Articulo.Include("Categoria").Include("Imagen").Take(10).ToListAsync();
+			ViewBag.Pagina = "Articulos";
 
-            return View(articulos);
+			return View(articulos);
 
-        }
+		}
 
 		//Controller Articulo
 		public ActionResult CrearArticulo()
@@ -255,174 +260,206 @@ namespace Proyecto_TiendaElectronica.Controllers
 		//Controllers de Usuario
 
 		[HttpGet]
-        public async Task<IActionResult> Usuarios() {
+		public async Task<IActionResult> Usuarios()
+		{
 
-            var usuarios = await _context.Usuario.ToListAsync();
+			var usuarios = await _context.Usuario.ToListAsync();
+			var datos = new List<RegisterViewModel>();
 
-            ViewBag.Pagina = "Usuarios";
+			foreach (var usuario in usuarios) {
+				var roles = await _userManager.GetRolesAsync(usuario);
 
-            return View(usuarios);
+				var rol = roles.FirstOrDefault();
 
-            
-        }
+				var user = Conversion(usuario, rol);
 
+				datos.Add(user);
+			}
 
-        [HttpGet]
-        public IActionResult CrearUsuario() { 
+			ViewBag.Pagina = "Usuarios";
 
-            var usuario = new Usuario();
+			return View(datos);
 
-            usuario.Estado = true;
-
-            return View(usuario);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearUsuario(Usuario usuario) {
-
-            if (ModelState.IsValid) {
-                try
-                {
-                    usuario.Contrasena = Hash.HashPassword(usuario.Contrasena);
-
-                    _context.Usuario.Add(usuario);
-                    await _context.SaveChangesAsync();
+		}
 
 
-                    return RedirectToAction(nameof(Usuarios));
-                }
-                catch (DbUpdateException) {
-                    ViewBag.Error = "El usuario con la cédula "+ usuario.UsuarioId + " ya existe.";
-                    return View(usuario);
-                }
-                catch (Exception)
-                {
-                    return View(usuario);
-                }
-            }
+		[HttpGet]
+		public IActionResult CrearUsuario()
+		{
+			return View();
+		}
 
-            return View(usuario);
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> CrearUsuario(RegisterViewModel model)
+		{
 
-        }
+			if (ModelState.IsValid)
+			{
+				var usuario = new Usuario { Id = model.UsuarioId, UserName = model.Nombre, Email = model.Correo, PhoneNumber = model.Telefono };
 
+				var result = await _userManager.CreateAsync(usuario, model.Contrasena);
 
-        [HttpGet]
-        public async Task<IActionResult> VerUsuario(string id)
-        {
-            if (id == null) {
-                return NotFound();
-            }
+				if (result.Succeeded)
+				{
 
+					await _userManager.AddToRoleAsync(usuario, model.Rol);
 
-            try
-            {
-                var usuario = await _context.Usuario.FindAsync(id);
+					return RedirectToAction("Usuarios");
+				}
 
-                if (usuario == null)
-                {
-                    return NotFound();
-                }
+				foreach (var error in result.Errors)
+				{
+					ModelState.AddModelError("", error.Description);
+				}
 
-                return View(usuario);
-            }
-            catch (Exception) { 
-                return RedirectToAction(nameof(Usuarios));
-            }
+			}
+
+			return View(model);
 
 
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> EditarUsuario(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		}
 
 
-            try
-            {
-                var usuario = await _context.Usuario.FindAsync(id);
+		[HttpGet]
+		public async Task<IActionResult> VerUsuario(string id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-                if (usuario == null)
-                {
-                    return NotFound();
-                }
+			try
+			{
+				var usuario = await _context.Usuario.FindAsync(id);
 
-                return View(usuario);
-            }
-            catch (Exception)
-            {
-                return RedirectToAction(nameof(Usuarios));
-            }
+				if (usuario == null)
+				{
+					return NotFound();
+				}
 
+				var roles = await _userManager.GetRolesAsync(usuario);
 
-        }
+				var rol = roles.FirstOrDefault();
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditarUsuario([ModelBinder(BinderType = typeof(ModelBinder.UsuarioModelBinder))]Usuario usuario)
-        {
+				var user = Conversion(usuario, rol);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-
-                    var obtenido = await _context.Usuario.FirstOrDefaultAsync(u => u.UsuarioId == usuario.UsuarioId);
-
-                    obtenido.Nombre = usuario.Nombre;
-                    obtenido.Telefono = usuario.Telefono;
-                    obtenido.Estado = usuario.Estado;
-                    obtenido.Rol = usuario.Rol;
-                    obtenido.Correo = usuario.Correo;
-                    await _context.SaveChangesAsync();
+				return View(user);
+			}
+			catch (Exception)
+			{
+				return RedirectToAction(nameof(Usuarios));
+			}
 
 
-                    return RedirectToAction(nameof(Usuarios));
-                }
-                catch (DbUpdateException)
-                {
-                    ViewBag.Error = "El usuario con la cédula " + usuario.UsuarioId + " ya existe.";
-                    return View(usuario);
-                }
-                catch (Exception)
-                {
-                    return View(usuario);
-                }
-            }
+		}
 
-            return View(usuario);
-
-        }
-
-        public async Task<IActionResult> EliminarUsuario(string id) {
-            if (id == null) {
-                return Json(new { success = false, message = "ID de usuario no proporcionado." });
-            }
-
-            try {
-                var usuario = await _context.Usuario.FindAsync(id);
-
-                if (usuario == null) {
-                    return Json(new { success = false, message = "Usuario no encontrado." });
-                }
-                _context.Usuario.Remove(usuario);
-
-                _context.SaveChanges();
-
-                return Json(new { success = true, message = "Usuario eliminado con éxito." });
-            } catch (Exception) {
-                return Json(new { success = false, message = "Ocurrió un error al eliminar el usuario." });
-            }
-
-            
-
-        }
+		[HttpGet]
+		public async Task<IActionResult> EditarUsuario(string id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
 
+			try
+			{
+				var usuario = await _context.Usuario.FindAsync(id);
+
+				if (usuario == null)
+				{
+					return NotFound();
+				}
+
+				var roles = await _userManager.GetRolesAsync(usuario);
+
+				var rol = roles.FirstOrDefault();
+
+				var user = Conversion(usuario, rol);
+
+				return View(user);
+			}
+			catch (Exception)
+			{
+				return RedirectToAction(nameof(Usuarios));
+			}
+
+
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> EditarUsuario([ModelBinder(BinderType = typeof(ModelBinder.UsuarioModelBinder))] RegisterViewModel model)
+		{
+
+			if (ModelState.IsValid)
+			{
+				var usuario = await _userManager.FindByIdAsync(model.UsuarioId);
+
+				if (usuario == null) {
+					return NotFound();
+				}
+
+				usuario.UserName = model.Nombre;
+				usuario.Email = model.Correo;
+				usuario.PhoneNumber = model.Telefono;
+
+				var result = await _userManager.UpdateAsync(usuario);
+
+				if (result.Succeeded)
+				{
+					var rolActual = await _userManager.GetRolesAsync(usuario);
+
+					await _userManager.RemoveFromRolesAsync(usuario, rolActual);
+
+					await _userManager.AddToRoleAsync(usuario, model.Rol);
+
+					return RedirectToAction("Usuarios");
+				}
+
+				foreach (var error in result.Errors)
+				{
+					ModelState.AddModelError("", error.Description);
+				}
+
+			}
+
+			return View(model);
+
+		}
+
+		public async Task<IActionResult> EliminarUsuario(string id)
+		{
+			if (id == null)
+			{
+				return Json(new { success = false, message = "ID de usuario no proporcionado." });
+			}
+
+			var usuario = await _userManager.FindByIdAsync(id);
+
+			if (usuario == null)
+			{
+				return Json(new { success = false, message = "Usuario no encontrado." });
+			}
+			var result = await _userManager.DeleteAsync(usuario);
+
+			if (result.Succeeded)
+			{
+				return Json(new { success = true, message = "Usuario eliminado con éxito." });
+			}
+
+			foreach (var error in result.Errors)
+			{
+				ModelState.AddModelError("", error.Description);
+			}
+			
+			return Json(new { success = false, message = "Ocurrió un error al eliminar el usuario." });
+			
+
+
+
+		}
 
 
 
@@ -437,8 +474,10 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 
 
-        // GET: AdminController/Details/5
-        public ActionResult Details(int id)
+
+
+		// GET: AdminController/Details/5
+		public ActionResult Details(int id)
         {
             return View();
         }
@@ -506,21 +545,36 @@ namespace Proyecto_TiendaElectronica.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ObtenerArticulos() { 
+		[HttpGet]
+		public async Task<IActionResult> ObtenerArticulos()
+		{
 
-            var articulos = await _context.Articulo.ToListAsync();
-            var imagenes = await _context.Imagen.ToListAsync();
-            var categorias = await _context.Categoria.ToListAsync();
+			var articulos = await _context.Articulo.ToListAsync();
+			var imagenes = await _context.Imagen.ToListAsync();
+			var categorias = await _context.Categoria.ToListAsync();
 
-            foreach (var articulo in articulos) {
-                articulo.Imagen = imagenes.FirstOrDefault( a => a.ImagenId == articulo.codigoImagen );
-                articulo.Categoria = categorias.FirstOrDefault(a => a.CategoriaId == articulo.idCategoria);
-            }
-            
+			foreach (var articulo in articulos)
+			{
+				articulo.Imagen = imagenes.FirstOrDefault(a => a.ImagenId == articulo.codigoImagen);
+				articulo.Categoria = categorias.FirstOrDefault(a => a.CategoriaId == articulo.idCategoria);
+			}
 
-            return Json(articulos);
 
-        }
-    }
+			return Json(articulos);
+
+		}
+
+		private RegisterViewModel Conversion(Usuario usuario, string rol) {
+			var usuarioConvertido = new RegisterViewModel
+			{
+				UsuarioId = usuario.Id,
+				Nombre = usuario.UserName,
+				Correo = usuario.Email,
+				Rol = rol,
+				Telefono = usuario.PhoneNumber,
+			};
+
+			return usuarioConvertido;
+		}
+	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Proyecto_TiendaElectronica.ViewModels;
 
 namespace Proyecto_TiendaElectronica.Models
 {
@@ -15,8 +16,6 @@ namespace Proyecto_TiendaElectronica.Models
         public decimal MontoTotal { get; set; }
 
         public string UsuarioId { get; set; }
-
-        public Usuario Usuario { get; set; }   
 
                                                   
     }                                             

@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
+using Proyecto_TiendaElectronica.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace Proyecto_TiendaElectronica.Models
 {
-    public class AppDBContext : DbContext
+    public class AppDBContext : IdentityDbContext<Usuario>
     {
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {

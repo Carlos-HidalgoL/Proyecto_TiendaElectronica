@@ -1,4 +1,4 @@
-﻿@model Proyecto_TiendaElectronica.Models.Usuario;
+﻿@model Proyecto_TiendaElectronica.ViewModels.RegisterViewModel;
 
 @{
     Layout = "_LayoutAdmin";
@@ -39,21 +39,12 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="input_container">
-                    <label class="input_label" asp-for="Contrasena">Contraseña</label>
-                    <i class="fa-solid fa-lock icon"></i>
-                <input type="text" class="input_field" asp-for="Contrasena" readonly>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="mb-3">
                 <div class="input_container">
                     <label class="input_label" asp-for="Rol"></label>
                     <i class="fa-solid fa-users icon"></i>
                     <input type="text" class="input_field" asp-for="Rol" readonly>
                 </div>
-            </div>
         </div>
         
         <div class="mb-3">
