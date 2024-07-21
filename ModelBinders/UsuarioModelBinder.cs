@@ -23,11 +23,11 @@ namespace Proyecto_TiendaElectronica.ModelBinder
             var rol = request.Form["Rol"].ToString();
 
 
-            var contrasena = "12345678";
-            var confirmarContrasena = "12345678";
+            var contrasena = "Abcd1234*";
+            var confirmarContrasena = "Abcd1234*";
 
             //usuario.Add(Contrasena);
-            var result = new ViewModels.RegisterViewModel
+            var result = new ViewModels.UserViewModel
             {
                 UsuarioId = usuarioId,
                 Nombre = nombre,

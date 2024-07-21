@@ -1,11 +1,20 @@
-﻿@model Proyecto_TiendaElectronica.ViewModels.RegisterViewModel;
+﻿@model Proyecto_TiendaElectronica.ViewModels.UserViewModel;
 
 @{
     Layout = "_LayoutAdmin";
 }
 
 
-<h2 class="mb-3">Editar Usuario</h2>
+<div class="d-flex justify-content-between"> 
+     <h2 class="mb-3">Editar Usuario</h2>
+    
+    @if (Model.Rol == "Administrador")
+    {
+        <div class="justify-content-end">
+            <a href="@Url.Action("EditarContrasena", new{ id = Model.UsuarioId })" class="btn btn-primary">Actualizar Contraseña</a>
+        </div>
+    }
+</div>
 
 <div class="admin-element">
     <form asp-action="EditarUsuario" method="post">
@@ -83,7 +92,7 @@
         </div>
 
         <button type="submit" class="button-send">
-            Enviar
+            Editar
         </button>
 
 

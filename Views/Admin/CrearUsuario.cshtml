@@ -1,4 +1,4 @@
-﻿@model Proyecto_TiendaElectronica.ViewModels.RegisterViewModel;
+﻿@model Proyecto_TiendaElectronica.ViewModels.UserViewModel;
 
 @{
     Layout = "_LayoutAdmin";
@@ -40,7 +40,7 @@
                 <div class="input_container">
                     <label class="input_label" asp-for="Correo"></label>
                     <i class="fa-solid fa-envelope icon"></i>
-                    <input placeholder="123456789" type="text" class="input_field" asp-for="Correo">
+                    <input placeholder="usuario@gmail.com" type="text" class="input_field" asp-for="Correo">
                 </div>
                 <div class="text-center text-break">
                     <span class="error-form" asp-validation-for="Correo"></span>

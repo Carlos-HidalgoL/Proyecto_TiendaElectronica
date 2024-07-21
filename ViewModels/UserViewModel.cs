@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Proyecto_TiendaElectronica.ViewModels
 {
-    public class RegisterViewModel
+    public class UserViewModel
     {
         [Required(ErrorMessage = "El número de cédula es obligatorio")]
         [StringLength(9, MinimumLength = 9, ErrorMessage = "La cédula debe de contener 9 dígitos")]
@@ -18,8 +18,9 @@ namespace Proyecto_TiendaElectronica.ViewModels
         public string Correo { get; set; }
 
         [Required(ErrorMessage = "La contraseña es obligatoria")]
-        [StringLength(24, MinimumLength = 8, ErrorMessage = "La contraseña debe contener al menos 8 caracteres")]
-        public string Contrasena { get; set; }
+		[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{9,255}$",
+	    ErrorMessage = "La contraseña debe ser mayor a 8 dígitos y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.")]
+		public string Contrasena { get; set; }
 
         [NotMapped]
         [Required(ErrorMessage = "Debe de confirmar la contraseña")]

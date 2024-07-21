@@ -5,6 +5,7 @@ using Proyecto_TiendaElectronica.Models;
 using Proyecto_TiendaElectronica.ModelBinder;
 using Microsoft.AspNetCore.Identity;
 using Proyecto_TiendaElectronica.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Proyecto_TiendaElectronica.Controllers
 {
@@ -264,7 +265,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 		{
 
 			var usuarios = await _context.Usuario.ToListAsync();
-			var datos = new List<RegisterViewModel>();
+			var datos = new List<UserViewModel>();
 
 			foreach (var usuario in usuarios) {
 				var roles = await _userManager.GetRolesAsync(usuario);
@@ -291,7 +292,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> CrearUsuario(RegisterViewModel model)
+		public async Task<IActionResult> CrearUsuario(UserViewModel model)
 		{
 
 			if (ModelState.IsValid)
@@ -390,7 +391,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> EditarUsuario([ModelBinder(BinderType = typeof(ModelBinder.UsuarioModelBinder))] RegisterViewModel model)
+		public async Task<IActionResult> EditarUsuario([ModelBinder(BinderType = typeof(ModelBinder.UsuarioModelBinder))] UserViewModel model)
 		{
 
 			if (ModelState.IsValid)
@@ -428,6 +429,58 @@ namespace Proyecto_TiendaElectronica.Controllers
 			return View(model);
 
 		}
+
+		[HttpGet]
+		public async  Task<IActionResult> EditarContrasena(string id) {
+			if (id == null) {
+				return NotFound();
+			}
+
+			var usuario = await _userManager.FindByIdAsync(id);
+
+			if (usuario == null) {
+				return NotFound();
+			}
+
+			var user = Conversion(usuario);
+
+			return View(user);
+		}
+
+		[HttpPost]
+		//[ValidateAntiForgeryToken]
+		public async  Task<IActionResult> EditarContrasena(UserViewModel model)
+		{
+			if (model.UsuarioId != null && model.Contrasena != null && model.ConfirmarContrasena != null) {
+				var usuario = await _userManager.FindByIdAsync(model.UsuarioId);
+
+				if (usuario == null) {
+					return NotFound();
+				}
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
+                var result = await _userManager.ResetPasswordAsync(usuario, token, model.Contrasena);
+
+                if (result.Succeeded)
+                {
+					return RedirectToAction("EditarUsuario", new { id = model.UsuarioId });
+					
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+
+			return View(model);
+
+
+			
+		}
+
 
 		public async Task<IActionResult> EliminarUsuario(string id)
 		{
@@ -564,9 +617,9 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 
-		private RegisterViewModel Conversion(Usuario usuario, string rol) {
-			var usuarioConvertido = new RegisterViewModel
-			{
+		private UserViewModel Conversion(Usuario usuario, string rol = "") {
+			var usuarioConvertido = new UserViewModel
+            {
 				UsuarioId = usuario.Id,
 				Nombre = usuario.UserName,
 				Correo = usuario.Email,
