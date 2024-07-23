@@ -5,7 +5,7 @@ using Proyecto_TiendaElectronica.Models;
 using Proyecto_TiendaElectronica.ModelBinder;
 using Microsoft.AspNetCore.Identity;
 using Proyecto_TiendaElectronica.ViewModels;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Proyecto_TiendaElectronica.Controllers
 {
@@ -21,14 +21,15 @@ namespace Proyecto_TiendaElectronica.Controllers
             _signInManager = signInManager;
         }
 
-		// GET: AdminController
+		[Authorize(Roles = "Administrador")]
 		public ActionResult Index()
 		{
 			ViewBag.Pagina = "Index";
 			return View();
 		}
 
-		public async Task<IActionResult> Articulos()
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> Articulos()
 		{
 
 			var articulos = await _context.Articulo.Include("Categoria").Include("Imagen").Take(10).ToListAsync();
@@ -38,8 +39,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 
-		//Controller Articulo
-		public ActionResult CrearArticulo()
+        [Authorize(Roles = "Administrador")]
+        public ActionResult CrearArticulo()
 		{
 
 			var categorias = _context.Categoria.ToList();
@@ -49,7 +50,9 @@ namespace Proyecto_TiendaElectronica.Controllers
 			return View();
 		}
 
+
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> CrearArticulo(Articulo articulo)
 		{
 
@@ -97,7 +100,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> VerArticulo(int id)
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> VerArticulo(int id)
 		{
 			if (id == null)
 			{
@@ -130,7 +134,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> EditarArticulo(int id)
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> EditarArticulo(int id)
 		{
 			var articulo = await _context.Articulo.FindAsync(id);
 			if (articulo == null)
@@ -147,6 +152,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> EditarArticulo(Articulo articulo)
 		{
 			Articulo articuloDB = new Articulo
@@ -179,7 +185,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 		[HttpGet]
-		public async Task<IActionResult> ModificaImagen(int codigoImagen, int ArticuloID)
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> ModificaImagen(int codigoImagen, int ArticuloID)
 		{
 			var Imagen = await _context.Imagen.FindAsync(codigoImagen);
 
@@ -190,8 +197,10 @@ namespace Proyecto_TiendaElectronica.Controllers
 			ViewBag.ArticuloId = ArticuloID;
 			return View(Imagen);
 		}
+
 		[HttpPost]
-		public async Task<IActionResult> ModificaImagen(Imagen imagen, IFormFile Imagen1, IFormFile Imagen2, IFormFile Imagen3)
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> ModificaImagen(Imagen imagen, IFormFile Imagen1, IFormFile Imagen2, IFormFile Imagen3)
 		{
 
 			var Imagen = await _context.Imagen.FindAsync(imagen.ImagenId);
@@ -228,7 +237,9 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 
-		public async Task<IActionResult> EliminarArticulo(int id)
+		[HttpGet]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> EliminarArticulo(int id)
 		{
 			if (id == null)
 			{
@@ -258,10 +269,10 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 
-		//Controllers de Usuario
 
 		[HttpGet]
-		public async Task<IActionResult> Usuarios()
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> Usuarios()
 		{
 
 			var usuarios = await _context.Usuario.ToListAsync();
@@ -285,7 +296,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 
 		[HttpGet]
-		public IActionResult CrearUsuario()
+        [Authorize(Roles = "Administrador")]
+        public IActionResult CrearUsuario()
 		{
 			return View();
 		}
@@ -323,7 +335,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 
 		[HttpGet]
-		public async Task<IActionResult> VerUsuario(string id)
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> VerUsuario(string id)
 		{
 			if (id == null)
 			{
@@ -356,7 +369,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> EditarUsuario(string id)
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> EditarUsuario(string id)
 		{
 			if (id == null)
 			{
@@ -431,7 +445,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
 		[HttpGet]
-		public async  Task<IActionResult> EditarContrasena(string id) {
+        [Authorize(Roles = "Administrador")]
+        public async  Task<IActionResult> EditarContrasena(string id) {
 			if (id == null) {
 				return NotFound();
 			}
@@ -448,7 +463,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
+		[ValidateAntiForgeryToken]
 		public async  Task<IActionResult> EditarContrasena(UserViewModel model)
 		{
 			if (model.UsuarioId != null && model.Contrasena != null && model.ConfirmarContrasena != null) {
@@ -529,74 +544,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 
 
-		// GET: AdminController/Details/5
-		public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: AdminController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: AdminController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AdminController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: AdminController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AdminController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AdminController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+		
 
 		[HttpGet]
 		public async Task<IActionResult> ObtenerArticulos()

@@ -1,0 +1,59 @@
+﻿@model Proyecto_TiendaElectronica.ViewModels.UserLogin;
+
+@{
+    Layout = "_LayoutLogin";
+}
+
+<div class="text-center">
+    <div class="col">
+
+        <div class="row">
+            <h1>NavaTech</h1>
+        </div>
+        <div class="row">
+            <span>Inicio de Sesión</span>
+        </div>
+    </div>
+</div>
+
+<div class="login-element">
+    <form asp-action="Index" method="post">
+
+        <div class="row mb-3">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="UserName">Nombre de Usuario</label>
+                    <i class="fa-solid fa-user icon"></i>
+                    <input placeholder="Usuario" type="text" class="input_field" asp-for="UserName" autocomplete="off">
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="UserName"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="input_container">
+                    <label class="input_label" asp-for="Password">Contraseña</label>
+                    <i class="fa-solid fa-lock icon"></i>
+                    <input placeholder="Contraseña" type="text" class="input_field" asp-for="Password" autocomplete="off">
+                </div>
+                <div class="text-center text-break">
+                    <span class="error-form" asp-validation-for="Password"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="button-send-login">
+                Iniciar Sesión
+            </button>
+        </div>
+
+
+    </form>
+</div>
+        
+@section scripts {
+    <partial name="_validationscriptspartial" />
+}

@@ -10,6 +10,7 @@
     --grisOscuro: #262626;
     --negro: #0D0D0D;
     --rojo: #E14848;
+    --negroOscuro: #010101;
 }
 
 body {
@@ -196,6 +197,13 @@ a.article:hover {
     border-radius: 10px;
 }
 
+.login-element {
+    /*background-color: var(--negro);*/
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
 
 /*Formulario*/
 
@@ -251,7 +259,7 @@ a.article:hover {
     }
 
 .button-send {
-    width: 7em;
+    width: auto;
     position: relative;
     height: 3em;
     border: 3px ridge var(--negro);
@@ -335,3 +343,52 @@ a.article:hover {
 .form-field {
     margin-bottom: 20px;
 }
+
+
+/*Botones en el lado de login*/
+.button-send-login {
+    width: auto;
+    position: relative;
+    height: 3em;
+    border: 3px ridge var(--negro);
+    outline: none;
+    background-color: transparent;
+    color: white;
+    transition: 1s;
+    border-radius: 0.3em;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .button-send-login::after {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 3%;
+        width: 95%;
+        height: 40%;
+        background-color: var(--negroOscuro);
+        transition: 0.5s;
+        transform-origin: center;
+    }
+
+    .button-send-login::before {
+        content: "";
+        transform-origin: center;
+        position: absolute;
+        top: 80%;
+        left: 3%;
+        width: 95%;
+        height: 40%;
+        background-color: var(--negroOscuro);
+        transition: 0.5s;
+    }
+
+    .button-send-login:hover::before, .button-send-login:hover::after {
+        transform: scale(0);
+    }
+
+    .button-send-login:hover {
+        box-shadow: inset 0px 0px 25px var(--rojo);
+    }
