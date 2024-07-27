@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Proyecto_TiendaElectronica</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/formStyle.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Proyecto_TiendaElectronica.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -37,9 +38,18 @@
                                     <i class="fas fa-user" aria-hidden="true"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="" href="#">Iniciar Sesión</a></li>
-                                    <li><a class="" href="@Url.Action("Index", "Admin")">Administración</a></li>
-                                    <li><a class="" href="#">Salir</a></li>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        if (User.IsInRole("Administrador"))
+                                        {
+                                            <li><a class="" href="@Url.Action("Index", "Admin")">Administración</a></li>
+                                        }
+                                        <li><a class="" href="@Url.Action("Perfil")">Mi Perfil</a></li>
+                                        
+                                        <li><a class="" href="@Url.Action("Logout", "Logueo")">Cerrar Sesión</a></li>
+                                    }else{
+                                        <li><a class="" href="@Url.Action("Index", "Logueo")">Iniciar Sesión</a></li>
+                                    }
                                 </ul>
                             </div>
                         </li>
@@ -136,6 +146,7 @@
   
             
     </footer>
+    <script src="https://kit.fontawesome.com/2425b0cf01.js" crossorigin="anonymous"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

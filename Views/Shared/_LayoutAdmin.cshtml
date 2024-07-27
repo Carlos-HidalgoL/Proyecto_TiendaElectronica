@@ -7,10 +7,12 @@
     <title>@ViewData["Title"] - Proyecto_TiendaElectronica</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/adminStyle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/formStyle.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Proyecto_TiendaElectronica.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
     <script src="~/js/imagePreview.js"></script>
+
 
 </head>
 <body>
@@ -81,6 +83,55 @@
 
                         </div>
                     </a>
+                </li>
+                <li>
+                    <div>
+                        <a href="#homeSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fa-solid fa-user-lock" style="margin-right: 10px"></i>
+                                Sesión
+                        </a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li>
+                                <a href="@Url.Action("/")">
+                                    <div class="d-flex">
+                                        <div style="margin-right: 5px">
+                                            <i class="fa-solid fa-user"></i>
+                                        </div>
+                                        <div class="mx-2">
+                                            Mi Perfil
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Home")">
+                                    <div class="d-flex">
+                                        <div style="margin-right: 5px">
+                                            <i class="fa-solid fa-arrow-left-long"></i>
+                                        </div>
+                                        <div class="mx-2">
+                                            Vista Cliente
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Logout", "Logueo")">
+                                    <div class="d-flex">
+                                        <div style="margin-right: 5px">
+                                            <i class="fa-solid fa-right-from-bracket"></i>
+                                        </div>
+                                        <div class="mx-2">
+                                            Cerrar Sesión
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
                 </li>
             </ul>
 

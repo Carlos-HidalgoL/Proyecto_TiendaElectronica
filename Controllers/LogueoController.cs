@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Proyecto_TiendaElectronica.ViewModels;
 using Proyecto_TiendaElectronica.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Proyecto_TiendaElectronica.Controllers
 {
@@ -21,7 +23,13 @@ namespace Proyecto_TiendaElectronica.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index() { 
+        public IActionResult Index() {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
             return View();
         }
 
@@ -29,28 +37,109 @@ namespace Proyecto_TiendaElectronica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(UserLogin model) {
             if (ModelState.IsValid) {
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false,lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe,lockoutOnFailure: false);
 
-                if (result.Succeeded) {
+                if (result.Succeeded)
+                {
                     var usuario = await _userManager.FindByNameAsync(model.UserName);
 
                     var roles = await _userManager.GetRolesAsync(usuario);
 
                     var rol = roles.FirstOrDefault();
 
-                    if (rol == "Administrador")
-                    {
-                        return RedirectToAction("Index", "Admin");
-                    }
-                    else {
-                        return RedirectToAction("Index", "Home");
-                    }
+                   
+                    return RedirectToAction("Index", "Home");
+                    
 
 
+                }
+                else if (!result.IsNotAllowed)
+                {
+                    TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"El usuario o la contraseña no coinciden.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                }
+                else
+                {
+                    ModelState.AddModelError("", "No se pudo realizar el inicio de sesión, por favor intentelo más tarde.");
+                    TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo realizar el inicio de sesión, por favor reintentelo más tarde.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
                 }
             }
 
             return View(model);
+        }
+
+        public async Task<IActionResult> Logout() {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Registro() {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Registro(UserRegister model) {
+            if (ModelState.IsValid) {
+                var usuario = new Usuario { Id = model.UsuarioId, UserName = model.Nombre, Email = model.Correo, PhoneNumber = model.Telefono };
+
+                try
+                {
+                    var result = await _userManager.CreateAsync(usuario, model.Contrasena);
+
+                    if (result.Succeeded)
+                    {
+
+                        await _userManager.AddToRoleAsync(usuario, "Usuario");
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            if (error.Code == "DuplicateUserName")
+                            {
+                                ModelState.AddModelError("", "No se pudo realizar el registro del usuario, por favor intentelo más tarde.");
+                                TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo realizar el registro, el nombre de usuario ingresado ya esta registrado. Por favor ingrese un nombre de usuario diferente.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("", error.Description);
+                                TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo realizar el registro. Por favor reintentelo más tarde.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                            }
+                        }
+
+
+
+
+                    }
+                }
+                catch (DbUpdateException ex)
+                {
+                    if (ex.InnerException != null && ex.InnerException.Message.Contains("restricción PRIMARY KEY"))
+                    {
+                        TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo realizar el registro. El usuario con la cédula '" + model.UsuarioId + "' ya sido registrado anteriormente. Por favor ingrese un nuevo número de cédula.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                    }
+                    else {
+                        TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo realizar el registro. Por favor reintentelo más tarde.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                    }
+                    
+                }
+                catch (Exception ex) {
+                    TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo realizar el registro. Por favor reintentelo más tarde.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                }
+                
+
+            }
+
+            return View(model);
+
         }
     }
 }

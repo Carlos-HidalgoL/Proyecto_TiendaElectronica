@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_TiendaElectronica.Models;
+using Proyecto_TiendaElectronica.ViewModels;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Proyecto_TiendaElectronica.Controllers
 {
@@ -10,11 +14,15 @@ namespace Proyecto_TiendaElectronica.Controllers
         private readonly ILogger<HomeController> _logger;
 
         private readonly AppDBContext _context;
+        private readonly UserManager<Usuario> _userManager;
+        private readonly SignInManager<Usuario> _signInManager;
 
-        public HomeController(ILogger<HomeController> logger, AppDBContext context)
+        public HomeController(ILogger<HomeController> logger, AppDBContext context, UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
         {
             _context = context;
             _logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
 
@@ -128,19 +136,131 @@ namespace Proyecto_TiendaElectronica.Controllers
             decimal iva = subtotal * 0.13m;
             return subtotal + iva;
         }
-    
 
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Perfil() {
+            if (!User.Identity.IsAuthenticated) { 
+                return NotFound();
+            }
 
-    public IActionResult Privacy()
-        {
-            return View();
+            var usuario = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (usuario == null) {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(usuario);
+
+            var rol = roles.FirstOrDefault();
+
+            var user = Conversion(usuario, rol);
+
+
+            return View(user);
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ActualizarPerfil()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
+            var usuario = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(usuario);
+
+            var rol = roles.FirstOrDefault();
+
+            var user = Conversion(usuario, rol, false);
+
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarPerfil(UpdateUserPerfil model)
+        {
+            if (ModelState.IsValid) {
+                var usuario = await _userManager.FindByIdAsync(model.UsuarioId);
+
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+
+                usuario.Email = model.Correo;
+                usuario.PhoneNumber = model.Telefono;
+
+                var result = await _userManager.UpdateAsync(usuario);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Perfil");
+                }
+
+
+                TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo editar la información.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                
+
+
+            }
+
+
+            return View(model);
+        }
+
+
+
+        public IActionResult Privacy()
+            {
+                return View();
+            }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public Object Conversion(Usuario usuario, string rol = "", bool proceso = true)
+        {
+            object usuarioConvertido;
+            if (proceso)
+            {
+                usuarioConvertido = new UserViewModel
+                {
+                    UsuarioId = usuario.Id,
+                    Nombre = usuario.UserName,
+                    Correo = usuario.Email,
+                    Rol = rol,
+                    Telefono = usuario.PhoneNumber,
+                };
+                
+            }
+            else {
+                usuarioConvertido = new UpdateUserPerfil
+                {
+                    UsuarioId = usuario.Id,
+                    Correo = usuario.Email,
+                    Telefono = usuario.PhoneNumber,
+                };
+
+            }
+
+            return usuarioConvertido;
+
+
+
         }
     }
 }

@@ -9,5 +9,7 @@ namespace Proyecto_TiendaElectronica.ViewModels
 
         [Required(ErrorMessage = "Ingrese la contraseña")]
         public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
     }
 }

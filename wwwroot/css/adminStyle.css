@@ -16,6 +16,7 @@
 body {
     background-color: var(--negro);
     color: var(--blancoHueso);
+    
 }
 
 
@@ -110,6 +111,16 @@ a:focus {
             color: var(--blancoHueso);
             background: var(--negro);
         }
+    #sidebar ul li button {
+        padding: 10px;
+        font-size: 1.1em;
+        display: block;
+    }
+
+        #sidebar ul li button:hover {
+            color: var(--blancoHueso);
+            background: var(--negro);
+        }
 
     #sidebar ul li.active > a,
     a[aria-expanded="true"] {
@@ -121,18 +132,12 @@ a[data-toggle="collapse"] {
     position: relative;
 }
 
-.dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
+
 
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: var(--grisMedio);
 }
 
 ul.CTAs {
@@ -197,117 +202,10 @@ a.article:hover {
     border-radius: 10px;
 }
 
-.login-element {
-    /*background-color: var(--negro);*/
-    padding: 20px;
-    border-radius: 10px;
-}
 
 
 
-/*Formulario*/
 
-.input_container {
-    width: 100%;
-    height: fit-content;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.input_label {
-    font-size: 0.75rem;
-    color: #8B8E98;
-    font-weight: 600;
-}
-
-.icon {
-    width: 20px;
-    position: absolute;
-    z-index: 99;
-    left: 12px;
-    bottom: 9px;
-    color: var(--rojo);
-}
-
-.input_field {
-    width: auto;
-    height: 40px;
-    padding: 0 0 0 40px;
-    border-radius: 7px;
-    outline: none;
-    border: 1px solid #e5e5e5;
-    filter: drop-shadow(0px 1px 0px #efefef) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
-    transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
-}
-
-    .input_field:focus {
-        border: 1px solid transparent;
-        box-shadow: 0px 0px 0px 2px #242424;
-        background-color: var(--blancoHueso);
-    }
-
-
-.select_item {
-    background-color: var(--grisOscuro);
-    color: var(--blancoHueso);
-}
-
-    .select_item:focus {
-        background: var(--negro);
-    }
-
-.button-send {
-    width: auto;
-    position: relative;
-    height: 3em;
-    border: 3px ridge var(--negro);
-    outline: none;
-    background-color: transparent;
-    color: white;
-    transition: 1s;
-    border-radius: 0.3em;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-    .button-send::after {
-        content: "";
-        position: absolute;
-        top: -10px;
-        left: 3%;
-        width: 95%;
-        height: 40%;
-        background-color: var(--grisMedio);
-        transition: 0.5s;
-        transform-origin: center;
-    }
-
-    .button-send::before {
-        content: "";
-        transform-origin: center;
-        position: absolute;
-        top: 80%;
-        left: 3%;
-        width: 95%;
-        height: 40%;
-        background-color: var(--grisMedio);
-        transition: 0.5s;
-    }
-
-    .button-send:hover::before, .button-send:hover::after {
-        transform: scale(0)
-    }
-
-    .button-send:hover {
-        box-shadow: inset 0px 0px 25px var(--rojo);
-    }
-
-.error-form {
-    color: var(--rojo);
-}
 
 /*IMAGENES*/
 
@@ -345,50 +243,4 @@ a.article:hover {
 }
 
 
-/*Botones en el lado de login*/
-.button-send-login {
-    width: auto;
-    position: relative;
-    height: 3em;
-    border: 3px ridge var(--negro);
-    outline: none;
-    background-color: transparent;
-    color: white;
-    transition: 1s;
-    border-radius: 0.3em;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
 
-    .button-send-login::after {
-        content: "";
-        position: absolute;
-        top: -10px;
-        left: 3%;
-        width: 95%;
-        height: 40%;
-        background-color: var(--negroOscuro);
-        transition: 0.5s;
-        transform-origin: center;
-    }
-
-    .button-send-login::before {
-        content: "";
-        transform-origin: center;
-        position: absolute;
-        top: 80%;
-        left: 3%;
-        width: 95%;
-        height: 40%;
-        background-color: var(--negroOscuro);
-        transition: 0.5s;
-    }
-
-    .button-send-login:hover::before, .button-send-login:hover::after {
-        transform: scale(0);
-    }
-
-    .button-send-login:hover {
-        box-shadow: inset 0px 0px 25px var(--rojo);
-    }
