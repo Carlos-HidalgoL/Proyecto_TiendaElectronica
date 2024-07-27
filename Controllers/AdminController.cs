@@ -6,6 +6,7 @@ using Proyecto_TiendaElectronica.ModelBinder;
 using Microsoft.AspNetCore.Identity;
 using Proyecto_TiendaElectronica.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Proyecto_TiendaElectronica.ModelBinders;
 
 namespace Proyecto_TiendaElectronica.Controllers
 {
@@ -40,6 +41,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
         [Authorize(Roles = "Administrador")]
+
+
         public ActionResult CrearArticulo()
 		{
 
@@ -53,50 +56,28 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> CrearArticulo(Articulo articulo)
+		public async Task<IActionResult> CrearArticulo([ModelBinder(BinderType = typeof(ArticuloModelBinder))] Articulo articulo)
 		{
-
-			Imagen imagen = new Imagen
+			if (ModelState.IsValid)
 			{
-				Imagen1 = await FormFileToByteArrayAsync(articulo.Imagen1),
-				Imagen2 = await FormFileToByteArrayAsync(articulo.Imagen2),
-				Imagen3 = await FormFileToByteArrayAsync(articulo.Imagen3)
-			};
-
-			_context.Imagen.Add(imagen);
-			await _context.SaveChangesAsync();
-
-
-			Articulo articuloNuevo = new Articulo()
-			{
-				Nombre = articulo.Nombre,
-				Precio = articulo.Precio,
-				Descripcion = articulo.Descripcion,
-				Marca = articulo.Marca,
-				Cantidad = articulo.Cantidad,
-				codigoImagen = imagen.ImagenId,
-				idCategoria = articulo.idCategoria
-			};
-
-			_context.Articulo.Add(articuloNuevo);
-			await _context.SaveChangesAsync();
-
-			return RedirectToAction("Articulos");
-
-
-			return View(articulo);
-		}
-
-		private async Task<byte[]> FormFileToByteArrayAsync(IFormFile file)
-		{
-			if (file == null || file.Length == 0)
-				return null;
-
-			using (var memoryStream = new MemoryStream())
-			{
-				await file.CopyToAsync(memoryStream);
-				return memoryStream.ToArray();
+				try
+				{
+					_context.Articulo.Add(articulo);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateException ex)
+				{
+					ViewBag.Error = $"Error al guardar los datos: {ex.Message}";
+					return View(articulo);
+				}
+				catch (Exception ex)
+				{
+					ViewBag.Error = $"Ha ocurrido un error: {ex.Message}";
+					return View(articulo);
+				}
 			}
+
+			return RedirectToAction(nameof(Articulos));
 		}
 
 		[HttpGet]
