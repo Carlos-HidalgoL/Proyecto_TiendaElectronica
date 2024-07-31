@@ -34,22 +34,37 @@ namespace Proyecto_TiendaElectronica.Controllers
             
             return View(articulos);
         }
-		public IActionResult Tienda()
-		{
+        public IActionResult Tienda(string categoria)
+        {
+            var articulos = _context.Articulo.ToList();
+            var imagenes = _context.Imagen.ToList();
 
-			var articulos = _context.Articulo.ToList();
-			var imagenes = _context.Imagen.ToList();
+            foreach (var articulo in articulos)
+            {
+                articulo.Imagen = imagenes.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
+            }
 
-			foreach (var articulo in articulos)
-			{
-				articulo.Imagen = imagenes.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
-			}
+            if (!string.IsNullOrEmpty(categoria))
+            {
+                var categoriaObj = _context.Categoria.FirstOrDefault(c => c.Nombre == categoria);
+
+                if (categoriaObj != null)
+                {
+                    articulos = articulos.Where(a => a.idCategoria == categoriaObj.CategoriaId).ToList();
+                }
+                else
+                {
+
+                    ViewBag.ErrorMessage = "Categoría no encontrada";
+                    articulos = new List<Articulo>();
+                }
+            }
+
+            return View(articulos);
+        }
 
 
-			return View(articulos);
-		}
-
-		public async Task<IActionResult> Producto(int id)
+        public async Task<IActionResult> Producto(int id)
 		{   
             
 			var articulo = await _context.Articulo.Include("Imagen").Include("Categoria").FirstOrDefaultAsync( art => art.ArticuloId == id );
