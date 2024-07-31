@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_TiendaElectronica.Models;
+using Proyecto_TiendaElectronica.ViewModels;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -19,11 +23,15 @@ namespace Proyecto_TiendaElectronica.Controllers
         private readonly ILogger<HomeController> _logger;
 
         private readonly AppDBContext _context;
+        private readonly UserManager<Usuario> _userManager;
+        private readonly SignInManager<Usuario> _signInManager;
 
-        public HomeController(ILogger<HomeController> logger, AppDBContext context)
+        public HomeController(ILogger<HomeController> logger, AppDBContext context, UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
         {
             _context = context;
             _logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
             QuestPDF.Settings.License = LicenseType.Community;
         }
 
@@ -36,22 +44,37 @@ namespace Proyecto_TiendaElectronica.Controllers
             
             return View(articulos);
         }
-		public IActionResult Tienda()
-		{
+        public IActionResult Tienda(string categoria)
+        {
+            var articulos = _context.Articulo.ToList();
+            var imagenes = _context.Imagen.ToList();
 
-			var articulos = _context.Articulo.ToList();
-			var imagenes = _context.Imagen.ToList();
+            foreach (var articulo in articulos)
+            {
+                articulo.Imagen = imagenes.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
+            }
 
-			foreach (var articulo in articulos)
-			{
-				articulo.Imagen = imagenes.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
-			}
+            if (!string.IsNullOrEmpty(categoria))
+            {
+                var categoriaObj = _context.Categoria.FirstOrDefault(c => c.Nombre == categoria);
+
+                if (categoriaObj != null)
+                {
+                    articulos = articulos.Where(a => a.idCategoria == categoriaObj.CategoriaId).ToList();
+                }
+                else
+                {
+
+                    ViewBag.ErrorMessage = "Categor�a no encontrada";
+                    articulos = new List<Articulo>();
+                }
+            }
+
+            return View(articulos);
+        }
 
 
-			return View(articulos);
-		}
-
-		public async Task<IActionResult> Producto(int id)
+        public async Task<IActionResult> Producto(int id)
 		{   
             
 			var articulo = await _context.Articulo.Include("Imagen").Include("Categoria").FirstOrDefaultAsync( art => art.ArticuloId == id );
@@ -80,7 +103,7 @@ namespace Proyecto_TiendaElectronica.Controllers
         {
             if (carrito == null || carrito.Count == 0)
             {
-                return BadRequest("El carrito está vacío.");
+                return BadRequest("El carrito est� vac�o.");
             }
 
             try
@@ -104,7 +127,7 @@ namespace Proyecto_TiendaElectronica.Controllers
                 //nuevaFactura.Usuario = usuario;
 
                 _context.Factura.Add(nuevaFactura);
-                //Se guarda aquí y no al final por que se necesita el id que se genera
+                //Se guarda aqu� y no al final por que se necesita el id que se genera
                 await _context.SaveChangesAsync();
 
                 foreach (var articulo in carrito)
@@ -262,17 +285,129 @@ namespace Proyecto_TiendaElectronica.Controllers
         }
 
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Perfil() {
+            if (!User.Identity.IsAuthenticated) { 
+                return NotFound();
+            }
+
+            var usuario = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (usuario == null) {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(usuario);
+
+            var rol = roles.FirstOrDefault();
+
+            var user = Conversion(usuario, rol);
+
+
+            return View(user);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ActualizarPerfil()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
+            var usuario = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(usuario);
+
+            var rol = roles.FirstOrDefault();
+
+            var user = Conversion(usuario, rol, false);
+
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarPerfil(UpdateUserPerfil model)
+        {
+            if (ModelState.IsValid) {
+                var usuario = await _userManager.FindByIdAsync(model.UsuarioId);
+
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+
+                usuario.Email = model.Correo;
+                usuario.PhoneNumber = model.Telefono;
+
+                var result = await _userManager.UpdateAsync(usuario);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Perfil");
+                }
+
+
+                TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo editar la información.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                
+
+
+            }
+
+
+            return View(model);
+        }
+
 
 
         public IActionResult Privacy()
-        {
-            return View();
-        }
+            {
+                return View();
+            }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public Object Conversion(Usuario usuario, string rol = "", bool proceso = true)
+        {
+            object usuarioConvertido;
+            if (proceso)
+            {
+                usuarioConvertido = new UserViewModel
+                {
+                    UsuarioId = usuario.Id,
+                    Nombre = usuario.UserName,
+                    Correo = usuario.Email,
+                    Rol = rol,
+                    Telefono = usuario.PhoneNumber,
+                };
+                
+            }
+            else {
+                usuarioConvertido = new UpdateUserPerfil
+                {
+                    UsuarioId = usuario.Id,
+                    Correo = usuario.Email,
+                    Telefono = usuario.PhoneNumber,
+                };
+
+            }
+
+            return usuarioConvertido;
+
+
+
         }
     }
 }

@@ -555,7 +555,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 
-		private UserViewModel Conversion(Usuario usuario, string rol = "") {
+		public UserViewModel Conversion(Usuario usuario, string rol = "") {
 			var usuarioConvertido = new UserViewModel
             {
 				UsuarioId = usuario.Id,

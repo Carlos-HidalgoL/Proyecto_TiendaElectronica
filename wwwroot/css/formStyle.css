@@ -1,0 +1,215 @@
+﻿:root {
+    --blancoHueso: #F2F2F2;
+    --grisMedio: #3E3E3E;
+    --grisOscuro: #262626;
+    --negro: #0D0D0D;
+    --rojo: #E14848;
+    --negroOscuro: #010101;
+}
+
+body {
+    background-color: var(--negro);
+    color: var(--blancoHueso);
+}
+
+/*Formulario*/
+
+.input_container {
+    width: 100%;
+    height: fit-content;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input_label {
+    font-size: 0.75rem;
+    color: #8B8E98;
+    font-weight: 600;
+}
+
+.icon {
+    width: 20px;
+    position: absolute;
+    z-index: 99;
+    left: 12px;
+    bottom: 9px;
+    color: var(--rojo);
+}
+
+.input_field {
+    width: 100%;
+    height: 40px;
+    padding: 0 0 0 40px;
+    border-radius: 7px;
+    outline: none;
+    border: 1px solid #e5e5e5;
+    filter: drop-shadow(0px 1px 0px #efefef) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
+    transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+    .input_field:focus {
+        border: 1px solid transparent;
+        box-shadow: 0px 0px 0px 2px #242424;
+        background-color: var(--blancoHueso);
+    }
+
+
+.select_item {
+    background-color: var(--grisOscuro);
+    color: var(--blancoHueso);
+}
+
+    .select_item:focus {
+        background: var(--negro);
+    }
+
+.button-send {
+    width: auto;
+    position: relative;
+    height: 3em;
+    border: 3px ridge var(--negro);
+    outline: none;
+    background-color: transparent;
+    color: white;
+    transition: 1s;
+    border-radius: 0.3em;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .button-send::after {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 3%;
+        width: 95%;
+        height: 40%;
+        background-color: var(--grisMedio);
+        transition: 0.5s;
+        transform-origin: center;
+    }
+
+    .button-send::before {
+        content: "";
+        transform-origin: center;
+        position: absolute;
+        top: 80%;
+        left: 3%;
+        width: 95%;
+        height: 40%;
+        background-color: var(--grisMedio);
+        transition: 0.5s;
+    }
+
+    .button-send:hover::before, .button-send:hover::after {
+        transform: scale(0)
+    }
+
+    .button-send:hover {
+        box-shadow: inset 0px 0px 25px var(--rojo);
+    }
+
+/*Botones en el logueo y registro*/
+.button-send-negro {
+    width: auto;
+    position: relative;
+    height: 3em;
+    border: 3px ridge var(--negro);
+    outline: none;
+    background-color: transparent;
+    color: white;
+    transition: 1s;
+    border-radius: 0.3em;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .button-send-negro::after {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 3%;
+        width: 95%;
+        height: 40%;
+        background-color: var(--negroOscuro);
+        transition: 0.5s;
+        transform-origin: center;
+    }
+
+    .button-send-negro::before {
+        content: "";
+        transform-origin: center;
+        position: absolute;
+        top: 80%;
+        left: 3%;
+        width: 95%;
+        height: 40%;
+        background-color: var(--negroOscuro);
+        transition: 0.5s;
+    }
+
+    .button-send-negro:hover::before, .button-send-negro:hover::after {
+        transform: scale(0);
+    }
+
+    .button-send-negro:hover {
+        box-shadow: inset 0px 0px 25px var(--rojo);
+    }
+
+
+/*Botones con el fondo negro en el home*/
+.button-send-negroClaro {
+    width: auto;
+    position: relative;
+    height: 3em;
+    border: 3px ridge var(--negro);
+    outline: none;
+    background-color: transparent;
+    color: white;
+    transition: 1s;
+    border-radius: 0.3em;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .button-send-negroClaro::after {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 3%;
+        width: 95%;
+        height: 40%;
+        background-color: var(--negro);
+        transition: 0.5s;
+        transform-origin: center;
+    }
+
+    .button-send-negroClaro::before {
+        content: "";
+        transform-origin: center;
+        position: absolute;
+        top: 80%;
+        left: 3%;
+        width: 95%;
+        height: 40%;
+        background-color: var(--negro);
+        transition: 0.5s;
+    }
+
+    .button-send-negroClaro:hover::before, .button-send-negroClaro:hover::after {
+        transform: scale(0);
+    }
+
+    .button-send-negroClaro:hover {
+        box-shadow: inset 0px 0px 25px var(--rojo);
+    }
+
+.error-form {
+    width: 10px;
+    color: var(--rojo);
+}
