@@ -511,6 +511,14 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
 
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> Facturas()
+        {
+            var facturas = await _context.Factura.ToListAsync();
+            ViewBag.Pagina = "Facturas";
+
+            return View(facturas);
+        }
 
 
 
@@ -525,9 +533,10 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 
 
-		
 
-		[HttpGet]
+
+
+        [HttpGet]
 		public async Task<IActionResult> ObtenerArticulos()
 		{
 
