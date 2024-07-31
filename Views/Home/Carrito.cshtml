@@ -1,63 +1,82 @@
-﻿<body>
-    <div class="my-5 migajas">
-        <div class="container">
-            <div class="my-5 align-items-center">
-                <div class="py-5">
-                    <p>Inicio / <span>Carrito de Compras</span></p>
-                    <h1>Carrito de Compras</h1>
-                </div>
-            </div>
-        </div>
-    </div>
+﻿
 
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-lg-8">
-                <table class="table">
-                    <thead class="text-white">
-                        <tr>
-                            <th scope="col">Producto</th>
-                            <th scope="col" class="text-center">Precio</th>
-                            <th scope="col" class="text-center">Cantidad</th>
-                            <th scope="col" class="text-center">Total</th>
-                            <th scope="col" class="text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="carrito-body">
-                        <tr id="carrito-template" style="display: none;">
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="" class="img-fluid mr-3" style="max-width: 80px; height: auto; object-fit: cover;">
-                                    <div>
-                                        <h5 class="p-2 text-white"></h5>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle text-white"></td>
-                            <td class="align-middle">
-                                <input type="number" class="form-control text-center" min="1">
-                            </td>
-                            <td class="align-middle text-white"></td>
-                            <td class="align-middle">
-                                <button class="btn btn-danger btn-sm">Eliminar</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Resumen de la Compra</h4>
-                        <p class="card-text">Subtotal: <span id="subtotal"></span></p>
-                        <p class="card-text">IVA: <span id="iva"></span></p>
-                        <h5 class="card-title">Total: <span id="total"></span></h5>
-                        <button onclick="guardarCarrito()" class="btn btn-primary">Proceder al Pago</button>
-                        <a href="#" class="btn btn-secondary">Seguir Comprando</a>
+@if (User.Identity.IsAuthenticated)
+{
+    <body>
+        <div class="my-5 migajas">
+            <div class="container">
+                <div class="my-5 align-items-center">
+                    <div class="py-5">
+                        <p>Inicio / <span>Carrito de Compras</span></p>
+                        <h1>Carrito de Compras</h1>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    <table class="table">
+                        <thead class="text-white">
+                            <tr>
+                                <th scope="col">Producto</th>
+                                <th scope="col" class="text-center">Precio</th>
+                                <th scope="col" class="text-center">Cantidad</th>
+                                <th scope="col" class="text-center">Total</th>
+                                <th scope="col" class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="carrito-body">
+                            <tr id="carrito-template" style="display: none;">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="" class="img-fluid mr-3" style="max-width: 80px; height: auto; object-fit: cover;">
+                                        <div>
+                                            <h5 class="p-2 text-white"></h5>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle text-white"></td>
+                                <td class="align-middle">
+                                    <input type="number" class="form-control text-center" min="1">
+                                </td>
+                                <td class="align-middle text-white"></td>
+                                <td class="align-middle">
+                                    <button class="btn btn-danger btn-sm">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Resumen de la Compra</h4>
+                            <p class="card-text">Subtotal: <span id="subtotal"></span></p>
+                            <p class="card-text">IVA: <span id="iva"></span></p>
+                            <h5 class="card-title">Total: <span id="total"></span></h5>
+                            <button onclick="guardarCarrito()" class="btn btn-primary">Proceder al Pago</button>
+                            <a href="#" class="btn btn-secondary">Seguir Comprando</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="~/js/Carrito.js"></script>
+    </body>
+}else
+{
+    <div class="d-flex justify-content-center mb-3 mt-3">
+        <p class="mb-0">Para acceder al carrito, debes estar logueado</p>
+      
     </div>
-     <script src="~/js/Carrito.js"></script> 
-</body>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="mb-2">
+            <a href="/Logueo" >Iniciar Sesión</a>
+        </div>
+        <div>
+            <a href="/Logueo/Registro" >Registrarse</a>
+        </div>
+    </div>
+}

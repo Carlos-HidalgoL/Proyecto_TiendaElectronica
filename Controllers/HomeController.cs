@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +6,15 @@ using Proyecto_TiendaElectronica.Models;
 using Proyecto_TiendaElectronica.ViewModels;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using Proyecto_TiendaElectronica.ViewModels;
+using System.Security.Claims;
+
+
+
 
 namespace Proyecto_TiendaElectronica.Controllers
 {
@@ -23,6 +32,7 @@ namespace Proyecto_TiendaElectronica.Controllers
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
+            QuestPDF.Settings.License = LicenseType.Community;
         }
 
 
@@ -34,22 +44,37 @@ namespace Proyecto_TiendaElectronica.Controllers
             
             return View(articulos);
         }
-		public IActionResult Tienda()
-		{
+        public IActionResult Tienda(string categoria)
+        {
+            var articulos = _context.Articulo.ToList();
+            var imagenes = _context.Imagen.ToList();
 
-			var articulos = _context.Articulo.ToList();
-			var imagenes = _context.Imagen.ToList();
+            foreach (var articulo in articulos)
+            {
+                articulo.Imagen = imagenes.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
+            }
 
-			foreach (var articulo in articulos)
-			{
-				articulo.Imagen = imagenes.FirstOrDefault(i => i.ImagenId == articulo.codigoImagen);
-			}
+            if (!string.IsNullOrEmpty(categoria))
+            {
+                var categoriaObj = _context.Categoria.FirstOrDefault(c => c.Nombre == categoria);
+
+                if (categoriaObj != null)
+                {
+                    articulos = articulos.Where(a => a.idCategoria == categoriaObj.CategoriaId).ToList();
+                }
+                else
+                {
+
+                    ViewBag.ErrorMessage = "Categor�a no encontrada";
+                    articulos = new List<Articulo>();
+                }
+            }
+
+            return View(articulos);
+        }
 
 
-			return View(articulos);
-		}
-
-		public async Task<IActionResult> Producto(int id)
+        public async Task<IActionResult> Producto(int id)
 		{   
             
 			var articulo = await _context.Articulo.Include("Imagen").Include("Categoria").FirstOrDefaultAsync( art => art.ArticuloId == id );
@@ -78,24 +103,31 @@ namespace Proyecto_TiendaElectronica.Controllers
         {
             if (carrito == null || carrito.Count == 0)
             {
-                return BadRequest("El carrito est� vac�o.");
+                return BadRequest("El carrito est� vac�o.");
             }
 
             try
             {
-                var usuario = await _context.Usuario.FirstOrDefaultAsync( u => u.Id == "123456789");
+
+                var usuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (usuarioId == null)
+                {
+                    return Unauthorized("Usuario no autenticado.");
+                }
+
+                var usuario = await _context.Usuario.FirstOrDefaultAsync( u => u.Id == usuarioId);
                 var nuevaFactura = new Factura
                 {
                     FechaCreacion = DateTime.Now,
                     SubTotal = calcularSubTotal(carrito),
                     MontoTotal = calcularMontoTotal(carrito),
-                    UsuarioId = "123456789"
+                    UsuarioId = usuario.Id
                 };
 
                 //nuevaFactura.Usuario = usuario;
 
                 _context.Factura.Add(nuevaFactura);
-                //Se guarda aqu� y no al final por que se necesita el id que se genera
+                //Se guarda aqu� y no al final por que se necesita el id que se genera
                 await _context.SaveChangesAsync();
 
                 foreach (var articulo in carrito)
@@ -112,7 +144,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return Ok("Ok");
+                return Json(new { success = true, facturaId = nuevaFactura.FacturaId });
+
             }
             catch (Exception ex)
             {
@@ -136,6 +169,136 @@ namespace Proyecto_TiendaElectronica.Controllers
             decimal iva = subtotal * 0.13m;
             return subtotal + iva;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DescargarPDF(int facturaId)
+        {
+            // Recupera la factura incluyendo los detalles de los artículos comprados
+            var factura = await _context.Factura
+                .Include(f => f.articulosFactura)
+                .ThenInclude(af => af.Articulo)
+                .FirstOrDefaultAsync(f => f.FacturaId == facturaId);
+
+            if (factura == null)
+            {
+                return NotFound("Factura no encontrada.");
+            }
+
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(u => u.Id == factura.UsuarioId);
+
+            // Verifica si la factura fue encontrada
+           
+
+            // Crea el documento PDF usando QuestPDF
+            var pdf = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(30);
+
+                    // Cabecera de la página
+                    page.Header().Row(row =>
+                    {
+
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().Text("Factura").Bold().FontSize(22).FontColor("#333333");
+                            col.Item().Text($"Número de Factura: {factura.FacturaId}").FontSize(14).FontColor("#555555");
+                            col.Item().Text($"Fecha: {factura.FechaCreacion.ToShortDateString()}").FontSize(12).FontColor("#777777");
+                        });
+
+                        row.RelativeItem().AlignRight().Column(col =>
+                        {
+                            col.Item().Text($"Cliente: {usuario.Id}").FontSize(14).FontColor("#000000");
+                            col.Item().Text($"Nombre: {usuario.UserName}").FontSize(14).FontColor("#000000");
+                            col.Item().Text($"Número: {usuario.PhoneNumber}").FontSize(14).FontColor("#000000");
+                            col.Item().Text($"Email: {usuario.Email}").FontSize(14).FontColor("#000000");
+
+                        });
+                    });
+
+                    // Contenido de la factura
+                    page.Content().PaddingVertical(10).Column(col =>
+                    {
+                        col.Item().Text("Detalles de la Factura").Bold().FontSize(16);
+
+                        col.Item().Table(table =>
+                        {
+                            // Definición de columnas
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn(3);  // Nombre del producto
+                                columns.RelativeColumn();   // Precio unitario
+                                columns.RelativeColumn();   // Cantidad
+                                columns.RelativeColumn();   // SubTotal
+                            });
+                            
+                            // Encabezado de la tabla
+                            table.Header(header =>
+                            {
+                                header.Cell().Background("#E14848").Padding(5).Text("Producto").Bold().FontColor("#ffffff");
+                                header.Cell().Background("#E14848").Padding(5).Text("Precio Unitario").Bold().FontColor("#ffffff");
+                                header.Cell().Background("#E14848").Padding(5).Text("Cantidad").Bold().FontColor("#ffffff");
+                                header.Cell().Background("#E14848").Padding(5).Text("SubTotal").Bold().FontColor("#ffffff");
+                            });
+
+                            // Agrega las filas de productos
+                            foreach (var articuloFactura in factura.articulosFactura)
+                            {
+                                var articulo = articuloFactura.Articulo;
+                                var cantidad = articuloFactura.CantidadArticulo;
+                                var precio = articulo.Precio;
+                                var total = cantidad * precio;
+
+                                table.Cell().Text(articulo.Nombre);
+                                table.Cell().Text($"₡ {precio}");
+                                table.Cell().Text(cantidad.ToString());
+                                table.Cell().Text($"₡ {total}");
+                            }
+                        });
+
+                        // Monto total de la factura
+                        col.Item().PaddingTop(20)
+                      .AlignRight().Text($"Total Iva: ₡ {factura.MontoTotal:N2}").Bold().FontSize(16);
+                    });
+
+                    // Pie de página con el número de página
+                    page.Footer().Row(row =>
+                    {
+                        row.RelativeItem().AlignLeft().Text("Gracias por su compra").FontSize(12).FontColor("#777777");
+                        row.RelativeItem().AlignRight().Text(txt =>
+                        {
+                            txt.Span("Página ").FontSize(10).FontColor("#777777");
+                            txt.CurrentPageNumber().FontSize(10).FontColor("#777777");
+                            txt.Span(" de ").FontSize(10).FontColor("#777777");
+                            txt.TotalPages().FontSize(10).FontColor("#777777");
+                        });
+                    });
+                });
+            }).GeneratePdf();
+
+            // Devuelve el archivo PDF generado
+            using (var stream = new MemoryStream(pdf))
+            {
+                return File(stream.ToArray(), "application/pdf", "factura.pdf");
+            }
+        }
+
+
+
+        public async Task<IActionResult> Factura(int UsuarioID)
+        {
+            
+            var facturas = await _context.Factura
+                                         .Where(f => f.UsuarioId == UsuarioID.ToString())
+                                         .ToListAsync();
+
+            ViewBag.Pagina = "Facturas";
+
+            return View(facturas);
+        }
+
+
 
 
         [Authorize]
@@ -209,7 +372,7 @@ namespace Proyecto_TiendaElectronica.Controllers
                 }
 
 
-                TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo editar la informaci�n.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo editar la información.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
                 
 
 
@@ -264,3 +427,4 @@ namespace Proyecto_TiendaElectronica.Controllers
         }
     }
 }
+

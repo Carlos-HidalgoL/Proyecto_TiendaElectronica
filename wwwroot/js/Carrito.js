@@ -91,15 +91,18 @@ const guardarCarrito = () => {
         contentType: 'application/json',
         data: JSON.stringify(carritoSinImagen),
         success: function (response) {
+
+            const pdfUrl = `/Home/DescargarPDF?facturaId=${response.facturaId}`;
+            window.location.href = pdfUrl;
+             
             Swal.fire({
-                title: "¡Exitó!",
-                text: "Su compra se ha realizado",
+                title: "¡Éxito!",
+                text: "Su compra se ha realizado y el PDF está descargando.",
                 icon: "success",
                 confirmButtonColor: "#3085d6"
             }).then((result) => {
                 localStorage.clear();
-                mostrarCarrito();
-            })
+            });
         },
         error: function (jqXHR, textStatus, errorThrown) {
             Swal.fire({
