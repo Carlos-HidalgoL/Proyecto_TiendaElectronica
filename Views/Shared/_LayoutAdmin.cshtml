@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
     <script src="~/js/imagePreview.js"></script>
 
-
 </head>
 <body>
     <div class="wrapper">
@@ -27,7 +26,7 @@
                 <li class="
                     @(ViewBag.Pagina == "Index" ? "active" : "" )
                 ">
-                    <a href="/">
+                    <a href="@Url.Action("Index")">
                         <div class="d-flex">
                             <div style="margin-right: 18px">
                                 <i class="fa-solid fa-house"></i>
@@ -92,7 +91,7 @@
                         </a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
                             <li>
-                                <a href="@Url.Action("/")">
+                                <a href="@Url.Action("Perfil", "Home")">
                                     <div class="d-flex">
                                         <div style="margin-right: 5px">
                                             <i class="fa-solid fa-user"></i>
@@ -183,6 +182,11 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/error.js" asp-append-version="true"></script>
+    @if (ViewBag.Pagina == "Index")
+    {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="~/js/Graficos.js" asp-append-version="true"></script>
+    }
     @await RenderSectionAsync("Scripts", required: false)
 
 

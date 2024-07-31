@@ -211,8 +211,6 @@ namespace Proyecto_TiendaElectronica.Controllers
 
                 TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo editar la información.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
                 
-
-
             }
 
 

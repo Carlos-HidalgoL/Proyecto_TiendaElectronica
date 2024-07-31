@@ -43,6 +43,8 @@
                                         if (User.IsInRole("Administrador"))
                                         {
                                             <li><a class="" href="@Url.Action("Index", "Admin")">Administración</a></li>
+                                        }else{
+                                            <li><a class="" href="@Url.Action("Index", "Admin")">Mis Compras</a></li>
                                         }
                                         <li><a class="" href="@Url.Action("Perfil")">Mi Perfil</a></li>
                                         
