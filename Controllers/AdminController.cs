@@ -42,7 +42,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
         [Authorize(Roles = "Administrador")]
 
-		[HttpGet]
+
         public ActionResult CrearArticulo()
 		{
 
@@ -54,34 +54,33 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
 
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> CrearArticulo([ModelBinder(BinderType = typeof(ArticuloModelBinder))] Articulo articulo)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					_context.Articulo.Add(articulo);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateException ex)
+				{
+					ViewBag.Error = $"Error al guardar los datos: {ex.Message}";
+					return View(articulo);
+				}
+				catch (Exception ex)
+				{
+					ViewBag.Error = $"Ha ocurrido un error: {ex.Message}";
+					return View(articulo);
+				}
+			}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearArticulo([ModelBinder(BinderType = typeof(ArticuloModelBinder), Name = "CustomBinderForCreate")] Articulo articulo)
-        {
+			return RedirectToAction(nameof(Articulos));
+		}
 
-                try
-                {
-                    _context.Articulo.Add(articulo);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Articulos));
-                }
-                catch (DbUpdateException)
-                {
-                    TempData["SweetAlertScript"] = "<script>Swal.fire({ title: \"Error\", text: \"Error al guardar el artículo. Por favor, inténtelo más tarde.\", icon: \"error\", confirmButtonColor: \"#E14848\" });</script>";
-                }
-                catch (Exception)
-                {
-                    TempData["SweetAlertScript"] = "<script>Swal.fire({ title: \"Error\", text: \"Ha ocurrido un error. Por favor, inténtelo más tarde.\", icon: \"error\", confirmButtonColor: \"#E14848\" });</script>";
-                }
-
-            return View(articulo);
-        }
-
-
-
-
-        [HttpGet]
+		[HttpGet]
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> VerArticulo(int id)
 		{
@@ -219,9 +218,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 
-
-
-        [HttpGet]
+		[HttpGet]
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> EliminarArticulo(int id)
 		{
@@ -509,20 +506,69 @@ namespace Proyecto_TiendaElectronica.Controllers
 			return Json(new { success = false, message = "Ocurrió un error al eliminar el usuario." });
 			
 
-
-
 		}
 
 
-        [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> Facturas()
+        public async Task<IActionResult> Graficos()
         {
-            var facturas = await _context.Factura.ToListAsync();
-            ViewBag.Pagina = "Facturas";
 
-            return View(facturas);
+            try
+            {
+                var top4Productos = await _context.ArticuloFactura
+                    .Include("Articulo")
+                    .GroupBy(a => new { a.Articulo.ArticuloId, a.Articulo.Nombre }) // Agrupa por Id y Nombre del producto
+                    .Select(g => new
+                    {
+                        ArticuloId = g.Key.ArticuloId,
+                        Nombre = g.Key.Nombre,
+                        CantidadTotal = g.Sum(a => a.CantidadArticulo) // Suma las cantidades para cada grupo
+                    })
+                    .OrderByDescending(g => g.CantidadTotal) // Ordena por CantidadTotal de manera descendente
+                    .Take(4) // Toma solo los primeros 4 productos
+                    .ToListAsync();
+
+                var top4Categorias = await _context.ArticuloFactura
+                    .Include(a => a.Articulo)
+                    .ThenInclude(a => a.Categoria) // Incluye la categoría relacionada
+                    .GroupBy(a => new { a.Articulo.Categoria.CategoriaId, a.Articulo.Categoria.Nombre }) // Agrupa por categoría
+                    .Select(g => new
+                    {
+                        CategoriaId = g.Key.CategoriaId,
+                        NombreCategoria = g.Key.Nombre,
+                        CantidadTotal = g.Sum(a => a.CantidadArticulo) // Suma las cantidades para cada categoría
+                    })
+                    .OrderByDescending(g => g.CantidadTotal) // Ordena por CantidadTotal de manera descendente
+                    .Take(4) // Toma solo las 4 categorías principales
+                    .ToListAsync();
+
+                var facturas = await _context.Factura.ToListAsync();
+
+                // Luego, agrupa y procesa los datos en memoria
+                var ventasPorMes = facturas
+                    .GroupBy(f => new {
+                        Year = f.FechaCreacion.Year,
+                        Month = f.FechaCreacion.Month
+                    })
+                    .Select(g => new
+                    {
+                        Fecha = new DateTime(g.Key.Year, g.Key.Month, 1),
+                        TotalVentas = g.Sum(f => f.MontoTotal)
+                    })
+                    .OrderBy(g => g.Fecha)
+                    .ToList();
+
+                return Json(new { success = true, productos = top4Productos, categorias = top4Categorias, ventas = ventasPorMes });
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al tratar de obtener los datos." });
+            }
+
+
+
         }
-
 
 
 
