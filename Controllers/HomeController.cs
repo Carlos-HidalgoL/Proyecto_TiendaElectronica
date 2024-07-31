@@ -285,6 +285,22 @@ namespace Proyecto_TiendaElectronica.Controllers
         }
 
 
+
+        public async Task<IActionResult> Factura(int UsuarioID)
+        {
+            
+            var facturas = await _context.Factura
+                                         .Where(f => f.UsuarioId == UsuarioID.ToString())
+                                         .ToListAsync();
+
+            ViewBag.Pagina = "Facturas";
+
+            return View(facturas);
+        }
+
+
+
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Perfil() {
@@ -411,3 +427,4 @@ namespace Proyecto_TiendaElectronica.Controllers
         }
     }
 }
+
