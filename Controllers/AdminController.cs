@@ -54,33 +54,33 @@ namespace Proyecto_TiendaElectronica.Controllers
 		}
 
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> CrearArticulo([ModelBinder(BinderType = typeof(ArticuloModelBinder))] Articulo articulo)
-		{
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					_context.Articulo.Add(articulo);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateException ex)
-				{
-					ViewBag.Error = $"Error al guardar los datos: {ex.Message}";
-					return View(articulo);
-				}
-				catch (Exception ex)
-				{
-					ViewBag.Error = $"Ha ocurrido un error: {ex.Message}";
-					return View(articulo);
-				}
-			}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearArticulo([ModelBinder(BinderType = typeof(ArticuloModelBinder), Name = "CustomBinderForCreate")] Articulo articulo)
+        {
 
-			return RedirectToAction(nameof(Articulos));
-		}
+          
+            try
+            {
+                _context.Articulo.Add(articulo);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Articulos));
+            }
+            catch (DbUpdateException)
+            {
+                TempData["SweetAlertScript"] = "<script>Swal.fire({ title: \"Error\", text: \"Error al guardar el artículo. Por favor, inténtelo más tarde.\", icon: \"error\", confirmButtonColor: \"#E14848\" });</script>";
+            }
+            catch (Exception)
+            {
+                TempData["SweetAlertScript"] = "<script>Swal.fire({ title: \"Error\", text: \"Ha ocurrido un error. Por favor, inténtelo más tarde.\", icon: \"error\", confirmButtonColor: \"#E14848\" });</script>";
+            }
 
-		[HttpGet]
+            return View(articulo);
+        }
+
+
+
+        [HttpGet]
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> VerArticulo(int id)
 		{
