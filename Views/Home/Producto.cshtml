@@ -22,11 +22,15 @@
             <h2>@Model.Nombre</h2>
             <h4 class="precio" style="font-size:20px">@Model.Precio</h4>
             <p></p>
+
+             @if (User.Identity.IsAuthenticated)
+                                {
             <div class="d-flex">
                 <input id="cantidad" type="number" class="form-control me-2 text-center" value="1" min="1" style="width: 60px;">
                 <button class="btn btn-danger" onclick="agregarAlCarrito('@Model.ArticuloId', '@Model.Nombre', '@Model.Precio', '@(Model.Imagen != null ? Convert.ToBase64String(Model.Imagen.Imagen1) : "")', '@Model.Cantidad')">Añadir al carrito</button>
 
             </div>
+                                }
             <div class="mt-3 d-flex">
                 <strong class="me-2">Categoria:</strong>
                 <p class="precio">Categoria</p>
@@ -67,8 +71,9 @@
                                     </a>
                                     <ul class="product-links">
                                         <li><a href="@Url.Action("Producto",new{id = @articulo.ArticuloId})"><i class="fa fa-eye"></i></a></li>
+                                    @if (User.Identity.IsAuthenticated){
                                         <li><a onclick="agregarProductoAlCarrito('@articulo.ArticuloId', '@articulo.Nombre', '@articulo.Precio', '@Convert.ToBase64String(articulo.Imagen.Imagen1)',@articulo.Cantidad)"><i class="fa fa-shopping-cart"></i></a></li>
-
+                                        }
                                     </ul>
                                 </div>
                                 <div class="product-content">

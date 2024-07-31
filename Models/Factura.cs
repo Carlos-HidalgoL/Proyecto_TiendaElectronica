@@ -17,7 +17,7 @@ namespace Proyecto_TiendaElectronica.Models
 
         public string UsuarioId { get; set; }
 
-                                                  
+        public List<ArticuloFactura> articulosFactura {  get; set; }                             
     }                                             
 }                                                 
                                                   
