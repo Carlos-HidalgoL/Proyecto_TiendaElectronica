@@ -13,9 +13,14 @@ namespace Proyecto_TiendaElectronica.ModelBinder
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             if (context.Metadata.ModelType == typeof(Usuario)) return new BinderTypeModelBinder(typeof(UsuarioModelBinder));
-			if (context.Metadata.ModelType == typeof(Articulo)) return new BinderTypeModelBinder(typeof(ArticuloModelBinder));
 
-			return null;
+            if (context.BindingInfo?.BinderModelName == "CustomBinderForCreate" &&
+          context.Metadata.ModelType == typeof(Articulo))
+            {
+                return new BinderTypeModelBinder(typeof(ArticuloModelBinder));
+            }
+
+            return null;
         }
     }
 }

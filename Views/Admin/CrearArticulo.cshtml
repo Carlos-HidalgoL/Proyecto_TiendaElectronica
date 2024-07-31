@@ -3,6 +3,9 @@
 }
 @model Proyecto_TiendaElectronica.Models.Articulo
 
+
+@Html.Raw(TempData["SweetAlertScript"])
+
 <div class="visually-hidden" id="error">
     @ViewBag.Error
 </div>
@@ -125,6 +128,10 @@
         </div>
 
         <button class="button-send" type="submit" >Enviar</button>
+
+        <a href="@Url.Action("Articulos")" class="button-send p-2">
+            Volver
+        </a>
 
     </form>
 </div>
