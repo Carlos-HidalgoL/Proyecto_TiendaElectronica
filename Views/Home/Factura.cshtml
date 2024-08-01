@@ -20,12 +20,10 @@
             <table id="table_id" class="table table-dark table-striped">
                 <thead>
                     <tr>
-                        <th>Factura Id</th>
-                        <th>Fecha Creación</th>
-                        <th>Ultima Impresión</th>
+                        <th>Identificador</th>
+                        <th>Fecha de Compra</th>
                         <th>Monto Total</th>
                         <th>Subtotal</th>
-                        <th>Usuario</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -35,10 +33,8 @@
                         <tr>
                             <td class="text-center">@factura.FacturaId</td>
                             <td>@factura.FechaCreacion</td>
-                            <td>@factura.UltimaFechaImpresion</td>
                             <td>@factura.MontoTotal</td>
                             <td>@factura.SubTotal</td>
-                            <td>@factura.UsuarioId</td>
                             <td>
                                 <a href="@Url.Action("DescargarPDF","Home", new { facturaId = factura.FacturaId })" class="btn btn-success">Descargar Pdf</a>
                             </td>

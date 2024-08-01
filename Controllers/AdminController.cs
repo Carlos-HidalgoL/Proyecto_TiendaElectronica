@@ -508,7 +508,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 
-
+		[HttpGet]
         public async Task<IActionResult> Graficos()
         {
 
@@ -569,18 +569,6 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

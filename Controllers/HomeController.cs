@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Proyecto_TiendaElectronica.Models;
 using Proyecto_TiendaElectronica.ViewModels;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
-
 using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using Proyecto_TiendaElectronica.ViewModels;
-using System.Security.Claims;
+
 
 
 
@@ -44,6 +40,8 @@ namespace Proyecto_TiendaElectronica.Controllers
             
             return View(articulos);
         }
+
+
         public IActionResult Tienda(string categoria)
         {
             var articulos = _context.Articulo.ToList();
@@ -109,19 +107,19 @@ namespace Proyecto_TiendaElectronica.Controllers
             try
             {
 
-                var usuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (usuarioId == null)
+                var usuario = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (usuario == null)
                 {
                     return Unauthorized("Usuario no autenticado.");
                 }
 
-                var usuario = await _context.Usuario.FirstOrDefaultAsync( u => u.Id == usuarioId);
+                
                 var nuevaFactura = new Factura
                 {
                     FechaCreacion = DateTime.Now,
                     SubTotal = calcularSubTotal(carrito),
                     MontoTotal = calcularMontoTotal(carrito),
-                    UsuarioId = usuario.Id
+                    UsuarioId = usuario.Id.ToString()
                 };
 
                 //nuevaFactura.Usuario = usuario;
@@ -285,12 +283,15 @@ namespace Proyecto_TiendaElectronica.Controllers
         }
 
 
-
-        public async Task<IActionResult> Factura(int UsuarioID)
+        [HttpGet]
+        [Authorize(Roles = "Usuario")]
+        public async Task<IActionResult> Factura()
         {
-            
+            var usuario = await _userManager.FindByNameAsync(User.Identity.Name);
+
+
             var facturas = await _context.Factura
-                                         .Where(f => f.UsuarioId == UsuarioID.ToString())
+                                         .Where(f => f.UsuarioId == usuario.Id)
                                          .ToListAsync();
 
             ViewBag.Pagina = "Facturas";

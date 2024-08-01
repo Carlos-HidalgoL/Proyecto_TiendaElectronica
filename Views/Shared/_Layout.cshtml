@@ -24,7 +24,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Tienda</a>
+                            <a class="nav-link" href="@Url.Action("Tienda", "Home")" >Tienda</a>
                         </li>
                         <li class="nav-item">
                             
@@ -44,7 +44,7 @@
                                         {
                                             <li><a class="" href="@Url.Action("Index", "Admin")">Administración</a></li>
                                         }else{
-                                            <li><a class="" href="@Url.Action("Index", "Admin")">Mis Compras</a></li>
+                                            <li><a class="" href="@Url.Action("Factura", "Home")">Mis Compras</a></li>
                                         }
                                         <li><a class="" href="@Url.Action("Perfil")">Mi Perfil</a></li>
                                         
