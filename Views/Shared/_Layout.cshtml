@@ -48,7 +48,7 @@
                                         }
                                         <li><a class="" href="@Url.Action("Perfil")">Mi Perfil</a></li>
                                         
-                                        <li><a class="" href="@Url.Action("Logout", "Logueo")">Cerrar Sesión</a></li>
+                                        <li><a class="" href="@Url.Action("Logout", "Logueo")" onclick="cerrarSesion();">Cerrar Sesión</a></li>
                                     }else{
                                         <li><a class="" href="@Url.Action("Index", "Logueo")">Iniciar Sesión</a></li>
                                     }
@@ -150,7 +150,12 @@
     </footer>
     <script src="https://kit.fontawesome.com/2425b0cf01.js" crossorigin="anonymous"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @if(ViewBag.Pagina == "Factura"){
+    
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    }
+    <script src="~/js/Sesion.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

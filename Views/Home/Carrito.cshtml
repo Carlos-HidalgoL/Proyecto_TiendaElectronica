@@ -2,7 +2,6 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <body>
         <div class="my-5 migajas">
             <div class="container">
                 <div class="my-5 align-items-center">
@@ -57,14 +56,13 @@
                             <p class="card-text">IVA: <span id="iva"></span></p>
                             <h5 class="card-title">Total: <span id="total"></span></h5>
                             <button onclick="guardarCarrito()" class="btn btn-primary">Proceder al Pago</button>
-                            <a href="#" class="btn btn-secondary">Seguir Comprando</a>
+                            <a href="@Url.Action("Tienda")" class="btn btn-secondary">Seguir Comprando</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <script src="~/js/Carrito.js"></script>
-    </body>
 }else
 {
     <div class="d-flex justify-content-center mb-3 mt-3">

@@ -4,6 +4,8 @@
     Layout = "_LayoutAdmin";
 }
 
+@Html.Raw(TempData["SweetAlertScript"])
+
 <h2 class="mb-3">Facturas</h2>
 
 <div class="admin-element">
@@ -12,11 +14,10 @@
         <thead>
             <tr>
                 <th>Factura Id</th>
-                <th>Fecha Creación</th>
                 <th>Ultima Impresión</th>
-                <th>Monto Total</th>
                 <th>Subtotal</th>
-                <th>Usuario</th>
+                <th>Monto Total</th>
+                <th>Cédula Usuario</th>
                 <th></th>
             </tr>
         </thead>
@@ -25,13 +26,18 @@
             {
                 <tr>
                     <td class="text-center">@factura.FacturaId</td>
-                    <td>@factura.FechaCreacion</td>
-                    <td>@factura.UltimaFechaImpresion</td>
-                    <td>@factura.MontoTotal</td>
+                    @if (factura.UltimaFechaImpresion.ToString() == "01/01/0001 0:00:00")
+                    {
+                       <td>No Imprimida</td>     
+                    }else{
+                        <td>@factura.UltimaFechaImpresion.ToString("yyyy-MM-dd")</td>
+                    }
+                    
                     <td>@factura.SubTotal</td>
+                    <td>@factura.MontoTotal</td>
                     <td>@factura.UsuarioId</td>
                     <td>
-                        <a href="@Url.Action("DescargarPDF","Home", new{facturaId = factura.FacturaId})" class="btn btn-success">Descargar Pdf</a>
+                        <a href="@Url.Action("DescargarPDF", new{facturaId = factura.FacturaId})" class="btn btn-success">Descargar Pdf</a>
                     </td>
                   
 

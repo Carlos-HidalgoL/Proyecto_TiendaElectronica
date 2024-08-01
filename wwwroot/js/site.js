@@ -8,7 +8,7 @@
         // Otros opciones según tus necesidades
     });
 
-})
+});
 
 
 const eliminar = (id, URL) => {

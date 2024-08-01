@@ -101,7 +101,7 @@ namespace Proyecto_TiendaElectronica.Controllers
         {
             if (carrito == null || carrito.Count == 0)
             {
-                return BadRequest("El carrito est� vac�o.");
+                return BadRequest("El carrito esta vacío.");
             }
 
             try
@@ -142,7 +142,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return Json(new { success = true, facturaId = nuevaFactura.FacturaId });
+                return Json(new { success = true });
 
             }
             catch (Exception ex)
@@ -185,101 +185,111 @@ namespace Proyecto_TiendaElectronica.Controllers
             var usuario = await _context.Usuario.FirstOrDefaultAsync(u => u.Id == factura.UsuarioId);
 
             // Verifica si la factura fue encontrada
-           
+
 
             // Crea el documento PDF usando QuestPDF
-            var pdf = Document.Create(container =>
-            {
-                container.Page(page =>
+
+            try {
+                var pdf = Document.Create(container =>
                 {
-                    page.Margin(30);
-
-                    // Cabecera de la página
-                    page.Header().Row(row =>
+                    container.Page(page =>
                     {
+                        page.Margin(30);
 
-                        row.RelativeItem().Column(col =>
+                        // Cabecera de la página
+                        page.Header().Row(row =>
                         {
-                            col.Item().Text("Factura").Bold().FontSize(22).FontColor("#333333");
-                            col.Item().Text($"Número de Factura: {factura.FacturaId}").FontSize(14).FontColor("#555555");
-                            col.Item().Text($"Fecha: {factura.FechaCreacion.ToShortDateString()}").FontSize(12).FontColor("#777777");
-                        });
 
-                        row.RelativeItem().AlignRight().Column(col =>
-                        {
-                            col.Item().Text($"Cliente: {usuario.Id}").FontSize(14).FontColor("#000000");
-                            col.Item().Text($"Nombre: {usuario.UserName}").FontSize(14).FontColor("#000000");
-                            col.Item().Text($"Número: {usuario.PhoneNumber}").FontSize(14).FontColor("#000000");
-                            col.Item().Text($"Email: {usuario.Email}").FontSize(14).FontColor("#000000");
-
-                        });
-                    });
-
-                    // Contenido de la factura
-                    page.Content().PaddingVertical(10).Column(col =>
-                    {
-                        col.Item().Text("Detalles de la Factura").Bold().FontSize(16);
-
-                        col.Item().Table(table =>
-                        {
-                            // Definición de columnas
-                            table.ColumnsDefinition(columns =>
+                            row.RelativeItem().Column(col =>
                             {
-                                columns.RelativeColumn(3);  // Nombre del producto
-                                columns.RelativeColumn();   // Precio unitario
-                                columns.RelativeColumn();   // Cantidad
-                                columns.RelativeColumn();   // SubTotal
-                            });
-                            
-                            // Encabezado de la tabla
-                            table.Header(header =>
-                            {
-                                header.Cell().Background("#E14848").Padding(5).Text("Producto").Bold().FontColor("#ffffff");
-                                header.Cell().Background("#E14848").Padding(5).Text("Precio Unitario").Bold().FontColor("#ffffff");
-                                header.Cell().Background("#E14848").Padding(5).Text("Cantidad").Bold().FontColor("#ffffff");
-                                header.Cell().Background("#E14848").Padding(5).Text("SubTotal").Bold().FontColor("#ffffff");
+                                col.Item().Text("Factura").Bold().FontSize(22).FontColor("#333333");
+                                col.Item().Text($"Número de Factura: {factura.FacturaId}").FontSize(14).FontColor("#555555");
+                                col.Item().Text($"Fecha: {factura.FechaCreacion.ToShortDateString()}").FontSize(12).FontColor("#777777");
                             });
 
-                            // Agrega las filas de productos
-                            foreach (var articuloFactura in factura.articulosFactura)
+                            row.RelativeItem().AlignRight().Column(col =>
                             {
-                                var articulo = articuloFactura.Articulo;
-                                var cantidad = articuloFactura.CantidadArticulo;
-                                var precio = articulo.Precio;
-                                var total = cantidad * precio;
+                                col.Item().Text($"Cliente: {usuario.Id}").FontSize(14).FontColor("#000000");
+                                col.Item().Text($"Nombre: {usuario.UserName}").FontSize(14).FontColor("#000000");
+                                col.Item().Text($"Número: {usuario.PhoneNumber}").FontSize(14).FontColor("#000000");
+                                col.Item().Text($"Email: {usuario.Email}").FontSize(14).FontColor("#000000");
 
-                                table.Cell().Text(articulo.Nombre);
-                                table.Cell().Text($"₡ {precio}");
-                                table.Cell().Text(cantidad.ToString());
-                                table.Cell().Text($"₡ {total}");
-                            }
+                            });
                         });
 
-                        // Monto total de la factura
-                        col.Item().PaddingTop(20)
-                      .AlignRight().Text($"Total Iva: ₡ {factura.MontoTotal:N2}").Bold().FontSize(16);
-                    });
-
-                    // Pie de página con el número de página
-                    page.Footer().Row(row =>
-                    {
-                        row.RelativeItem().AlignLeft().Text("Gracias por su compra").FontSize(12).FontColor("#777777");
-                        row.RelativeItem().AlignRight().Text(txt =>
+                        // Contenido de la factura
+                        page.Content().PaddingVertical(10).Column(col =>
                         {
-                            txt.Span("Página ").FontSize(10).FontColor("#777777");
-                            txt.CurrentPageNumber().FontSize(10).FontColor("#777777");
-                            txt.Span(" de ").FontSize(10).FontColor("#777777");
-                            txt.TotalPages().FontSize(10).FontColor("#777777");
+                            col.Item().Text("Detalles de la Factura").Bold().FontSize(16);
+
+                            col.Item().Table(table =>
+                            {
+                                // Definición de columnas
+                                table.ColumnsDefinition(columns =>
+                                {
+                                    columns.RelativeColumn(3);  // Nombre del producto
+                                    columns.RelativeColumn();   // Precio unitario
+                                    columns.RelativeColumn();   // Cantidad
+                                    columns.RelativeColumn();   // SubTotal
+                                });
+
+                                // Encabezado de la tabla
+                                table.Header(header =>
+                                {
+                                    header.Cell().Background("#E14848").Padding(5).Text("Producto").Bold().FontColor("#ffffff");
+                                    header.Cell().Background("#E14848").Padding(5).Text("Precio Unitario").Bold().FontColor("#ffffff");
+                                    header.Cell().Background("#E14848").Padding(5).Text("Cantidad").Bold().FontColor("#ffffff");
+                                    header.Cell().Background("#E14848").Padding(5).Text("SubTotal").Bold().FontColor("#ffffff");
+                                });
+
+                                // Agrega las filas de productos
+                                foreach (var articuloFactura in factura.articulosFactura)
+                                {
+                                    var articulo = articuloFactura.Articulo;
+                                    var cantidad = articuloFactura.CantidadArticulo;
+                                    var precio = articulo.Precio;
+                                    var total = cantidad * precio;
+
+                                    table.Cell().Text(articulo.Nombre);
+                                    table.Cell().Text($"₡ {precio}");
+                                    table.Cell().Text(cantidad.ToString());
+                                    table.Cell().Text($"₡ {total}");
+                                }
+                            });
+
+                            // Monto total de la factura
+                            col.Item().PaddingTop(20)
+                          .AlignRight().Text($"Total Iva: ₡ {factura.MontoTotal:N2}").Bold().FontSize(16);
+                        });
+
+                        // Pie de página con el número de página
+                        page.Footer().Row(row =>
+                        {
+                            row.RelativeItem().AlignLeft().Text("Gracias por su compra").FontSize(12).FontColor("#777777");
+                            row.RelativeItem().AlignRight().Text(txt =>
+                            {
+                                txt.Span("Página ").FontSize(10).FontColor("#777777");
+                                txt.CurrentPageNumber().FontSize(10).FontColor("#777777");
+                                txt.Span(" de ").FontSize(10).FontColor("#777777");
+                                txt.TotalPages().FontSize(10).FontColor("#777777");
+                            });
                         });
                     });
-                });
-            }).GeneratePdf();
+                }).GeneratePdf();
 
-            // Devuelve el archivo PDF generado
-            using (var stream = new MemoryStream(pdf))
-            {
-                return File(stream.ToArray(), "application/pdf", "factura.pdf");
+                // Devuelve el archivo PDF generado
+                using (var stream = new MemoryStream(pdf))
+                {
+                    return File(stream.ToArray(), "application/pdf", "Factura-" + factura.FacturaId + ".pdf");
+                }
             }
+            catch (Exception ex)
+            {
+                TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo imprimir la factura, reintentelo mas tarde.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+            }
+
+            return RedirectToAction("Factura");
+
         }
 
 

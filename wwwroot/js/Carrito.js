@@ -13,6 +13,7 @@ const mostrarCarrito = () => {
     carrito.forEach(function (item) {
         let precio = parseInt(item.precio);
         let total = precio * item.cantidad;
+        total = total.toFixed(2).replace('.', ',');
         subtotal += total;
 
         let newRow = document.createElement('tr');
@@ -25,11 +26,11 @@ const mostrarCarrito = () => {
                     </div>
                 </div>
             </td>
-            <td class="align-middle text-white">${item.precio}</td>
+            <td class="align-middle text-white">₡${item.precio}</td>
             <td class="align-middle">
                 <input type="number" class="form-control text-center" min="1" max="${item.stock}" value="${item.cantidad}" onchange="actualizarCantidad(${item.id}, this.value)">
             </td>
-            <td class="align-middle text-white">${total}</td>
+            <td class="align-middle text-white">₡${total}</td>
             <td class="align-middle">
                 <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${item.id})">Eliminar</button>
             </td>
@@ -90,18 +91,15 @@ const guardarCarrito = () => {
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(carritoSinImagen),
-        success: function (response) {
-
-            const pdfUrl = `/Home/DescargarPDF?facturaId=${response.facturaId}`;
-            window.location.href = pdfUrl;
-             
+        success: function (response) {             
             Swal.fire({
                 title: "¡Éxito!",
-                text: "Su compra se ha realizado y el PDF está descargando.",
+                text: "Su compra se ha realizado puede ver la misma en 'Mis Compras'.",
                 icon: "success",
                 confirmButtonColor: "#3085d6"
             }).then((result) => {
                 localStorage.clear();
+                location.reload();
             });
         },
         error: function (jqXHR, textStatus, errorThrown) {

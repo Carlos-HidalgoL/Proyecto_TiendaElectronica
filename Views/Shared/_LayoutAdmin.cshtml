@@ -11,7 +11,12 @@
     <link rel="stylesheet" href="~/Proyecto_TiendaElectronica.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
-    <script src="~/js/imagePreview.js"></script>
+
+    @if (ViewBag.Pagina == "CrearArticulo")
+    {
+        <script src="~/js/imagePreview.js"></script>
+        
+    }
 
 </head>
 <body>
@@ -71,7 +76,7 @@
                 <li class="
                     @(ViewBag.Pagina == "Facturas" ? "active" : "" )
                 ">
-                    <a href="/">
+                    <a href="@Url.Action("Factura")">
                         <div class="d-flex">
                             <div style="margin-right: 18px">
                                 <i class="fa-solid fa-file-invoice"></i>
@@ -180,8 +185,12 @@
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/error.js" asp-append-version="true"></script>
+    @if (ViewBag.Pagina == "Usuarios" || ViewBag.Pagina == "Ariculos" || ViewBag.Pagina == "Facturas")
+    {
+        
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    }
+
     @if (ViewBag.Pagina == "Index")
     {
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
