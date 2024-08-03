@@ -35,13 +35,20 @@
                         @(usuario.Estado ? "Activo" : "Inactivo")
                     </td>
                     <td>
-                        <a href="@Url.Action("VerUsuario", new{id = usuario.UsuarioId})" class="btn btn-ver">Ver</a>
+                        <a href="@Url.Action("VerUsuario", new{id = usuario.UsuarioId})" class="btn btn-ver">
+                            <i class="fas fa-eye"></i>Ver
+                        </a>
                     </td>
                     <td>
-                        <a href="@Url.Action("EditarUsuario", new{id = usuario.UsuarioId})" class="btn btn-actualizar">Actualizar</a>
+                        <a href="@Url.Action("EditarUsuario", new{id = usuario.UsuarioId})" class="btn btn-actualizar">
+                            <i class="fas fa-edit"></i> Actualizar
+                         </a>
                     </td>
                     <td>
-                        <button class="btn btn-eliminar" onclick="eliminar(@usuario.UsuarioId, '/Admin/EliminarUsuario')">Eliminar</button>
+                        <button class="btn btn-eliminar" onclick="eliminar(@usuario.UsuarioId, '/Admin/EliminarUsuario')">
+                            <i class="fas fa-trash"></i> Eliminar
+                            
+                        </button>
                     </td>
 
                 </tr>
