@@ -87,6 +87,8 @@ namespace Proyecto_TiendaElectronica.Controllers
             return View();
 
         }
+
+        [Authorize(Roles = "Usuario")]
         public IActionResult Carrito()
 		{
 			return View();

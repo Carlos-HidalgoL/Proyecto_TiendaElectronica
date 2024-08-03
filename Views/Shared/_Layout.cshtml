@@ -58,7 +58,11 @@
                         </li>
                         <li class="nav-item">
                             <div>
-                                <a src="@Url.Action("Carrito")"  class="nav-link" asp-area="" asp-controller="Home" asp-action="Carrito"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                @if (User.IsInRole("Usuario"))
+                                {
+                                    <a src="@Url.Action("Carrito")"  class="nav-link" asp-area="" asp-controller="Home" asp-action="Carrito"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                    
+                                }
 
                             </div>
                         </li>

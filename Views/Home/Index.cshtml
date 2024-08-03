@@ -142,7 +142,10 @@
 									</a>
 									<ul class="product-links">
 										<li><a href="@Url.Action("Producto", new { id = articulo.ArticuloId })"><i class="fa fa-eye"></i></a></li>
-										<li><a onclick="agregarProductoAlCarrito('@articulo.ArticuloId', '@articulo.Nombre', '@articulo.Precio', '@Convert.ToBase64String(articulo.Imagen.Imagen1)', @articulo.Cantidad)"><i class="fa fa-shopping-cart"></i></a></li>
+										@if (User.IsInRole("Usuario"))
+										{
+											<li><a onclick="agregarProductoAlCarrito('@articulo.ArticuloId', '@articulo.Nombre', '@articulo.Precio', '@Convert.ToBase64String(articulo.Imagen.Imagen1)', @articulo.Cantidad)"><i class="fa fa-shopping-cart"></i></a></li>
+										}
 									</ul>
 								</div>
 								<div class="product-content">
@@ -154,7 +157,7 @@
 
 					}
 
-					<div class="col-md-3 col-sm-6 d-flex justify-content-center align-items-center">
+					<div class="col-md-3 col-sm-6 d-flex  align-items-center">
 						<a href="@Url.Action("Tienda", new{categoria = categoriaGrupo.Key.Nombre})" class="cssbuttons-io-button">
 								Ver más
 								<div class="icono">

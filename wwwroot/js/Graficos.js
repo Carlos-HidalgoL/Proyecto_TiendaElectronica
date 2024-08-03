@@ -54,7 +54,18 @@
                 }
             });
 
-            var labels = response.ventas.map((venta) => { return venta.fecha; });
+
+            // Función para obtener el nombre del mes en formato abreviado
+            function getMonthName(dateStr) {
+                const date = new Date(dateStr);
+                const options = { month: 'short' }; // 'short' para abreviado, 'long' para completo
+                return new Intl.DateTimeFormat('es-ES', options).format(date); // Cambia 'es-ES' a tu localización si es necesario
+            }
+
+            // Obtener etiquetas (solo meses)
+            var labels = response.ventas.map((venta) => {
+                return getMonthName(venta.fecha);
+            });
             var values = response.ventas.map((venta) => { return venta.totalVentas; });
 
             var ctx = document.getElementById('myChart3').getContext('2d');

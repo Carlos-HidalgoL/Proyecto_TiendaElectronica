@@ -71,22 +71,11 @@
     </div>
 
     <div class="row mb-3">
-        <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="input_container">
                 <label class="input_label">Fecha Creación</label>
                 <i class="fa-solid fa-id-card icon"></i>
                 <input type="text" class="input_field" value="@Model.FechaCreacion.ToString("dd/MM/yyyy")" readonly>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-12 col-sm-12">
-            <div class="input_container">
-                <label class="input_label">Total</label>
-                <i class="fa-solid fa-id-card icon"></i>
-                @{
-                    var fecha = Model.UltimaFechaImpresion.ToString() == "01/01/0001 0:00:00" ? "No Imprimida" : Model.UltimaFechaImpresion.ToString("dd/MM/yyyy");
-                }
-                <input type="text" class="input_field" value="@fecha"
-                       readonly>
             </div>
         </div>
     </div>
