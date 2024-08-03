@@ -93,62 +93,69 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 
-        [HttpPost]
-        public async Task<IActionResult> GuardarCarrito([FromBody] List<Articulo> carrito)
-        {
-            if (carrito == null || carrito.Count == 0)
-            {
-                return BadRequest("El carrito esta vacío.");
-            }
+		[HttpPost]
+		public async Task<IActionResult> GuardarCarrito([FromBody] List<Articulo> carrito)
+		{
+			if (carrito == null || carrito.Count == 0)
+			{
+				return BadRequest("El carrito esta vacío.");
+			}
 
-            try
-            {
+			try
+			{
+				var usuario = await _userManager.FindByNameAsync(User.Identity.Name);
+				if (usuario == null)
+				{
+					return Unauthorized("Usuario no autenticado.");
+				}
 
-                var usuario = await _userManager.FindByNameAsync(User.Identity.Name);
-                if (usuario == null)
-                {
-                    return Unauthorized("Usuario no autenticado.");
-                }
+				var nuevaFactura = new Factura
+				{
+					FechaCreacion = DateTime.Now,
+					SubTotal = calcularSubTotal(carrito),
+					MontoTotal = calcularMontoTotal(carrito),
+					UsuarioId = usuario.Id.ToString()
+				};
 
-                
-                var nuevaFactura = new Factura
-                {
-                    FechaCreacion = DateTime.Now,
-                    SubTotal = calcularSubTotal(carrito),
-                    MontoTotal = calcularMontoTotal(carrito),
-                    UsuarioId = usuario.Id.ToString()
-                };
+				_context.Factura.Add(nuevaFactura);
+				await _context.SaveChangesAsync();
 
-                //nuevaFactura.Usuario = usuario;
+				foreach (var articulo in carrito)
+				{
+					var articuloFactura = new ArticuloFactura
+					{
+						idFactura = nuevaFactura.FacturaId,
+						idArticulo = articulo.ArticuloId,
+						CantidadArticulo = articulo.Cantidad
+					};
 
-                _context.Factura.Add(nuevaFactura);
-                //Se guarda aqu� y no al final por que se necesita el id que se genera
-                await _context.SaveChangesAsync();
+					_context.ArticuloFactura.Add(articuloFactura);
 
-                foreach (var articulo in carrito)
-                {
-                    var articuloFactura = new ArticuloFactura
-                    {
-                        idFactura = nuevaFactura.FacturaId,
-                        idArticulo = articulo.ArticuloId,
-                        CantidadArticulo = articulo.Cantidad
-                    };
+					// Reducir la cantidad del artículo en la base de datos
+					var articuloEnDB = await _context.Articulo.FindAsync(articulo.ArticuloId);
+					if (articuloEnDB != null)
+					{
+						articuloEnDB.Cantidad -= articulo.Cantidad;
+						if (articuloEnDB.Cantidad < 0)
+						{
+							return BadRequest($"No hay suficiente stock para el artículo {articulo.Nombre}");
+						}
+						_context.Articulo.Update(articuloEnDB);
+					}
+				}
 
-                    _context.ArticuloFactura.Add(articuloFactura);
-                }
+				await _context.SaveChangesAsync();
 
-                await _context.SaveChangesAsync();
+				return Json(new { success = true });
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, $"Error al guardar la factura: {ex.Message}");
+			}
+		}
 
-                return Json(new { success = true });
 
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error al guardar la factura: {ex.Message}");
-            }
-        }
-
-        private decimal calcularSubTotal(List<Articulo> carrito)
+		private decimal calcularSubTotal(List<Articulo> carrito)
         {
             decimal subtotal = 0;
             foreach (var articulo in carrito)

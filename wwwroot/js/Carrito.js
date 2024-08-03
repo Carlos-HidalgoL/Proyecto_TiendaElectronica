@@ -2,6 +2,19 @@
     mostrarCarrito();
 });
 
+
+document.getElementById('tipoPago').addEventListener('change', function () {
+    var tarjetaContainer = document.getElementById('tarjetaContainer');
+    if (this.value === 'tarjeta') {
+        tarjetaContainer.style.display = 'block';
+    } else {
+        tarjetaContainer.style.display = 'none';
+    }
+});
+
+
+
+
 const mostrarCarrito = () => {
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
@@ -13,7 +26,7 @@ const mostrarCarrito = () => {
     carrito.forEach(function (item) {
         let precio = parseInt(item.precio);
         let total = precio * item.cantidad;
-        total = total.toFixed(2).replace('.', ',');
+        let totalMostrar = total.toFixed(2).replace('.', ',');
         subtotal += total;
 
         let newRow = document.createElement('tr');
@@ -30,7 +43,7 @@ const mostrarCarrito = () => {
             <td class="align-middle">
                 <input type="number" class="form-control text-center" min="1" max="${item.stock}" value="${item.cantidad}" onchange="actualizarCantidad(${item.id}, this.value)">
             </td>
-            <td class="align-middle text-white">₡${total}</td>
+            <td class="align-middle text-white">₡${totalMostrar}</td>
             <td class="align-middle">
                 <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${item.id})">Eliminar</button>
             </td>
@@ -39,9 +52,13 @@ const mostrarCarrito = () => {
     });
 
     document.getElementById('subtotal').textContent = `₡${subtotal}`;
+   
     let iva = subtotal * 0.13;
     document.getElementById('iva').textContent = `₡${iva.toFixed(2)}`;
     document.getElementById('total').textContent = `₡${(subtotal + iva).toFixed(2)}`;
+
+    const pagarButton = document.getElementById('pagarButton');
+    pagarButton.style.display = carrito.length > 0 ? 'block' : 'none';
 }
 
 const eliminarProducto = (id) => {
@@ -71,6 +88,24 @@ const actualizarCantidad = (id, nuevaCantidad) => {
 
 
 const guardarCarrito = () => {
+    
+    const direccion = document.getElementById('direccion').value;
+    const canton = document.getElementById('canton').value;
+    const provincia = document.getElementById('provincia').value;
+    const codigoPostal = document.getElementById('codigoPostal').value;
+    const tipoPago = document.getElementById('tipoPago').value;
+    const numeroTarjeta = document.getElementById('numeroTarjeta').value;
+
+   
+    if (!direccion || !canton || !provincia || !codigoPostal || !tipoPago || (tipoPago === 'tarjeta' && !numeroTarjeta)) {
+        alert('Por favor, complete todos los campos obligatorios.');
+        return;
+    }
+
+
+
+
+
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
     const carritoSinImagen = carrito.map(articulo => {
@@ -110,5 +145,64 @@ const guardarCarrito = () => {
                 confirmButtonColor: "#3085d6"
             });
         }
+    });
+}
+
+
+
+function validarFormulario() {
+    const direccion = document.getElementById('direccion');
+    const canton = document.getElementById('canton');
+    const provincia = document.getElementById('provincia');
+    const codigoPostal = document.getElementById('codigoPostal');
+    const tipoPago = document.getElementById('tipoPago');
+    const numeroTarjeta = document.getElementById('numeroTarjeta');
+
+    let valid = true;
+
+    // Reset validation messages
+    resetValidationMessages();
+
+    if (direccion.value.trim() === '') {
+        mostrarError('direccion');
+        valid = false;
+    }
+    if (canton.value.trim() === '') {
+        mostrarError('canton');
+        valid = false;
+    }
+    if (provincia.value.trim() === '') {
+        mostrarError('provincia');
+        valid = false;
+    }
+    if (codigoPostal.value.trim() === '') {
+        mostrarError('codigoPostal');
+        valid = false;
+    }
+    if (tipoPago.value === '') {
+        mostrarError('tipoPago');
+        valid = false;
+    }
+    if (tipoPago.value === 'tarjeta' && numeroTarjeta.value.trim() === '') {
+        mostrarError('numeroTarjeta');
+        valid = false;
+    }
+
+    if (valid) {
+        guardarCarrito(); // Llama a tu función para guardar el carrito
+    }
+}
+
+function mostrarError(campo) {
+    const errorDiv = document.getElementById(`${campo}Error`);
+    if (errorDiv) {
+        errorDiv.style.display = 'block';
+    }
+}
+
+function resetValidationMessages() {
+    const errorDivs = document.querySelectorAll('.invalid-feedback');
+    errorDivs.forEach(div => {
+        div.style.display = 'none';
     });
 }

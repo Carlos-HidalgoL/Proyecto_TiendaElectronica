@@ -51,7 +51,7 @@ function agregarAlCarrito(id, nombre, precio, imagen, stock) {
         text: 'El artículo ha sido agregado al carrito.',
         confirmButtonText: 'OK',
         customClass: {
-            confirmButton: 'my-custom-button-purple'
+            confirmButton: 'my-custom-button'
         }
     }).then(() => {
         location.reload();
@@ -92,7 +92,8 @@ function agregarProductoAlCarrito(id, nombre, precio, imagen, stock) {
             nombre: nombre,
             precio: precio,
             imagen: imagen,
-            cantidad: 1
+            cantidad: 1,
+            stock: stock    
         };
         carrito.push(nuevoProducto);
 
@@ -104,7 +105,7 @@ function agregarProductoAlCarrito(id, nombre, precio, imagen, stock) {
         text: 'El artículo ha sido agregado al carrito.',
         confirmButtonText: 'OK',
         customClass: {
-            confirmButton: 'my-custom-button-purple'
+            confirmButton: 'my-custom-button'
         }
     });
 
