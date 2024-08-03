@@ -20,7 +20,11 @@ var connectionString = builder.Configuration.GetConnectionString("Server=localho
 
 builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddIdentity<Usuario, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentity<Usuario, IdentityRole>(options => {
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1); // Tiempo de bloqueo
+    options.Lockout.MaxFailedAccessAttempts = 2; // Máximo de intentos fallidos antes del bloqueo
+    options.SignIn.RequireConfirmedAccount = false;
+})
     .AddEntityFrameworkStores<AppDBContext>()
     .AddDefaultTokenProviders();
 

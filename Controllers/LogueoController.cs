@@ -37,7 +37,19 @@ namespace Proyecto_TiendaElectronica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(UserLogin model) {
             if (ModelState.IsValid) {
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe,lockoutOnFailure: false);
+                var user = await _userManager.FindByNameAsync(model.UserName);
+
+                if (!user.State) {
+                    TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"El estado del usuario es inactivo.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                    return View(model);
+                }
+
+                if (await _userManager.IsLockedOutAsync(user)) {
+                    TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"Su cuenta de usuario esta bloqueada.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                    return View(model);
+                }
+
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe,lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
@@ -86,7 +98,7 @@ namespace Proyecto_TiendaElectronica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registro(UserRegister model) {
             if (ModelState.IsValid) {
-                var usuario = new Usuario { Id = model.UsuarioId, UserName = model.Nombre, Email = model.Correo, PhoneNumber = model.Telefono };
+                var usuario = new Usuario { Id = model.UsuarioId, UserName = model.Nombre, Email = model.Correo, PhoneNumber = model.Telefono, State = true };
 
                 try
                 {

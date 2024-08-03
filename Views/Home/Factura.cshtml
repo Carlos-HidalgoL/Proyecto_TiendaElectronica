@@ -25,7 +25,7 @@
                         <th>Identificador</th>
                         <th>Fecha de Compra</th>
                         <th>Monto Total</th>
-                        <th>Subtotal</th>
+                        <th>Total</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -34,11 +34,14 @@
                     {
                         <tr>
                             <td class="text-center">@factura.FacturaId</td>
-                            <td>@factura.FechaCreacion.ToString("dd-MM-yyyyy")</td>
+                            <td>@factura.FechaCreacion.ToString("dd-MM-yyyy")</td>
                             <td>₡@factura.MontoTotal</td>
-                            <td>₡@factura.SubTotal</td>
+                            <td>₡@factura.MontoTotal</td>
                             <td>
                                 <a href="@Url.Action("DescargarPDF","Home", new { facturaId = factura.FacturaId })" class="btn btn-success">Descargar Pdf</a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("VerFactura","Home", new { facturaId = factura.FacturaId })" class="btn btn-success">Descargar Pdf</a>
                             </td>
                         </tr>
                     }

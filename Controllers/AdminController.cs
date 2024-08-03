@@ -54,6 +54,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 			ViewBag.Categorias = new SelectList(categorias, "CategoriaId", "Nombre");
 
+			ViewBag.Pagina = "CrearArticulo";
+
 			return View();
 		}
 
@@ -133,7 +135,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 			var categorias = _context.Categoria.ToList();
 			ViewBag.Categorias = new SelectList(categorias, "CategoriaId", "Nombre");
 
-			return View(articulo);
+            return View(articulo);
 		}
 
 		[HttpPost]
@@ -180,7 +182,8 @@ namespace Proyecto_TiendaElectronica.Controllers
 				return NotFound();
 			}
 			ViewBag.ArticuloId = ArticuloID;
-			return View(Imagen);
+            ViewBag.Pagina = "ModificaImagen";
+            return View(Imagen);
 		}
 
 		[HttpPost]
@@ -294,7 +297,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var usuario = new Usuario { Id = model.UsuarioId, UserName = model.Nombre, Email = model.Correo, PhoneNumber = model.Telefono };
+				var usuario = new Usuario { Id = model.UsuarioId, UserName = model.Nombre, Email = model.Correo, PhoneNumber = model.Telefono, State = model.Estado };
 
 				var result = await _userManager.CreateAsync(usuario, model.Contrasena);
 
@@ -401,6 +404,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 					return NotFound();
 				}
 
+				usuario.State = model.Estado;
 				usuario.UserName = model.Nombre;
 				usuario.Email = model.Correo;
 				usuario.PhoneNumber = model.Telefono;
@@ -581,7 +585,7 @@ namespace Proyecto_TiendaElectronica.Controllers
                                 columns.RelativeColumn(3);  // Nombre del producto
                                 columns.RelativeColumn();   // Precio unitario
                                 columns.RelativeColumn();   // Cantidad
-                                columns.RelativeColumn();   // SubTotal
+                                columns.RelativeColumn();   // Total por articulo
                             });
 
                             // Encabezado de la tabla
@@ -590,7 +594,7 @@ namespace Proyecto_TiendaElectronica.Controllers
                                 header.Cell().Background("#E14848").Padding(5).Text("Producto").Bold().FontColor("#ffffff");
                                 header.Cell().Background("#E14848").Padding(5).Text("Precio Unitario").Bold().FontColor("#ffffff");
                                 header.Cell().Background("#E14848").Padding(5).Text("Cantidad").Bold().FontColor("#ffffff");
-                                header.Cell().Background("#E14848").Padding(5).Text("SubTotal").Bold().FontColor("#ffffff");
+                                header.Cell().Background("#E14848").Padding(5).Text("Precio").Bold().FontColor("#ffffff");
                             });
 
                             // Agrega las filas de productos
@@ -608,9 +612,15 @@ namespace Proyecto_TiendaElectronica.Controllers
                             }
                         });
 
-                        // Monto total de la factura
+                        //Subtotal
                         col.Item().PaddingTop(20)
-                      .AlignRight().Text($"Total Iva: ₡ {factura.MontoTotal:N2}").Bold().FontSize(16);
+                     .AlignRight().Text($"Iva: 13%").Bold().FontSize(12);
+                        //Subtotal
+                        col.Item().PaddingTop(10)
+                     .AlignRight().Text($"Total Sin Iva: ₡ {factura.SubTotal:N2}").Bold().FontSize(12);
+                        // Monto total de la factura
+                        col.Item().PaddingTop(10)
+                      .AlignRight().Text($"Total con Iva: ₡ {factura.MontoTotal:N2}").Bold().FontSize(16);
                     });
 
                     // Pie de página con el número de página
@@ -740,6 +750,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 				Nombre = usuario.UserName,
 				Correo = usuario.Email,
 				Rol = rol,
+				Estado = usuario.State,
 				Telefono = usuario.PhoneNumber,
 			};
 
