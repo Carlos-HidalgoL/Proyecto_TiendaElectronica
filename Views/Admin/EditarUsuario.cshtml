@@ -5,13 +5,19 @@
 }
 
 
-<div class="d-flex justify-content-between"> 
-     <h2 class="mb-3">Editar Usuario</h2>
+<div class="d-flex justify-content-between mb-3"> 
+     <h2 class="">Editar Usuario</h2>
     
     @if (Model.Rol == "Administrador")
     {
         <div class="justify-content-end">
-            <a href="@Url.Action("EditarContrasena", new{ id = Model.UsuarioId })" class="btn btn-primary">Actualizar Contraseña</a>
+            <a href="@Url.Action("EditarContrasena", new{ id = Model.UsuarioId })" class="btn boton-secundario">
+                <span class="shadow-volver"></span>
+                <span class="edge-volver"></span>
+                <span class="front-volver text">
+                    Actualizar Contraseña
+                </span>
+            </a>
         </div>
     }
 </div>
@@ -91,10 +97,20 @@
             </div>
         </div>
 
-        <button type="submit" class="button-send">
-            Editar
+        <a href="@Url.Action("Usuarios")" class="btn boton-secundario mt-3">
+            <span class="shadow-volver"></span>
+            <span class="edge-volver"></span>
+            <span class="front-volver text">
+                Volver
+            </span>
+        </a>
+        <button type="submit" class="btn boton mt-3">
+            <span class="shadow"></span>
+            <span class="edge"></span>
+            <span class="front text">
+                Actualizar
+            </span>
         </button>
-
 
     </form>
 </div>

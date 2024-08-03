@@ -14,11 +14,10 @@
         <thead>
             <tr>
                 <th>Factura Id</th>
-                <th>Ultima Impresión</th>
+                <th class="text-center">Fecha de Creación</th>
                 <th>Subtotal</th>
                 <th>Monto Total</th>
                 <th>Cédula Usuario</th>
-                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -27,21 +26,12 @@
             {
                 <tr>
                     <td class="text-center">@factura.FacturaId</td>
-                    @if (factura.UltimaFechaImpresion.ToString() == "01/01/0001 0:00:00")
-                    {
-                       <td>No Imprimida</td>     
-                    }else{
-                        <td>@factura.UltimaFechaImpresion.ToString("yyyy-MM-dd")</td>
-                    }
-                    
+                    <td class="text-center">@factura.FechaCreacion.ToString("dd/MM/yyyy")</td>
                     <td>@factura.SubTotal</td>
                     <td>@factura.MontoTotal</td>
                     <td>@factura.UsuarioId</td>
                     <td>
                         <a href="@Url.Action("VerFactura", new{facturaId = factura.FacturaId})" class="btn btn-success">Ver</a>
-                    </td>
-                    <td>
-                        <a href="@Url.Action("DescargarPDF", new{facturaId = factura.FacturaId})" class="btn btn-success">Descargar Pdf</a>
                     </td>
                   
 

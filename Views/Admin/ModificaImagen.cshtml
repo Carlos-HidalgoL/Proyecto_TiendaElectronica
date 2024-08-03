@@ -4,12 +4,14 @@
 	Layout = "_LayoutAdmin";
 }
 
+<h1 class="mb-3">Editar Imagenes</h1>
+
 <div class="admin-element">
-	<h1 class="title">Editar Imagenes</h1>
-	<form asp-action="ModificaImagen" method="post" enctype="multipart/form-data" class="contact-form row">
+	
+	<form asp-action="ModificaImagen" method="post" enctype="multipart/form-data">
 
 		<input asp-for="ImagenId" type="hidden" />
-		<div class="row mb-3 mt-3">
+		<div class="row mt-3">
 			<div class="form-field col-lg-4 ">
 				<label class="label-file" for="Imagen1">Modificar Imagen 1</label>
 				<input type="file" id="Imagen1" name="Imagen1" accept="image/jpeg, image/png" class="input-file js-input" onchange="previewImage(this, '#previewImagen1')" />
@@ -35,10 +37,20 @@
 			</div>
 		</div>
 
-		<div class="form-field col-lg-12 d-flex justify-content-between mt-4">
-			<button class="button-send" type="submit">Guardar</button>
-			<a href="@Url.Action("EditarArticulo", new { id = ViewBag.ArticuloId })" class="btn btn-secondary ">Cancelar</a>
-		</div>
+		<a href="@Url.Action("EditarArticulo", new { id = ViewBag.ArticuloId })" class="btn boton-secundario mt-3">
+			<span class="shadow-volver"></span>
+			<span class="edge-volver"></span>
+			<span class="front-volver text">
+				Volver
+			</span>
+		</a>
+		<button type="submit" class="btn boton mt-3">
+			<span class="shadow"></span>
+			<span class="edge"></span>
+			<span class="front text">
+				Actualizar
+			</span>
+		</button>
 	</form>
 </div>
 

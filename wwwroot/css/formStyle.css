@@ -65,149 +65,257 @@ body {
         background: var(--negro);
     }
 
-.button-send {
-    width: auto;
+
+
+
+/*Boton principal*/
+.boton {
     position: relative;
-    height: 3em;
-    border: 3px ridge var(--negro);
-    outline: none;
-    background-color: transparent;
-    color: white;
-    transition: 1s;
-    border-radius: 0.3em;
-    font-size: 16px;
-    font-weight: bold;
+    border: none;
+    background: transparent;
+    padding: 0;
     cursor: pointer;
+    outline-offset: 4px;
+    transition: filter 250ms;
+    user-select: none;
+    touch-action: manipulation;
 }
 
-    .button-send::after {
-        content: "";
-        position: absolute;
-        top: -10px;
-        left: 3%;
-        width: 95%;
-        height: 40%;
-        background-color: var(--grisMedio);
-        transition: 0.5s;
-        transform-origin: center;
-    }
-
-    .button-send::before {
-        content: "";
-        transform-origin: center;
-        position: absolute;
-        top: 80%;
-        left: 3%;
-        width: 95%;
-        height: 40%;
-        background-color: var(--grisMedio);
-        transition: 0.5s;
-    }
-
-    .button-send:hover::before, .button-send:hover::after {
-        transform: scale(0)
-    }
-
-    .button-send:hover {
-        box-shadow: inset 0px 0px 25px var(--rojo);
-    }
-
-/*Botones en el logueo y registro*/
-.button-send-negro {
-    width: auto;
-    position: relative;
-    height: 3em;
-    border: 3px ridge var(--negro);
-    outline: none;
-    background-color: transparent;
-    color: white;
-    transition: 1s;
-    border-radius: 0.3em;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: hsl(0deg 0% 0% / 0.25);
+    will-change: transform;
+    transform: translateY(2px);
+    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
 }
 
-    .button-send-negro::after {
-        content: "";
-        position: absolute;
-        top: -10px;
-        left: 3%;
-        width: 95%;
-        height: 40%;
-        background-color: var(--negroOscuro);
-        transition: 0.5s;
-        transform-origin: center;
-    }
-
-    .button-send-negro::before {
-        content: "";
-        transform-origin: center;
-        position: absolute;
-        top: 80%;
-        left: 3%;
-        width: 95%;
-        height: 40%;
-        background-color: var(--negroOscuro);
-        transition: 0.5s;
-    }
-
-    .button-send-negro:hover::before, .button-send-negro:hover::after {
-        transform: scale(0);
-    }
-
-    .button-send-negro:hover {
-        box-shadow: inset 0px 0px 25px var(--rojo);
-    }
-
-
-/*Botones con el fondo negro en el home*/
-.button-send-negroClaro {
-    width: auto;
-    position: relative;
-    height: 3em;
-    border: 3px ridge var(--negro);
-    outline: none;
-    background-color: transparent;
-    color: white;
-    transition: 1s;
-    border-radius: 0.3em;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient( to left, var(--grisOscuro) 0%, var(--grisOscuro) 8%, var(--grisOscuro) 92%, var(--grisOscuro) 100% );
 }
 
-    .button-send-negroClaro::after {
-        content: "";
-        position: absolute;
-        top: -10px;
-        left: 3%;
-        width: 95%;
-        height: 40%;
-        background-color: var(--negro);
-        transition: 0.5s;
-        transform-origin: center;
+.front {
+    display: block;
+    position: relative;
+    padding: 12px 27px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    color: white;
+    background: var(--negro);
+    will-change: transform;
+    transform: translateY(-4px);
+    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
+}
+
+.boton:hover {
+    filter: brightness(110%);
+}
+
+    .boton:hover .front {
+        transform: translateY(-6px);
+        transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
     }
 
-    .button-send-negroClaro::before {
-        content: "";
-        transform-origin: center;
-        position: absolute;
-        top: 80%;
-        left: 3%;
-        width: 95%;
-        height: 40%;
-        background-color: var(--negro);
-        transition: 0.5s;
+.boton:active .front {
+    transform: translateY(-2px);
+    transition: transform 34ms;
+}
+
+.boton:hover .shadow {
+    transform: translateY(4px);
+    transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+}
+
+.boton:active .shadow {
+    transform: translateY(1px);
+    transition: transform 34ms;
+}
+
+.boton:focus:not(:focus-visible) {
+    outline: none;
+}
+
+
+
+
+
+/*Boton secundario*/
+.boton-secundario {
+    position: relative;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    outline-offset: 4px;
+    transition: filter 250ms;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.shadow-volver {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: hsl(0deg 0% 0% / 0.25);
+    will-change: transform;
+    transform: translateY(2px);
+    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
+}
+
+.edge-volver {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient( to left, var(--negro) 0%, var(--negro) 8%, var(--negro) 92%, var(--negro) 100% );
+}
+
+.front-volver {
+    display: block;
+    position: relative;
+    padding: 12px 27px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    color: white;
+    background: var(--grisOscuro);
+    will-change: transform;
+    transform: translateY(-4px);
+    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
+}
+
+.boton-secundario:hover {
+    filter: brightness(110%);
+}
+
+    .boton-secundario:hover .front-volver {
+        transform: translateY(-6px);
+        transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
     }
 
-    .button-send-negroClaro:hover::before, .button-send-negroClaro:hover::after {
-        transform: scale(0);
+.boton-secundario:active .front-volver {
+    transform: translateY(-2px);
+    transition: transform 34ms;
+}
+
+.boton-secundario:hover .shadow-volver {
+    transform: translateY(4px);
+    transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+}
+
+.boton-secundario:active .shadow-volver {
+    transform: translateY(1px);
+    transition: transform 34ms;
+}
+
+.boton-secundario:focus:not(:focus-visible) {
+    outline: none;
+}
+
+
+
+
+/*Boton Logueo*/
+.boton-logueo {
+    position: relative;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    outline-offset: 4px;
+    transition: filter 250ms;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.shadow-logueo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: hsl(0deg 0% 0% / 0.25);
+    will-change: transform;
+    transform: translateY(2px);
+    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
+}
+
+.edge-logueo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient( to left, var(--grisMedio) 0%, var(--grisMedio) 8%, var(--grisMedio) 92%, var(--grisMedio) 100% );
+}
+
+.front-logueo {
+    display: block;
+    position: relative;
+    padding: 12px 27px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    color: black;
+    background: var(--blancoHueso);
+    will-change: transform;
+    transform: translateY(-4px);
+    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
+}
+
+.boton-logueo:hover {
+    filter: brightness(110%);
+}
+
+    .boton-logueo:hover .front-logueo {
+        transform: translateY(-6px);
+        transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
     }
 
-    .button-send-negroClaro:hover {
-        box-shadow: inset 0px 0px 25px var(--rojo);
-    }
+.boton-logueo:active .front-logueo {
+    transform: translateY(-2px);
+    transition: transform 34ms;
+}
+
+.boton-logueo:hover .shadow-logueo {
+    transform: translateY(4px);
+    transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+}
+
+.boton-logueo:active .shadow-logueo {
+    transform: translateY(1px);
+    transition: transform 34ms;
+}
+
+.boton-logueo:focus:not(:focus-visible) {
+    outline: none;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 .error-form {
     width: 10px;

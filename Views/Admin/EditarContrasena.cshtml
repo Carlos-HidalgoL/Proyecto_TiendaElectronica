@@ -33,9 +33,19 @@
                 </div>
             </div>
         </div>
-
-        <button type="submit" class="button-send">
-            Editar
+        <a href="@Url.Action("EditarUsuario", new{id = Model.UsuarioId})" class="btn boton-secundario mt-3">
+            <span class="shadow-volver"></span>
+            <span class="edge-volver"></span>
+            <span class="front-volver text">
+                Volver
+            </span>
+        </a>
+        <button type="submit" class="btn boton mt-3">
+            <span class="shadow"></span>
+            <span class="edge"></span>
+            <span class="front text">
+                Actualizar
+            </span>
         </button>
 
     </form>

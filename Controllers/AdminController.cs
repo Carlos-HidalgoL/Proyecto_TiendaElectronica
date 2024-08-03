@@ -516,6 +516,7 @@ namespace Proyecto_TiendaElectronica.Controllers
 
 		}
 
+		[HttpGet]
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Factura()
         {
@@ -524,6 +525,31 @@ namespace Proyecto_TiendaElectronica.Controllers
 
             return View(facturas);
         }
+
+		[HttpGet]
+		[Authorize(Roles = "Administrador")]
+		public async Task<IActionResult> VerFactura(int facturaId) {
+			if (facturaId == null) {
+				return NotFound();
+			}
+
+            var factura = await _context.Factura
+			.Include(f => f.articulosFactura)  
+				.ThenInclude(af => af.Articulo) 
+			.Where(f => f.FacturaId == facturaId)
+			.FirstOrDefaultAsync();
+
+            if (factura == null) {
+				return NotFound();
+			}
+
+			var usuario = await _userManager.FindByIdAsync(factura.UsuarioId);
+
+			ViewBag.Usuario = usuario;
+
+			return View(factura);
+		}
+
 
         [HttpGet]
         public async Task<IActionResult> DescargarPDF(int facturaId)

@@ -43,8 +43,21 @@
                 <input type="number" class="input_field" asp-for="Telefono">
             </div>
         </div>
-        <a href="@Url.Action("Perfil")" class="btn button-send-negroClaro" style="margin-right:15px">Cancelar</a>
-        <button class="button-send-negroClaro">Confirmar</button>
+        <a href="@Url.Action("Perfil")" class="btn boton-secundario mt-3">
+            <span class="shadow-volver"></span>
+            <span class="edge-volver"></span>
+            <span class="front-volver text">
+                Volver
+            </span>
+        </a>
+        <button type="submit" class="btn boton-logueo mt-3">
+            <span class="shadow-logueo"></span>
+            <span class="edge-logueo"></span>
+            <span class="front-logueo text">
+                Actualizar
+            </span>
+        </button>
+
     </form>
 
 
