@@ -15,6 +15,20 @@ function agregarAlCarrito(id, nombre, precio, imagen, stock) {
     let cantidadEnCarrito = articuloExistente ? articuloExistente.cantidad : 0;
     let cantidadDisponible = stockDisponible - cantidadEnCarrito;
 
+
+    if (cantidadDisponible === 0) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Sin stock',
+            text: 'Este producto ya no está disponible para agregar al carrito.',
+            confirmButtonText: 'Entendido',
+            customClass: {
+                confirmButton: 'my-custom-button'
+            }
+        });
+        return;
+    }
+
     if (cantidad > cantidadDisponible) {
         Swal.fire({
             icon: 'warning',
@@ -22,12 +36,13 @@ function agregarAlCarrito(id, nombre, precio, imagen, stock) {
             text: `Solo puedes agregar ${cantidadDisponible} más al carrito.`,
             confirmButtonText: 'Entendido',
             customClass: {
-                confirmButton: 'my-custom-button-purple'
+                confirmButton: 'my-custom-button'
             }
         });
         return;
     }
 
+   
     var articulo = {
         id: id,
         nombre: nombre,
