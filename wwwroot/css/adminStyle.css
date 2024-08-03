@@ -242,5 +242,50 @@ a.article:hover {
     margin-bottom: 20px;
 }
 
+.btn-eliminar {
+    background-color: var(--rojo);
+    color: var(--blancoHueso);
+    border: none;
+    font-weight: bold; 
+}
 
+    .btn-eliminar:hover {
+        background-color: var(--blancoHueso);
+        color: var(--rojo);
+    }
 
+.btn-nuevo {
+    background-color: var(--blancoHueso);
+    color: var(--negro);
+    border: none;
+    font-weight: bold;
+}
+
+    .btn-nuevo:hover {
+        background-color: var(--negro);
+        color: var(--blancoHueso);
+    }
+
+.btn-ver {
+    background-color: var(--blancoHueso);
+    color: #787878;
+    border: none;
+    font-weight: bold;
+}
+
+    .btn-ver:hover {
+        background-color: #787878;
+        color: var(--blancoHueso);
+    }
+
+.btn-actualizar {
+    background-color: #787878; 
+    color: var(--blancoHueso);
+    border: none;
+    font-weight: bold;
+}
+
+.btn-actualizar:hover {
+    background-color: var(--blancoHueso);
+    color: #787878;
+}
