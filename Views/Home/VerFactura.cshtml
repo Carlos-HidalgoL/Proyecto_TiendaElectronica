@@ -1,54 +1,28 @@
 ﻿@model Proyecto_TiendaElectronica.Models.Factura;
 
-@{
-    Layout = "_LayoutAdmin";
-}
 
 @{
-    var usuario = ViewBag.Usuario as Proyecto_TiendaElectronica.ViewModels.Usuario;
+    Layout = "_Layout";
 }
 
-<h2 class="mb-3">Información de la Factura</h2>
+<div class="my-5 migajas">
+    <div class="container ">
+        <div class="my-5 align-items-center">
+            <div class="py-5">
+                <p>Inicio / Mis Compras / <span>Factura</span></p>
+                <h1>Factura</h1>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div class="admin-element">
+<div class="container">
     <div class="row mb-3">
-        <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="input_container">
                 <label class="input_label" asp-for="FacturaId">Identificador</label>
                 <i class="fa-solid fa-id-card icon"></i>
                 <input type="text" class="input_field" asp-for="FacturaId" readonly>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-12 col-sm-12">
-            <div class="input_container">
-                <label class="input_label">Nombre de Usuario</label>
-                <i class="fa-solid fa-user icon"></i>
-                <input type="text" class="input_field" value="@usuario.UserName" readonly>
-            </div>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-lg-6 col-md-12 col-sm-12">
-            <div class="input_container">
-                <label class="input_label">Cédula</label>
-                <i class="fa-solid fa-id-card icon"></i>
-                <input type="text" class="input_field" value="@usuario.Id" readonly>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-12 col-sm-12">
-            <div class="input_container">
-                <label class="input_label">Teléfono</label>
-                <i class="fa-solid fa-user icon"></i>
-                <input type="text" class="input_field" value="@usuario.PhoneNumber" readonly>
-            </div>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="input_container">
-                <label class="input_label">Correo</label>
-                <i class="fa-solid fa-id-card icon"></i>
-                <input type="text" class="input_field" value="@usuario.Email" readonly>
             </div>
         </div>
     </div>
@@ -112,7 +86,7 @@
                     var fecha = Model.UltimaFechaImpresion.ToString() == "01/01/0001 0:00:00" ? "No Imprimida" : Model.UltimaFechaImpresion.ToString("dd/MM/yyyy");
                 }
                 <input type="text" class="input_field" value="@fecha"
-                readonly>
+                       readonly>
             </div>
         </div>
     </div>
@@ -124,14 +98,13 @@
         </span>
     </a>
 
-    <a href="@Url.Action("DescargarPDF", new{facturaId = Model.FacturaId})" class="btn boton mt-3">
-        <span class="shadow"></span>
-        <span class="edge"></span>
-        <span class="front text">
+    <a href="@Url.Action("DescargarPDF", new{facturaId = Model.FacturaId})" class="btn boton-logueo mt-3">
+        <span class="shadow-logueo"></span>
+        <span class="edge-logueo"></span>
+        <span class="front-logueo text">
             Descargar Pdf
         </span>
     </a>
-    
+
 
 </div>
-

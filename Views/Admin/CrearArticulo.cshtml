@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        <div class="row mb-3 mt-5">
+        <div class="row mt-5">
             <div class="form-field col-lg-4">
                 <div class="input_container">
                     <label class="label-file" for="Imagen1">Seleccionar Imagen 1</label>
@@ -127,11 +127,20 @@
             </div>
         </div>
 
-        <button class="button-send" type="submit" >Enviar</button>
-
-        <a href="@Url.Action("Articulos")" class="button-send p-2">
-            Volver
+        <a href="@Url.Action("Articulos")" class="btn boton-secundario mt-3">
+            <span class="shadow-volver"></span>
+            <span class="edge-volver"></span>
+            <span class="front-volver text">
+                Volver
+            </span>
         </a>
+        <button type="submit" class="btn boton mt-3">
+            <span class="shadow"></span>
+            <span class="edge"></span>
+            <span class="front text">
+                Guardar
+            </span>
+        </button>
 
     </form>
 </div>

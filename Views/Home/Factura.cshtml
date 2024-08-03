@@ -6,9 +6,18 @@
 
 @Html.Raw(TempData["SweetAlertScript"])
 
-<h2 class="mb-3 text-center">Facturas</h2>
+<div class="my-5 migajas">
+    <div class="container ">
+        <div class="my-5 align-items-center">
+            <div class="py-5">
+                <p>Inicio / <span>Mis Compras</span></p>
+                <h1>Mis Compras</h1>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div class="admin-element container my-4">
+<div class="container">
 
     @if (Model == null || !Model.Any())
     {
@@ -18,13 +27,12 @@
     }
     else
     {
-        <div class="table-responsive">
+        <div>
             <table id="table_id" class="table table-dark table-striped">
                 <thead>
                     <tr>
-                        <th>Identificador</th>
+                        <th class="text-center">Identificador</th>
                         <th>Fecha de Compra</th>
-                        <th>Monto Total</th>
                         <th>Total</th>
                         <th></th>
                     </tr>
@@ -36,17 +44,15 @@
                             <td class="text-center">@factura.FacturaId</td>
                             <td>@factura.FechaCreacion.ToString("dd-MM-yyyy")</td>
                             <td>₡@factura.MontoTotal</td>
-                            <td>₡@factura.MontoTotal</td>
                             <td>
-                                <a href="@Url.Action("DescargarPDF","Home", new { facturaId = factura.FacturaId })" class="btn btn-success">Descargar Pdf</a>
+                                <a href="@Url.Action("VerFactura", new{facturaId = factura.FacturaId})" class="btn btn-success">Ver</a>
                             </td>
-                            <td>
-                                <a href="@Url.Action("VerFactura","Home", new { facturaId = factura.FacturaId })" class="btn btn-success">Descargar Pdf</a>
-                            </td>
+
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
+        
     }
 </div>

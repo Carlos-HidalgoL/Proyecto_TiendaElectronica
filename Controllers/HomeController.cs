@@ -323,6 +323,28 @@ namespace Proyecto_TiendaElectronica.Controllers
             return View(facturas);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Usuario")]
+        public async Task<IActionResult> VerFactura(int facturaId) {
+            if (facturaId == null)
+            {
+                return NotFound();
+            }
+
+            var factura = await _context.Factura
+            .Include(f => f.articulosFactura)
+                .ThenInclude(af => af.Articulo)
+            .Where(f => f.FacturaId == facturaId)
+            .FirstOrDefaultAsync();
+
+            if (factura == null)
+            {
+                return NotFound();
+            }
+
+            return View(factura);
+        }
+
 
 
 
