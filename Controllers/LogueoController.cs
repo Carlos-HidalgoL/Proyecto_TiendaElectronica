@@ -39,40 +39,48 @@ namespace Proyecto_TiendaElectronica.Controllers
             if (ModelState.IsValid) {
                 var user = await _userManager.FindByNameAsync(model.UserName);
 
-                if (!user.State) {
-                    TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"El estado del usuario es inactivo.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
-                    return View(model);
-                }
-
-                if (await _userManager.IsLockedOutAsync(user)) {
-                    TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"Su cuenta de usuario esta bloqueada.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
-                    return View(model);
-                }
-
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe,lockoutOnFailure: true);
-
-                if (result.Succeeded)
+                if (user != null)
                 {
-                    var usuario = await _userManager.FindByNameAsync(model.UserName);
 
-                    var roles = await _userManager.GetRolesAsync(usuario);
+                    if (!user.State)
+                    {
+                        TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"El estado del usuario es inactivo.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                        return View(model);
+                    }
 
-                    var rol = roles.FirstOrDefault();
+                    if (await _userManager.IsLockedOutAsync(user))
+                    {
+                        TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"Su cuenta de usuario esta bloqueada.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                        return View(model);
+                    }
 
-                   
-                    return RedirectToAction("Index", "Home");
-                    
+                    var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: true);
+
+                    if (result.Succeeded)
+                    {
+                        var usuario = await _userManager.FindByNameAsync(model.UserName);
+
+                        var roles = await _userManager.GetRolesAsync(usuario);
+
+                        var rol = roles.FirstOrDefault();
 
 
-                }
-                else if (!result.IsNotAllowed)
-                {
-                    TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"El usuario o la contraseña no coinciden.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
-                }
-                else
-                {
-                    ModelState.AddModelError("", "No se pudo realizar el inicio de sesión, por favor intentelo más tarde.");
-                    TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo realizar el inicio de sesión, por favor reintentelo más tarde.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                        return RedirectToAction("Index", "Home");
+
+
+
+                    }
+                    else if (!result.IsNotAllowed)
+                    {
+                        TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"El usuario o la contraseña no coinciden.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "No se pudo realizar el inicio de sesión, por favor intentelo más tarde.");
+                        TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"No se pudo realizar el inicio de sesión, por favor reintentelo más tarde.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
+                    }
+                }else{
+                    TempData["SweetAlertScript"] = "<script>Swal.fire({\r\n  title: \"Error\",\r\n  text: \"El usuario de usuario ingresado no existe.\",\r\n  icon: \"error\"\r\n, confirmButtonColor: \"#E14848\"});;</script>";
                 }
             }
 

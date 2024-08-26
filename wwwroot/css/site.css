@@ -418,3 +418,16 @@ a {
     .cssbuttons-io-button:active .icono {
         transform: scale(0.95);
     }
+
+
+.btn-ver {
+    background-color: var(--blancoHueso);
+    color: #787878 !important;
+    border: none;
+    font-weight: bold;
+}
+
+    .btn-ver:hover {
+        background-color: #787878;
+        color: var(--blancoHueso) !important;
+    }

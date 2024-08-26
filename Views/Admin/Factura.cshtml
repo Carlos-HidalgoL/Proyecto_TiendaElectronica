@@ -31,7 +31,9 @@
                     <td>@factura.MontoTotal</td>
                     <td>@factura.UsuarioId</td>
                     <td>
-                        <a href="@Url.Action("VerFactura", new{facturaId = factura.FacturaId})" class="btn btn-success">Ver</a>
+                        <a href="@Url.Action("VerFactura", new{facturaId = factura.FacturaId})" class="btn btn-ver">
+                            <i class="fas fa-eye"></i>Ver
+                        </a>
                     </td>
                   
 
