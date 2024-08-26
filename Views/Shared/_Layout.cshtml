@@ -78,7 +78,7 @@
         </main>
     </div>
 
-    <footer class="py-3 mt-4 mx-5 mb-0" >
+    <footer class="py-3 mt-4 mx-5 mb-0">
 
         @* Parte de arriba del footer *@
         <div class="container d-flex justify-content-end mb-3">
@@ -122,8 +122,11 @@
                     <div>
                         <h5>Compañía</h5>
                         <ul class="list-unstyled">
-                            <li> <a href="#">Todos los productos</a></li>
-                            <li><a href="#">Mi carrito</a></li>
+                            <li> <a href="@Url.Action("Tienda", "Home")">Todos los productos</a></li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li><a href="@Url.Action("Carrito", "Home")">Mi carrito</a></li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -131,10 +134,10 @@
                     <div>
                         <h5>Tienda</h5>
                         <ul class="list-unstyled">
-                            <li><a href="#">Tarjetas de video</a></li>
-                            <li><a href="#">Laptops</a></li>
-                            <li><a href="#">Almacenamiento</a></li>
-                            <li><a href="#">RAMS</a></li>
+                            <li><a href="@Url.Action("Tienda", "Home", new { categoria = "Tarjetas de video" })">Tarjetas de video</a></li>
+                            <li><a href="@Url.Action("Tienda", "Home", new { categoria = "Laptop" })">Laptops</a></li>
+                            <li><a href="@Url.Action("Tienda", "Home", new { categoria = "Almacenamiento" })">Almacenamiento</a></li>
+                            <li><a href="@Url.Action("Tienda", "Home", new { categoria = "RAMS" })">RAMS</a></li>
                         </ul>
                     </div>
 
@@ -142,7 +145,7 @@
                 <div class="col d-flex justify-content-center">
                     <div>
                         <h5>Sobre Nosotros</h5>
-                        <a href="#">Sobre nosotros</a>
+                        <a href="@Url.Action("SobreNosotros", "Home")">Sobre nosotros</a>
                     </div>
 
                 </div>
@@ -150,8 +153,8 @@
 
         </div>
 
-  
-            
+
+
     </footer>
     <script src="https://kit.fontawesome.com/2425b0cf01.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.1/jquery.validate.min.js"></script>
