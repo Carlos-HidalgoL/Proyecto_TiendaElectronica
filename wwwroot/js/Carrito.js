@@ -39,11 +39,11 @@ const mostrarCarrito = () => {
                     </div>
                 </div>
             </td>
-            <td class="align-middle text-white">₡${item.precio}</td>
+            <td class="align-middle text-white">₡ ${item.precio}</td>
             <td class="align-middle">
                 <input type="number" class="form-control text-center" min="1" max="${item.stock}" value="${item.cantidad}" onchange="actualizarCantidad(${item.id}, this.value)">
             </td>
-            <td class="align-middle text-white">₡${totalMostrar}</td>
+            <td class="align-middle text-white">₡ ${totalMostrar}</td>
             <td class="align-middle">
                 <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${item.id})">Eliminar</button>
             </td>
@@ -51,11 +51,11 @@ const mostrarCarrito = () => {
         carritoBody.appendChild(newRow);
     });
 
-    document.getElementById('subtotal').textContent = `₡${subtotal}`;
+    document.getElementById('subtotal').textContent = `${subtotal}`;
    
     let iva = subtotal * 0.13;
-    document.getElementById('iva').textContent = `₡${iva.toFixed(2)}`;
-    document.getElementById('total').textContent = `₡${(subtotal + iva).toFixed(2)}`;
+    document.getElementById('iva').textContent = `${iva.toFixed(2)}`;
+    document.getElementById('total').textContent = `${(subtotal + iva).toFixed(2)}`;
 
     const pagarButton = document.getElementById('pagarButton');
     pagarButton.style.display = carrito.length > 0 ? 'block' : 'none';
